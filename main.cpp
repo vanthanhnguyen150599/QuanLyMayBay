@@ -11,6 +11,7 @@ int main()
 	ListMayBay maybay;
 	ifstream infile;
 	infile.open("ds-may-bay.txt");
+	infile >> maybay.n; 
 	for (int i = 0; i < maybay.n; i++) // Doc du lieu cac may bay tu file
 	{
 		string SoHieu;
