@@ -81,7 +81,7 @@ bool CheckDay(int dd, int mm, int yy)
 	if (dd > 31) return 0; // Thang co 31 ngay
 	return 1;
 }
-//==========================DEM KHOANG C¡CH GIUA 2 NGAY====================
+//==========================DEM KHOANG C√ÅCH GIUA 2 NGAY====================
 int CountDays(int dd1,int mm1,int yy1,int dd2, int mm2, int yy2) // dd1,mm1,yy1 phai truoc dd2,mm2,yy2. Dem khoang cach ngay giua 2 ngay
 {
 	int count = 0;
@@ -110,13 +110,6 @@ int CountDays(int dd1,int mm1,int yy1,int dd2, int mm2, int yy2) // dd1,mm1,yy1 
 		else count += 365; // Nam khong nhuan
 	}
 	return (count + CountDays(1,1,yy2,dd2,mm2,yy2) + 1); // Tu dau nam yy2 den ngay dd2 thang mm2 nam yy2
-}
-//===========================LAY MA PHIM=============================
-int GetKeyboard()
-{
-	char a = getch();
-	if (a == -32 || a == 0) a = getch();
-	return a;
 }
 //============================DO DAI SO DUONG==================
 int DoDaiSoDuong(int a)
