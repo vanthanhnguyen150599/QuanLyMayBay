@@ -10,8 +10,8 @@ int main()
 //=======================DOC DU LIEU CAC MAY BAY TU FILE=======================
 	ListMayBay maybay;
 	ifstream infile;
-	infile.open("ds-may-bay.txt");
-	infile >> maybay.n; 
+	infile.open("dsmaybay.txt");
+	infile >> maybay.n;
 	for (int i = 0; i < maybay.n; i++) // Doc du lieu cac may bay tu file
 	{
 		string SoHieu;
@@ -24,6 +24,9 @@ int main()
 		maybay.data[i]->DatSoCho(SoCho);
 	}
 	infile.close();
+//==============================DANG NHAP======================================
+	DangNhap();
+	system("cls");
 //==================================MAIN MENU=====================================
 	int a;
 	a = MainMenu();
@@ -80,4 +83,3 @@ int main()
 //	int a = LaySo();
 //	cout << endl << a;
 }	
-
