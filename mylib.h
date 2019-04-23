@@ -167,6 +167,97 @@ int LaySo(int giatri, bool DiChuyenDeThoat, char &a) // Kiem tra Di chuyen co th
 	}
 	return so;
 }
+//==================== LAY SO THEO STRING =======================================
+string LaySoCMND(string &x)
+{
+	int dodaichuoi = x.length();
+	char a = getch();
+	bool kytu;
+	if (a == -32 || a == 0)
+	{
+		kytu = 0;
+		a = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	while (1)
+	{
+		while (a != 13) //Chua nhan Enter
+		{
+			if (a == 8) // Backspace 
+			{
+				if (dodaichuoi <= 0)
+				{
+					int hoanhdo = wherex();
+					int tungdo = wherey();
+					cout << "Khong the xoa";
+					gotoxy(hoanhdo,tungdo);
+					cout << "            ";
+					gotoxy(hoanhdo,tungdo);
+				}
+				else
+				{
+					int hoanhdo = wherex();
+					int tungdo = wherey();
+					gotoxy(hoanhdo - 1, tungdo);
+					cout << " ";
+					gotoxy(hoanhdo - 1, tungdo);
+					//=======================//
+					x.erase(x.end() - 1, x.end());
+					dodaichuoi--;
+				}
+			}
+			if ((a >= 48 && a <= 57) && kytu)
+			{
+				if (dodaichuoi == 10)
+				{
+					int hoanhdo = wherex();
+					int tungdo = wherey();
+					gotoxy(hoanhdo - 10,tungdo);
+					cout << "Khong the co CMND 11 so";
+					Sleep(300);
+					gotoxy(hoanhdo - 10,tungdo);
+					cout << "                       ";
+					gotoxy(hoanhdo - 10,tungdo);
+					cout << x;
+				}
+				else
+				{
+					cout << a;
+					x = x + a;
+					dodaichuoi++;
+				}
+			}
+			a = getch();
+			if (a == -32 || a == 0)
+			{
+				kytu = 0;
+				a = getch();
+			}
+			else
+			{
+				kytu = 1;
+			}
+		}
+		if (dodaichuoi < 10)
+		{
+			int hoanhdo = wherex();
+			int tungdo = wherey();
+			gotoxy(hoanhdo - dodaichuoi,tungdo);
+			cout << "So CMND chua du 10 so! Vui long nhap lai";
+			Sleep(300);
+			gotoxy(hoanhdo - dodaichuoi, tungdo);
+			cout << "                                        ";
+			gotoxy(hoanhdo,tungdo);
+		}
+		else
+		{
+			break;
+		}
+	}
+}
 //=================================CHU IN HOA=====================
 char InHoa(char a)
 {
@@ -175,5 +266,116 @@ char InHoa(char a)
 		a = a - 32;
 	}
 	return a;
+}
+//============================= NHAP HO VA TEN ============================
+void NhapHoTen(string &name)
+{
+	char x = getch();
+	bool kytu;
+	int dodaichuoi = name.length();
+	if (x == -32 || x == 0)
+	{
+		kytu = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	while (x != 13) // Chua nhan ENTER 
+	{
+		if (x == 8) // Backspace
+		{
+			if (dodaichuoi > 0)
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				gotoxy(hoanhdo - 1, tungdo);
+				cout << " ";
+				gotoxy(hoanhdo - 1, tungdo);
+				dodaichuoi--;
+				name.erase(name.end() - 1, name.end());
+			}
+			else
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				cout << "Khong the xoa";
+				Sleep(300);
+				gotoxy(hoanhdo, tungdo);
+				cout << "             ";
+				gotoxy(hoanhdo,tungdo);
+			}
+		}
+		if (((x >= 97 && x <= 122) || (x >= 65 && x <= 90) || x == 32) && kytu)
+		{
+			if (dodaichuoi == 0 || name[dodaichuoi - 1] == 32)
+			{
+				if (dodaichuoi == 0) // Chua co ky tu nao
+				{
+					if (x != 32) // Khong phai la phim space
+					{
+						x = InHoa(x);
+						cout << x;
+						name = name + x;
+						dodaichuoi++;
+					}
+					else
+					{
+						// Khong can lam gi ca
+					}
+				}
+				else // Phia truoc la khoang trang
+				{
+					if (x != 32)
+					{
+						x = InHoa(x);
+						cout << x;
+						name = name + x;
+						dodaichuoi++;
+					}
+					else
+					{
+						// Khong can lam gi ca
+					}
+				}
+			}
+			if (name[dodaichuoi - 1] != 32) // Phia truoc khong phai la khoang trang
+			{
+				if (x == 32) // Phim space
+				{
+					cout << x;
+					name = name + x;
+					dodaichuoi++;
+				}
+				else
+				{
+					if (x >= 97 && x <= 122) // chu thuong
+					{
+						cout << x;
+						name = name + x;
+						dodaichuoi++;
+					}
+					else // Chu in
+					{
+						x = x + 32;
+						cout << x;
+						name = name + x;
+						dodaichuoi++;
+					}
+				}
+			}
+		}
+		x = getch();
+		if (x == -32 || x == 0)
+		{
+			kytu = 0;
+			x = getch();
+		}
+		else
+		{
+			kytu = 1;
+		}
+	}
 }
 #endif
