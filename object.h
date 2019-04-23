@@ -13,13 +13,100 @@
 #include<string.h>
 using namespace std;
 const int MAXLIST = 300;
-//==================================STRUCT KHACHHANG================================
+//================================== STRUCT KHACH HANG ================================
 struct KhachHang
 {
-	char CMND[10];
-	char Name[50];
+	string CMND = "";
+	string Name = "";
 	int GioiTinh; // 1 la nam, 0 la nu	
 };
+//=================================
+//=================================== NHAP THONG TIN KHACH HANG ==================================
+void NhapThongTinKhachHang(KhachHang &HanhKhach)
+{
+	// Thieu Graphic
+	cout << "Nhap CMND: ";
+	LaySoCMND(HanhKhach.CMND);
+	cout << "Nhap Ho Ten: ";
+	NhapHoTen(HanhKhach.Name);
+	cout << "Nhap gioi tinh: ";
+	cin >> HanhKhach.GioiTinh;
+	int hoanhdo = wherex();
+	int tungdo = wherey();
+	while (HanhKhach.GioiTinh != 1 && HanhKhach.GioiTinh != 0)
+	{
+		gotoxy(hoanhdo,tungdo);
+		cout << "Thong tin khong hop le!";
+		Sleep(300);
+		gotoxy(hoanhdo,tungdo);
+		cout << "                       ";
+		gotoxy(hoanhdo,tungdo);
+		cin >> HanhKhach.GioiTinh;
+	}
+}
+//================================= STRUCT CAC PHAN TU TRONG CAY ==================================
+struct NodeKhachHang
+{
+	KhachHang HanhKhach; // chua thong tin
+	NodeKhachHang *left = NULL;
+	NodeKhachHang *right = NULL;
+};
+//==================================== STRUCT CAY KHACH HANG =============================
+struct CayKhachHang
+{
+	NodeKhachHang *root = NULL;
+};
+// ==================================== SO SANH CMND ========================
+int SoSanhCMND(KhachHang a, KhachHang b)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		if(a.CMND[i > b.CMND[i]])
+		{
+			return 1; // a > b
+		}
+		if (a.CMND[i] > b.CMND[i])
+		{
+			return -1;
+		}
+	}
+	return 0;
+}
+//=================================THEM VAO CAY KHACH HANG====================
+int ThemVaoCayKhachHang(NodeKhachHang *root)
+{
+	// ============ TIEN XU LY =====================
+		KhachHang HanhKhach;
+		NhapThongTinKhachHang(HanhKhach);
+	// ============ 
+	if (root == NULL) // Cay rong
+	{
+		root = new NodeKhachHang;
+		root->HanhKhach.CMND = HanhKhach.CMND;
+		root->left = NULL;
+		root->right = NULL;
+		return 1;
+	}
+	NodeKhachHang *p = root;
+	while (p != NULL)
+	{
+		if (SoSanhCMND(p->HanhKhach, HanhKhach) == 1) // Du lieu can nhap vao  nho hon data tai p
+		{
+			p = p->left;
+		}
+		if (SoSanhCMND(p->HanhKhach, HanhKhach) == -1)
+		{
+			p = p->right; // Du lieu can nhap vao lon hon data tai p
+		}
+	}
+	p = new NodeKhachHang;
+	p->HanhKhach.CMND = HanhKhach.CMND;
+	p->HanhKhach.GioiTinh = HanhKhach.GioiTinh;
+	p->HanhKhach.Name = HanhKhach.Name;
+	p->left = NULL;
+	p->right = NULL;
+	return 1;
+}
 //==================================STRUCT NGAY===========================
 struct Day
 {
@@ -127,13 +214,132 @@ bool DanhSachDay(ListMayBay &a)
 void NhapDuLieuMayBay(MayBay *a)
 {
 	char x; // De chay ham lay so
-	string SoHieu;
-	string Loai;
+	bool kytu;
+	string SoHieu = "";
+	string Loai = "";
 	int SoCho;
+	//==========================SO HIEU=======================================
 	cout << "Nhap So hieu: ";
-	cin >> SoHieu;
+	int dodai = SoHieu.length();
+	x = getch();
+	if (x == -32 || x == 0)
+	{
+		kytu = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	while (x != 13) // Chua nhan Enter
+	{
+		if (x == 8) // Backspace
+		{
+			if (dodai != 0)
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				gotoxy(hoanhdo - 1, tungdo);
+				cout << " ";
+				gotoxy(hoanhdo - 1, tungdo);
+				//=========================//
+				SoHieu.erase(SoHieu.end() - 1, SoHieu.end());
+				dodai--;
+			}
+			else
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				cout << "Khong the xoa";
+				Sleep(300);
+				gotoxy(hoanhdo,tungdo);
+				cout << "             ";
+				gotoxy(hoanhdo,tungdo);
+			}
+		}
+		if ((x >= 97 && x <= 122) && kytu) // In hoa chu thuong len em ei =))
+		{
+			x = InHoa(x);
+		}
+		if (((x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // 0 den 9, A den Z
+		{
+			dodai++;
+			cout << x;
+			SoHieu = SoHieu + x;
+		}
+		x = getch();
+		if (x == -32 || x == 0)
+		{
+			kytu = 0;
+			x = getch();
+		}
+		else
+		{
+			kytu = 1;
+		}
+	}
+	//=====================LOAI============================
+	cout << endl;
 	cout << "Nhap Loai: ";
-	cin >> Loai;
+	dodai = Loai.length();
+	x = getch();
+	if (x == -32 || x == 0)
+	{
+		kytu = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	while (x != 13) // Chua nhan Enter
+	{
+		if (x == 8) // Backspace
+		{
+			if (dodai != 0)
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				gotoxy(hoanhdo - 1, tungdo);
+				cout << " ";
+				gotoxy(hoanhdo - 1, tungdo);
+				//=========================//
+				Loai.erase(Loai.end() - 1, Loai.end());
+				dodai--;
+			}
+			else
+			{
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				cout << "Khong the xoa";
+				Sleep(300);
+				gotoxy(hoanhdo,tungdo);
+				cout << "             ";
+				gotoxy(hoanhdo,tungdo);
+			}
+		}
+		if ((x >= 97 && x <= 122) && kytu) // In hoa chu thuong len em ei =))
+		{
+			x = InHoa(x);
+		}
+		if (((x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // 0 den 9, A den Z
+		{
+			dodai++;
+			cout << x;
+			Loai = Loai + x;
+		}
+		x = getch();
+		if (x == -32 || x == 0)
+		{
+			kytu = 0;
+			x = getch();
+		}
+		else
+		{
+			kytu = 1;
+		}
+	}
+	//==================================SO CHO==============================
 	cout << "Nhap So cho: ";
 	SoCho = LaySo(0,0,x);
 	a->DatSoHieu(SoHieu);
