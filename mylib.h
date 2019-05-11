@@ -378,4 +378,10 @@ void NhapHoTen(string &name)
 		}
 	}
 }
+// ===================== CANH GIUA ============================== // Tra ve vi tri giua de canh
+void CanhGiua(int vitrigiua, int dodai)
+{
+	int tungdo = wherey();
+	gotoxy(vitrigiua - dodai/2, tungdo);
+}
 #endif
