@@ -25,8 +25,9 @@ int main()
 	}
 	infile.close();
 //==============================DANG NHAP======================================
-	DangNhap();
-	system("cls");
+//	VeKhung();
+//	DangNhap();
+//	system("cls");
 //==================================MAIN MENU=====================================
 	int a;
 	a = MainMenu();
@@ -46,6 +47,7 @@ int main()
 				system("cls");
 				cout << "Them thanh cong!!!" << endl;
 				system("pause");
+				
 			}
 		}
 		if (a == 2)
@@ -73,8 +75,60 @@ int main()
 		if (a == 6)
 		{
 			system("cls");
-			InDanhSachMayBay(maybay);
-			system("pause");
+			int trang = 1;
+			InDanhSachMayBay(maybay,trang);
+			bool kytu;
+			char x;
+			x = getch();
+			if (x == -32 || x == 0)
+			{
+				kytu = 0;
+				x = getch();
+			}
+			else
+			{
+				kytu = 1;
+			}
+			while (x != 27) // Chua nhan Esc
+			{
+				if (x == 75 && !kytu) // Left
+				{
+					if (trang > 1)
+					{
+						trang--;
+					}
+				}
+				if (x == 77 && !kytu) // Right
+				{
+					if (maybay.n % 30 != 0)
+					{
+						if (trang < maybay.n/30 + 1)
+						{
+							trang++;
+						}
+					}
+					else
+					{
+						if (trang < maybay.n/30)
+						{
+							trang++;
+						}
+					}
+				}
+				gotoxy(0,0);
+				InDanhSachMayBay(maybay,trang);
+				x = getch();
+				AnConTro();
+				if (x == -32 || x == 0)
+				{
+					kytu = 0;
+					x = getch();
+				}
+				else
+				{
+					kytu = 1;
+				}
+			}
 		}
 		system("cls");
 		a = MainMenu();
