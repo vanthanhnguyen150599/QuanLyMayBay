@@ -72,6 +72,11 @@ int SoSanhCMND(KhachHang a, KhachHang b)
 	}
 	return 0;
 }
+// =============================== SUA THONG TIN KHACH HANG =====================
+int SuaThongTinKhachHang(KhachHang &HanhKhach)
+{
+	// Con thieu ne
+}
 //=================================THEM VAO CAY KHACH HANG====================
 int ThemVaoCayKhachHang(NodeKhachHang *root)
 {
@@ -120,7 +125,7 @@ struct Time
 //======================================STRUCT VE==================================================
 struct Ticket
 {
-	KhachHang HanhKhach;
+	KhachHang *HanhKhach = NULL;
 };
 //============================CLASS MAY BAY=================================
 class MayBay
@@ -213,14 +218,16 @@ bool DanhSachDay(ListMayBay &a)
 //================================NHAP DU LIEU MAY BAY=======================================
 void NhapDuLieuMayBay(MayBay *a)
 {
+	HienConTro();
 	char x; // De chay ham lay so
 	bool kytu;
 	string SoHieu = "";
 	string Loai = "";
 	int SoCho;
 	//==========================SO HIEU=======================================
-	cout << "Nhap So hieu: ";
+//	cout << "Nhap So hieu: ";
 	int dodai = SoHieu.length();
+	gotoxy(10,wherey());
 	x = getch();
 	if (x == -32 || x == 0)
 	{
@@ -237,24 +244,28 @@ void NhapDuLieuMayBay(MayBay *a)
 		{
 			if (dodai != 0)
 			{
-				int hoanhdo = wherex();
-				int tungdo = wherey();
-				gotoxy(hoanhdo - 1, tungdo);
-				cout << " ";
-				gotoxy(hoanhdo - 1, tungdo);
-				//=========================//
 				SoHieu.erase(SoHieu.end() - 1, SoHieu.end());
 				dodai--;
+				//==========================//
+			//	int hoanhdo = wherex();
+			//	int tungdo = wherey();
+				AnConTro();
+				gotoxy(8, wherey());
+				cout << "     ";
+				CanhGiua(10,dodai);
+				cout << SoHieu;
+				HienConTro();
 			}
 			else
 			{
 				int hoanhdo = wherex();
 				int tungdo = wherey();
+				gotoxy(3,tungdo);
 				cout << "Khong the xoa";
 				Sleep(300);
-				gotoxy(hoanhdo,tungdo);
+				gotoxy(3,tungdo);
 				cout << "             ";
-				gotoxy(hoanhdo,tungdo);
+				gotoxy(10,tungdo);
 			}
 		}
 		if ((x >= 97 && x <= 122) && kytu) // In hoa chu thuong len em ei =))
@@ -263,9 +274,29 @@ void NhapDuLieuMayBay(MayBay *a)
 		}
 		if (((x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // 0 den 9, A den Z
 		{
-			dodai++;
-			cout << x;
-			SoHieu = SoHieu + x;
+			if (dodai < 5)
+			{
+				dodai++;
+				SoHieu = SoHieu + x;
+				CanhGiua(10,SoHieu.length());
+				for (int i = 0; i < SoHieu.length();i++)
+				cout << SoHieu[i];
+			}
+			else
+			{
+			//	int hoanhdo = wherex();
+			//	int tungdo = wherey();
+				gotoxy(2,wherey());
+				cout << "Khong qua 5 ky tu";
+				Sleep(300);
+				gotoxy(2,wherey());
+				cout << "                 ";
+			//	gotoxy(hoanhdo - 5, tungdo);
+			//	cout << SoHieu;
+				CanhGiua(10,SoHieu.length());
+				for (int i = 0; i < SoHieu.length();i++)
+				cout << SoHieu[i];
+			}
 		}
 		x = getch();
 		if (x == -32 || x == 0)
@@ -279,9 +310,10 @@ void NhapDuLieuMayBay(MayBay *a)
 		}
 	}
 	//=====================LOAI============================
-	cout << endl;
-	cout << "Nhap Loai: ";
+//	cout << endl;
+//	cout << "Nhap Loai: ";
 	dodai = Loai.length();
+	gotoxy(30,wherey());
 	x = getch();
 	if (x == -32 || x == 0)
 	{
@@ -298,14 +330,19 @@ void NhapDuLieuMayBay(MayBay *a)
 		{
 			if (dodai != 0)
 			{
-				int hoanhdo = wherex();
-				int tungdo = wherey();
-				gotoxy(hoanhdo - 1, tungdo);
-				cout << " ";
-				gotoxy(hoanhdo - 1, tungdo);
-				//=========================//
 				Loai.erase(Loai.end() - 1, Loai.end());
 				dodai--;
+				//=========================//
+			//	int hoanhdo = wherex();
+			//	int tungdo = wherey();
+			//	gotoxy(hoanhdo - 1, tungdo);
+			//	cout << " ";
+				AnConTro();
+				gotoxy(25, wherey());
+				cout << "          ";
+				CanhGiua(30,dodai);
+				cout << Loai;
+				HienConTro();
 			}
 			else
 			{
@@ -315,7 +352,7 @@ void NhapDuLieuMayBay(MayBay *a)
 				Sleep(300);
 				gotoxy(hoanhdo,tungdo);
 				cout << "             ";
-				gotoxy(hoanhdo,tungdo);
+				gotoxy(30,tungdo);
 			}
 		}
 		if ((x >= 97 && x <= 122) && kytu) // In hoa chu thuong len em ei =))
@@ -324,9 +361,30 @@ void NhapDuLieuMayBay(MayBay *a)
 		}
 		if (((x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // 0 den 9, A den Z
 		{
-			dodai++;
-			cout << x;
-			Loai = Loai + x;
+			if (dodai < 10)
+			{
+				dodai++;
+				Loai = Loai + x;
+				AnConTro();
+				CanhGiua(30,dodai);
+				for (int i = 0; i < dodai; i++)
+				cout << Loai[i];
+				HienConTro();
+			}
+			else
+			{
+				AnConTro();
+				int hoanhdo = wherex();
+				int tungdo = wherey();
+				gotoxy(22,tungdo);
+				cout << "Khong qua 10 ky tu";
+				Sleep(300);
+				gotoxy(22,tungdo);
+				cout << "                  ";
+				CanhGiua(30,dodai);
+				cout << Loai;
+				HienConTro();
+			}
 		}
 		x = getch();
 		if (x == -32 || x == 0)
@@ -339,9 +397,31 @@ void NhapDuLieuMayBay(MayBay *a)
 			kytu = 1;
 		}
 	}
-	//==================================SO CHO==============================
-	cout << "Nhap So cho: ";
+	//==================================SO CHO============================== 
+//	cout << "Nhap So cho: ";
+	gotoxy(50,wherey());
 	SoCho = LaySo(0,0,x);
+	while(SoCho < 20)
+	{
+		AnConTro();
+		gotoxy(44,wherey());
+		cout << "So cho > 20";
+		Sleep(300);
+		gotoxy(44,wherey());
+		cout << "           ";
+		gotoxy(50,wherey());
+		cout << "  ";
+		gotoxy(50,wherey());
+		SoCho = 0;
+		SoCho = LaySo(0,0,x);
+	}
+	{
+		AnConTro();
+		gotoxy(45,wherey());
+		cout << "          ";
+		CanhGiua(50,DoDaiSoDuong(SoCho));
+		cout << SoCho;
+	}
 	a->DatSoHieu(SoHieu);
 	a->DatLoai(Loai);
 	a->DatSoCho(SoCho);
@@ -351,10 +431,10 @@ int ThemMayBay(ListMayBay &a)
 {
 	char kytu; // Dung de lay so thoi =))
 	if (DanhSachDay(a)) return 0; // Tra ve 0 neu khong the them
-	int x;
-	cout << "Chon vi tri muon them: ";
-	x = LaySo(0,0,kytu);
-	if (!DanhSachRong(a))
+//	int x;
+//	cout << "Chon vi tri muon them: ";
+//	x = LaySo(0,0,kytu);
+/*	if (!DanhSachRong(a))
 	{
 		while  (x < 1 || x > a.n + 1) // Vi tri khong hop le
 		{
@@ -374,23 +454,36 @@ int ThemMayBay(ListMayBay &a)
 			x = LaySo(0,0,kytu);
 		}
 	}
-	cout << endl << endl;
+	cout << endl << endl; */
 	{
 		a.n++;
 		a.data[a.n - 1] = CreateData(); // Tao vung nho moi cho con tro vua them vao
-		if (x == a.n)
+		KhungMayBay();
+		int x = a.n%10;
+		for (int i = 1; i < x; i++) // Tru data vua them vao
 		{
-			NhapDuLieuMayBay(a.data[x-1]);
-			return 1;
+			gotoxy(10,2*i+1);
+			CanhGiua(10,a.data[a.n/10 * 10 + i - 1]->LaySoHieu().length());
+			cout << a.data[a.n/10 * 10 + i - 1]->LaySoHieu();
+			gotoxy(30,2*i+1);
+			CanhGiua(30,a.data[a.n/10 * 10 + i - 1]->LayLoai().length());
+			cout << a.data[a.n/10 * 10 + i - 1]->LayLoai();
+			gotoxy(50,2*i+1);
+			CanhGiua(50,DoDaiSoDuong(a.data[a.n/10 * 10 + i - 1]->LaySoCho()));
+			cout << a.data[a.n/10 * 10 + i - 1]->LaySoCho();
 		}
-		for (int i = a.n - 1; i >= x; i--) // Doi du lieu
+		gotoxy(0,2*x + 1);
+		NhapDuLieuMayBay(a.data[a.n-1]);
+		return 1;
+/*		for (int i = a.n - 1; i >= x; i--) // Doi du lieu
 		{
 			a.data[i] = a.data[i-1];
 		}
 		a.data[x-1] = CreateData(); // Tao o nho moi
 		NhapDuLieuMayBay(a.data[x-1]);
-		return 1;
+		return 1; */
 	}
+	// luon them ve cuoi
 }
 //====================================XOA MAY MAY KHOI DANH SACH============================
 int XoaMayBay(ListMayBay &a)
@@ -428,26 +521,71 @@ int XoaMayBay(ListMayBay &a)
 	} 
 }
 //====================================IN DANH SACH MAY BAY===================================
-void InDanhSachMayBay(ListMayBay a)
+void InDanhSachMayBay(ListMayBay a, int trang)
 {
+	KhungMayBay();
 	gotoxy(0,0);
-	for (int i = 0; i < a.n; i++)
+	int maxtrang;
+	if (a.n%30 != 0)
 	{
-		cout << "So hieu: " << a.data[i]->LaySoHieu() << endl;
-		cout << "Loai: " << a.data[i]->LayLoai() << endl;
-		cout << "So cho: " << a.data[i]->LaySoCho() << endl << endl;
+		maxtrang = a.n/30 + 1;
 	}
+	else
+	{
+		maxtrang = a.n/30;
+	}
+	if (trang < maxtrang)
+	{
+		for (int i = (trang - 1)*30; i < trang*30 - 1; i++)
+		{
+			gotoxy(8,2*(i+1)+1);
+			CanhGiua(10,a.data[i]->LaySoHieu().length());
+			cout << a.data[i]->LaySoHieu();
+			gotoxy(26,2*(i+1)+1);
+			CanhGiua(30,a.data[i]->LayLoai().length());
+			cout << a.data[i]->LayLoai();
+			gotoxy(48,2*(i+1)+1);
+			CanhGiua(50,DoDaiSoDuong(a.data[i]->LaySoCho()));
+			cout << a.data[i]->LaySoCho();
+		}
+	}
+	else
+	{
+		for (int i = (trang - 1)*30; i < a.n; i++)
+		{
+			gotoxy(8,2*(i+1)+1);
+			CanhGiua(10,a.data[i]->LaySoHieu().length());
+			cout << a.data[i]->LaySoHieu();
+			gotoxy(26,2*(i+1)+1);
+			CanhGiua(30,a.data[i]->LayLoai().length());
+			cout << a.data[i]->LayLoai();
+			gotoxy(48,2*(i+1)+1);
+			CanhGiua(50,DoDaiSoDuong(a.data[i]->LaySoCho()));
+			cout << a.data[i]->LaySoCho();
+		}
+	}
+	gotoxy(23,24);
+	cout << "---Trang " << trang << "/";
+	if (a.n%10 > 0)
+	{
+		cout << a.n/10 + 1;
+	}
+	else
+	{
+		cout << a.n/10;
+	}
+	cout << "---" << endl;
 }
-//===================================CHINH SUA MAY BAY=======================================
+//=================================== CHINH SUA MAY BAY =======================================
 int ChinhSuaMayBay(ListMayBay &a)
 {
 	if (a.n == 0) return 0;
 	system("cls");
 	gotoxy(0,0);
-	InDanhSachMayBay(a);
+	InDanhSachMayBay(a,1);
 	HienConTro();
 	MayBay MangPhu[a.n]; // Chua data	
-    //======================SAO CHEP DU LIEU====================
+    //====================== SAO CHEP DU LIEU ====================
 	for (int i = 0; i < a.n; i++) // Sao chep du lieu vao mang phu
 	{
 		MangPhu[i].DatSoHieu(a.data[i]->LaySoHieu());
@@ -457,7 +595,11 @@ int ChinhSuaMayBay(ListMayBay &a)
 //	MangPhu[0].DatSoHieu("Hello");                     // test ok
 //	a.data[0]->DatSoHieu(MangPhu[0].LaySoHieu());      // test ok
 	int line = 0;
-	gotoxy(9+MangPhu[0].LaySoHieu().length(),line); // Di chuyen con tro toi vi tri dau tien
+	AnConTro();
+	gotoxy(0,2*(line/3 + 1) + 1); // Dua con tro den dung hang
+	CanhGiua(10,a.data[line/3]->LaySoHieu().length());
+	gotoxy(wherex() + a.data[line/3]->LaySoHieu().length(),wherey()); // Di chuyen den dung vi tri
+	HienConTro();
 	bool kytu;
 	char x = getch();
 	if (x != -32 && x != 8) // Khong phai chuc nang hoac Backspace
@@ -474,78 +616,86 @@ int ChinhSuaMayBay(ListMayBay &a)
 	{
 		if (x == 72 && !kytu ) // Up
 		{
-			if (line == 0)
+			if (line > 2)
 			{
-				line = a.n*4 - 2; // Di ve line cuoi cung
-			}
-			else
-			{
-				if (line%4 == 0)
-				{
-					line = line - 2;
-				}
-				else
-				{
-					line--;
-				}
+				line = line - 3;
 			}
 		}
 		if (x == 80 && !kytu) // Down
 		{
-			if (line == a.n*4 - 2)
+			if (line <= (a.n - 1)*3 - 1)
 			{
-				line = 0; // Di ve line dau
+				line = line + 3;
 			}
-			else
-			{
-				if (line%4 == 2)
-				{
-					line  = line + 2;
-				}
-				else
-				{
-					line++;
-				}
-			}	
+			
 		}
-		if (line%4 == 0) // So Hieu
+		if (x == 75 && !kytu) // Left
 		{
-			gotoxy(9+MangPhu[line/4].LaySoHieu().length(),line);
+			if (line > 0)
+			{
+				line--;
+			}
+		}
+		if (x == 77 && !kytu) // Right
+		{
+			if (line != a.n*3 - 1)
+			{
+			//	gotoxy(70,10);
+			//	cout << "HELLO";
+				line++;
+			}
+		}
+	//	gotoxy(70,1);
+	//	cout << "line = " << line << " ky tu la " << kytu;
+		if (line%3 == 0) // So Hieu
+		{
+			AnConTro();
+			gotoxy(0,2*(line/3 + 1) + 1);
+			CanhGiua(10,MangPhu[line/3].LaySoHieu().length());
+			gotoxy(wherex() + MangPhu[line/3].LaySoHieu().length(),wherey());
+			HienConTro();
 			int dodaichuoi = MangPhu[line/4].LaySoHieu().length();
 		//================NHAN BACKSPACE TU NGOAI VONG==============
 			if (x == 8 && line == 0) // Backspace
 			{
 				if (dodaichuoi > 0) // Duoc quyen xoa
 				{
-				//=============XU LY HINH ANH=========
-					int a = wherex();
-					int b = wherey();
-					gotoxy(a-1,b);
-					cout << " ";
-					gotoxy(a-1,b);
-				//=============XU LY CHUOI===========
+					//=============XU LY CHUOI===========
 					dodaichuoi--;
 					string SoHieu = MangPhu[line/4].LaySoHieu();
 					SoHieu.erase(SoHieu.end()-1,SoHieu.end());
 					MangPhu[line/4].DatSoHieu(SoHieu);
-					}
+					
+				//=============XU LY HINH ANH=========
+					AnConTro();
+					gotoxy(8,wherey());
+					cout << "     ";
+					CanhGiua(10,MangPhu[line/3].LaySoHieu().length());
+					cout << MangPhu[line/3].LaySoHieu();
+					HienConTro();
+				}
 				else
 				{
-					int a = wherex();
-					int b = wherey();
+					AnConTro();
+					gotoxy(4,wherey());
 					cout << "Khong the xoa";
 					Sleep(500);
-					gotoxy(a,b);
-					cout << "               ";
-					gotoxy(a,b);
+					gotoxy(4,wherey());
+					cout << "              ";
+					gotoxy(10,wherey());
+					HienConTro();
 				} 
 			}
 		//===============NHAN KY TU VONG NGOAI=====================
 			if (((x >= 94 && x <= 122) || (x >= 65 && x <= 90) || (x >= 48 && x <=57)) && kytu && line == 0) // a toi z, A toi Z, 0 toi 9
 			{
 				dodaichuoi++;
-				cout << InHoa(x);
+				InHoa(x);
 				MangPhu[line/4].DatSoHieu(MangPhu[line/4].LaySoHieu() + InHoa(x));
+				AnConTro();
+				CanhGiua(10,MangPhu[line/3].LaySoHieu().length());
+				cout << MangPhu[line/3].LaySoHieu();
+				HienConTro();
 			} 
 			x = getch(); // Ban muon thao tac gi voi line nay?
 			while (1)
@@ -565,48 +715,88 @@ int ChinhSuaMayBay(ListMayBay &a)
 				{
 					if (dodaichuoi > 0) // Duoc quyen xoa
 					{
-						//=============XU LY HINH ANH=========
-							int a = wherex();
-							int b = wherey();
-							gotoxy(a-1,b);
-							cout << " ";
-							gotoxy(a-1,b);
 						//=============XU LY CHUOI===========
 							dodaichuoi--;
-							string SoHieu = MangPhu[line/4].LaySoHieu();
+							string SoHieu = MangPhu[line/3].LaySoHieu();
 							SoHieu.erase(SoHieu.end()-1,SoHieu.end());
-							MangPhu[line/4].DatSoHieu(SoHieu);
+							MangPhu[line/3].DatSoHieu(SoHieu);
+						//=============XU LY HINH ANH=========
+							AnConTro();
+							gotoxy(8,wherey());
+							cout << "     ";
+							CanhGiua(10,dodaichuoi);
+							cout << MangPhu[line/3].LaySoHieu();
+							HienConTro();
 					}
 					else
 					{
-						int a = wherex();
-						int b = wherey();
+						AnConTro();
+						gotoxy(4,wherey());
 						cout << "Khong the xoa";
-						Sleep(500);
-						gotoxy(a,b);
-						cout << "                           ";
-						gotoxy(a,b);
+						Sleep(300);
+						gotoxy(4,wherey());
+						cout << "             ";
+						gotoxy(10,wherey());
+						HienConTro();
 					} 
 				}
 			//===============NHAN PHIM CHUC NANG==============
-				if ((x == 72 || x == 80) && !kytu || x == 27 || x == 19) // 19 la Ctrl + S
+				if (((x == 72 || x == 80 || x == 77 || x == 75) && !kytu) || x == 27 || x == 19) // 19 la Ctrl + S
 				{
-					break; // Khong con thao tac tren dong nay nua
+					if (MangPhu[line/3].LaySoHieu() != "")
+					{
+						break; // Khong con thao tac tren dong nay nua
+					}
+					else
+					{
+						AnConTro();
+						gotoxy(1,wherey());
+						cout << "Khong the bo trong";
+						Sleep(300);
+						gotoxy(1,wherey());
+						cout << "                  ";
+						gotoxy(10,wherey());
+						HienConTro();
+					}
 				}
 			//===============NHAN KY TU=====================
 				if (((x >= 94 && x <= 122) || (x >= 65 && x <= 90) || (x >= 48 && x <=57)) && kytu) // a toi z, A toi Z, 0 toi 9
 				{
-					dodaichuoi++;
-					cout << InHoa(x);
-					MangPhu[line/4].DatSoHieu(MangPhu[line/4].LaySoHieu() + InHoa(x));
+					if (dodaichuoi == 5)
+					{
+						AnConTro();
+						gotoxy(2,wherey());
+						cout << "Khong qua 5 ky tu";
+						Sleep(300);
+						gotoxy(2,wherey());
+						cout << "                 ";
+						CanhGiua(10,5);
+						cout << MangPhu[line/3].LaySoHieu();
+						HienConTro();
+						
+					}
+					else
+					{
+						dodaichuoi++;
+						InHoa(x);
+						MangPhu[line/3].DatSoHieu(MangPhu[line/3].LaySoHieu() + InHoa(x));
+						AnConTro();
+						CanhGiua(10,dodaichuoi);
+						cout << MangPhu[line/3].LaySoHieu();
+						HienConTro();
+					}
 				}
 				x = getch();
 			}
 		}
-		if (line%4 == 1) // Loai
+		if (line%3 == 1) // Loai
 		{
-			gotoxy(6+MangPhu[line/4].LayLoai().length(),line);
-			int dodaichuoi = MangPhu[line/4].LayLoai().length();
+			AnConTro();
+			gotoxy(0,2*(line/3 + 1) + 1);
+			CanhGiua(30,MangPhu[line/3].LayLoai().length());
+			gotoxy(wherex()+MangPhu[line/3].LayLoai().length(),wherey()); // Dua dung vi tri
+			HienConTro();
+			int dodaichuoi = MangPhu[line/3].LayLoai().length();
 			x = getch(); // Ban muon thao tac gi tren dong nay?
 			while(1)
 			{
@@ -624,64 +814,124 @@ int ChinhSuaMayBay(ListMayBay &a)
 				{
 					if (dodaichuoi > 0)
 					{
-					//=================XU LY HINH ANH=================
-						int a = wherex();
-						int b = wherey();
-						gotoxy(a-1,b);
-						cout << " ";
-						gotoxy(a-1,b);
 					//==================XU LY CHUOI===================
 						dodaichuoi--;
-						string Loai = MangPhu[line/4].LayLoai();
+						string Loai = MangPhu[line/3].LayLoai();
 						Loai.erase(Loai.end()-1,Loai.end());
-						MangPhu[line/4].DatLoai(Loai);
+						MangPhu[line/3].DatLoai(Loai);
+					//=================XU LY HINH ANH=================
+						AnConTro();
+						gotoxy(25,wherey());
+						cout << "          ";
+						CanhGiua(30,dodaichuoi);
+						cout << MangPhu[line/3].LayLoai();
+						HienConTro();
 					}	
 					else
 					{
-					int a = wherex();
-					int b = wherey();
-					cout << "Khong the xoa";
-					Sleep(500);
-					gotoxy(a,b);
-					cout << "              ";
-					gotoxy(a,b);
+						AnConTro();
+						gotoxy(24,wherey());
+						cout << "Khong the xoa";
+						Sleep(300);
+						gotoxy(24,wherey());
+						cout << "             ";
+						gotoxy(30,wherey());
+						HienConTro();
 					}	
 				}
 			//==============CHUC NANG======================
-				if ((x == 72 || x == 80) && !kytu  || x == 27 || x == 19)
+				if (((x == 72 || x == 80 || x == 75 || x == 77) && !kytu)  || x == 27 || x == 19)
 				{
-					break; // Khong con line nay nua
+					if (MangPhu[line/3].LayLoai() != "")
+					{
+						break; // Khong con thao tac tren dong nay nua
+					}
+					else
+					{
+						AnConTro();
+						gotoxy(21,wherey());
+						cout << "Khong the bo trong";
+						Sleep(300);
+						gotoxy(21,wherey());
+						cout << "                  ";
+						gotoxy(30,wherey());
+						HienConTro();
+					}
 				}	
 			//=============NHAN CHU CAI====================
 				if (((x >= 94 && x <= 122) || (x >= 65 && x <= 90) || (x >= 48 && x <=57)) && kytu) // a toi z, A toi Z, 0 toi 9 
 				{
-					dodaichuoi++;
-					cout << InHoa(x);
-					MangPhu[line/4].DatLoai(MangPhu[line/4].LayLoai() + InHoa(x));
+					if (dodaichuoi == 10)
+					{
+						AnConTro();
+						gotoxy(21,wherey());
+						cout << "Khong qua 10 ky tu";
+						Sleep(300);
+						gotoxy(21,wherey());
+						cout << "                  ";
+						CanhGiua(30,10);
+						cout << MangPhu[line/3].LayLoai();
+						HienConTro();
+					}
+					else
+					{
+						dodaichuoi++;
+						InHoa(x);
+						MangPhu[line/3].DatLoai(MangPhu[line/3].LayLoai() + InHoa(x));
+						AnConTro();
+						CanhGiua(30,dodaichuoi);
+						cout << MangPhu[line/3].LayLoai();
+						HienConTro();
+					}
 				}
 				x = getch();
 			}
 		}
-		if (line%4 == 2) // So Cho
+		if (line%3 == 2) // So Cho
 		{
-			gotoxy(8+DoDaiSoDuong(MangPhu[line/4].LaySoCho()),line);
-			int SoCho = MangPhu[line/4].LaySoCho();
+			AnConTro();
+			gotoxy(0,2*(line/3 + 1) + 1);
+			CanhGiua(50,DoDaiSoDuong(MangPhu[line/3].LaySoCho()));
+			gotoxy(wherex() + DoDaiSoDuong(MangPhu[line/3].LaySoCho()),wherey()); // Dua den dung vi tri
+			HienConTro();
+			int SoCho = MangPhu[line/3].LaySoCho();
 			SoCho = LaySo(SoCho,1,x);
+			while (SoCho < 20)
+			{
+				AnConTro();
+				gotoxy(45,wherey());
+				cout << "So cho > 20";
+				Sleep(300);
+				gotoxy(45,wherey());
+				cout << "           ";
+				gotoxy(50,wherey());
+				HienConTro();
+				SoCho = LaySo(0,1,x);
+			}
+			AnConTro();
+			gotoxy(40,wherey());
+			cout << "                   ";
+			CanhGiua(50,DoDaiSoDuong(SoCho));
+			cout << SoCho;
+			HienConTro();
 			if (x == -32 || x == 0)
 			{
 				kytu = 0;
-				x = getch();
+				if (x == -32 || x == 0)
+				{
+					x = getch();
+				}
 			}
-			MangPhu[line/4].DatSoCho(SoCho);
+			MangPhu[line/3].DatSoCho(SoCho);
 		}
 	}
 	if (x == 27)
 	{
-		int tungdo,hoanhdo = -1;
+		int tungdo,hoanhdo = - 1;
 		while (1) // So nhat la nguoi dung thich mua lua =))
 		{
 			
-			gotoxy(0,a.n*4);
+			gotoxy(0,28);
 			cout << "Ban co muon luu thay doi?" << endl;
 			cout << "Nhan 0 de huy hoac nhan 1 de luu ";
 			x = getch();
@@ -721,7 +971,7 @@ int ChinhSuaMayBay(ListMayBay &a)
 	Sleep(500);
 	return 1;
 }
-//======================================CLASS CHUYEN BAY============================================
+//====================================== CLASS CHUYEN BAY ============================================
 class ChuyenBay : public MayBay
 {
 	protected:
