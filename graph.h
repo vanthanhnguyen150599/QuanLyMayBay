@@ -657,18 +657,7 @@ void DangNhap ()
 //	Sleep(500);
 }
 // ========================== KHUNG MAY BAY ======================================
-#include<iostream>
-#include<windows.h>
-using namespace std;
-void gotoxy(int x, int y) // Di chuyen toa do con tro trong he toa do De-cat
-{
-	static HANDLE h = NULL;
-	if (!h)
-		h = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD c = { x, y };
-	SetConsoleCursorPosition(h, c);
-}
-int main()
+void KhungMayBay()
 {
 	char ngangngoai = 205;
 	char docngoai = 186;
@@ -683,11 +672,11 @@ int main()
 	char docphai = 199;
 	char doctrai = 182;
 	char ngatu = 197;
-	for (int i = 1; i <= 33; i++)
+	for (int i = 1; i <= 23; i++)
 	{
-		for (int j = 1; j <= 90; j++)
+		for (int j = 1; j <= 60; j++)
 		{
-			if (i == 1 || i == 33)
+			if (i == 1 || i == 23)
 			{
 				if (i == 1)
 				{
@@ -697,13 +686,13 @@ int main()
 					}
 					else
 					{
-						if (j == 90)
+						if (j == 60)
 						{
 							cout << phaitren;
 						}
 						else
 						{
-							if (j%30 == 0)
+							if (j%20 == 0)
 							{
 								cout << ngangxuong;
 							}
@@ -722,13 +711,13 @@ int main()
 					}
 					else
 					{
-						if (j == 90)
+						if (j == 60)
 						{
 							cout << phaiduoi;
 						}
 						else
 						{
-							if (j%30 == 0)
+							if (j%20 == 0)
 							{
 								cout << nganglen;
 							}
@@ -742,7 +731,7 @@ int main()
 			}
 			else // khac dong dau va cuoi
 			{
-					if (i%3 == 0)
+					if (i%2 == 1)
 					{
 						if (j == 1)
 						{
@@ -750,13 +739,13 @@ int main()
 						}
 						else
 						{
-							if (j == 90)
+							if (j == 60)
 							{
 								cout << doctrai;
 							}
 							else
 							{
-								if (j%30 == 0)
+								if (j%20 == 0)
 								{
 									cout << ngatu;
 								}
@@ -767,11 +756,11 @@ int main()
 							}
 						}
 					}
-					else // i%3 == 2
+					else // i%2 == 0
 					{
-						if (j == 1 || j % 30 == 0)
+						if (j == 1 || j % 20 == 0)
 						{
-							if (j == 1 || j == 90)
+							if (j == 1 || j == 60)
 							{
 								cout << docngoai;
 							}
@@ -787,26 +776,15 @@ int main()
 		}
 		cout << endl;
 	}
-	gotoxy(11,1);
+	gotoxy(7,1);
 	cout << "So Hieu";
-	gotoxy(41,1);
+	gotoxy(28,1);
 	cout << "Loai";
-	gotoxy(71,1);
+	gotoxy(47,1);
 	cout << "So Cho";
 }
 // ============================================= KHUNG CHUYEN BAY ===============================
-#include<iostream>
-#include<windows.h>
-using namespace std;
-void gotoxy(int x, int y) // Di chuyen toa do con tro trong he toa do De-cat
-{
-	static HANDLE h = NULL;
-	if (!h)
-		h = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD c = { x, y };
-	SetConsoleCursorPosition(h, c);
-}
-int main()
+void KhungChuyenBay()
 {
 	char ngangngoai = 205;
 	char docngoai = 186;
@@ -821,11 +799,11 @@ int main()
 	char docphai = 199;
 	char doctrai = 182;
 	char ngatu = 197;
-	for (int i = 1; i <= 33; i++)
+	for (int i = 1; i <= 23; i++)
 	{
-		for (int j = 1; j <= 90; j++)
+		for (int j = 1; j <= 60; j++)
 		{
-			if (i == 1 || i == 33)
+			if (i == 1 || i == 23)
 			{
 				if (i == 1)
 				{
@@ -835,13 +813,13 @@ int main()
 					}
 					else
 					{
-						if (j == 90)
+						if (j == 60)
 						{
 							cout << phaitren;
 						}
 						else
 						{
-							if (j%30 == 0)
+							if (j%20 == 0)
 							{
 								cout << ngangxuong;
 							}
@@ -860,13 +838,13 @@ int main()
 					}
 					else
 					{
-						if (j == 90)
+						if (j == 60)
 						{
 							cout << phaiduoi;
 						}
 						else
 						{
-							if (j%30 == 0)
+							if (j%20 == 0)
 							{
 								cout << nganglen;
 							}
@@ -880,7 +858,7 @@ int main()
 			}
 			else // khac dong dau va cuoi
 			{
-					if (i%3 == 0)
+					if (i%2 == 1)
 					{
 						if (j == 1)
 						{
@@ -888,13 +866,13 @@ int main()
 						}
 						else
 						{
-							if (j == 90)
+							if (j == 60)
 							{
 								cout << doctrai;
 							}
 							else
 							{
-								if (j%30 == 0)
+								if (j%20 == 0)
 								{
 									cout << ngatu;
 								}
@@ -905,11 +883,11 @@ int main()
 							}
 						}
 					}
-					else // i%3 == 2
+					else // i%2 == 0
 					{
-						if (j == 1 || j % 30 == 0)
+						if (j == 1 || j % 20 == 0)
 						{
-							if (j == 1 || j == 90)
+							if (j == 1 || j == 60)
 							{
 								cout << docngoai;
 							}
