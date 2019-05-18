@@ -24,12 +24,68 @@ int main()
 		maybay.data[i]->DatSoCho(SoCho);
 	}
 	infile.close();
+//=========================== DOC DU LIEU CHUYEN BAY TU FILE ==============================
+	ListChuyenBay chuyenbay;
+	string MaChuyen = "";
+	string SoHieu = "";
+	string Den = "";
+	Day Ngay;
+	Time Gio;
+	int TrangThai;
+	infile.open("dschuyenbay.txt");
+	if (infile.fail())
+	{
+		cout << "That Bai";
+		return 0;
+	}
+	infile >> chuyenbay.SoLuong;
+	CacChuyenBay *p = NULL;
+	for (int i = 1; i <= chuyenbay.SoLuong; i++)
+	{
+	//	CacMayBay *temp;
+		CacChuyenBay *p = NewChuyenBay();
+		if (chuyenbay.Head == NULL)
+		{
+			chuyenbay.Head = p;
+		}
+		else
+		{
+		//	temp = p;
+			p->next = chuyenbay.Head;
+			chuyenbay.Head = p;
+		}
+		infile >> MaChuyen;
+		infile >> SoHieu;
+		infile >> Den;
+		infile >> Gio.hour;
+		infile >> Gio.min;
+		infile >> Ngay.dd;
+		infile >> Ngay.mm;
+		infile >> Ngay.yy;
+		infile >> TrangThai;
+		p->chuyenbay.DatMaChuyen(MaChuyen);
+		p->chuyenbay.DatSoHieu(SoHieu);
+		for (int j = 0; j < maybay.n; j++) // Tim chuyen bay co SoHieu trung de copy du lieu
+		{
+			if (p->chuyenbay.LaySoHieu() == maybay.data[j]->LaySoHieu())
+			{
+				p->chuyenbay.DatLoai(maybay.data[j]->LayLoai());
+				p->chuyenbay.DatSoCho(maybay.data[j]->LaySoCho());
+			}
+		} 
+		p->chuyenbay.DatDiemDen(Den);
+		p->chuyenbay.DatGio(Gio);
+		p->chuyenbay.DatNgay(Ngay);
+		p->chuyenbay.DatTrangThai(TrangThai);
+		p = p->next;
+	}
+	infile.close();
 //==============================DANG NHAP======================================
 //	VeKhung();
 //	DangNhap();
 //	system("cls");
 //==================================MAIN MENU=====================================
-	int a;
+/*	int a;
 	a = MainMenu();
 	while (a != -1)
 	{
@@ -132,7 +188,16 @@ int main()
 		}
 		system("cls");
 		a = MainMenu();
-	}  
+	} */
+/*	KhungChuyenBay();
+	while (1)
+	{
+		AnConTro();
+		gotoxy(105,1);
+		InThoiGian();
+	} */
+//	cout << chuyenbay.Head->chuyenbay.LayMaChuyen();
+	InDanhSachChuyenBay(chuyenbay,1);
 //	VeKhung();
 //	int a = LaySo();
 //	cout << endl << a;
