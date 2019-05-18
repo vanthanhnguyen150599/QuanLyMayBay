@@ -6,6 +6,7 @@
 #include<iostream>
 #include<conio.h>
 #include<windows.h>
+#include<ctime>
 using namespace std;
 //=============================HAM GOTOXY==========================
 void gotoxy(int x, int y) // Di chuyen toa do con tro trong he toa do De-cat
@@ -383,5 +384,68 @@ void CanhGiua(int vitrigiua, int dodai)
 {
 	int tungdo = wherey();
 	gotoxy(vitrigiua - dodai/2, tungdo);
+}
+// ========================= IN THOI GIAN HIEN TAI ===================
+void InThoiGian()
+{
+	time_t hientai = time(0);
+	tm *thoigian = localtime(&hientai);
+	switch (thoigian->tm_wday)
+	{
+		case 1:
+			{
+				cout << "Monday";
+				break;
+			}
+		case 2:
+			{
+				cout << "Tuesday";
+				break;
+			}
+		case 3:
+			{
+				cout << "Wednesday";
+				break;
+			}
+		case 4:
+			{
+				cout << "Thursday";
+				break;
+			}
+		case 5:
+			{
+				cout << "Friday";
+				break;
+			}
+		case 6:
+			{
+				cout << "Saturday";
+				break;
+			}
+		case 7:
+			{
+				cout << "Sunday";
+				break;
+			}
+	}
+	cout <<  ", " << thoigian->tm_mday << "/" << thoigian->tm_mon + 1 << "/" << 1900 + thoigian->tm_year;
+	gotoxy(wherex() - 11, wherey() + 2);
+	cout << thoigian->tm_hour;
+	if (thoigian->tm_sec % 2 == 0)
+	{
+		cout << " ";
+	}
+	else
+	{
+		cout << ":" ;
+	}
+	if (thoigian->tm_min < 10)
+	{
+		cout << "0" << thoigian->tm_min;
+	}
+	else
+	{
+		cout << thoigian->tm_min;
+	}
 }
 #endif
