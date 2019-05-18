@@ -801,7 +801,7 @@ void KhungChuyenBay()
 	char ngatu = 197;
 	for (int i = 1; i <= 23; i++)
 	{
-		for (int j = 1; j <= 60; j++)
+		for (int j = 1; j <= 100; j++)
 		{
 			if (i == 1 || i == 23)
 			{
@@ -813,7 +813,7 @@ void KhungChuyenBay()
 					}
 					else
 					{
-						if (j == 60)
+						if (j == 100)
 						{
 							cout << phaitren;
 						}
@@ -838,7 +838,7 @@ void KhungChuyenBay()
 					}
 					else
 					{
-						if (j == 60)
+						if (j == 100)
 						{
 							cout << phaiduoi;
 						}
@@ -866,7 +866,7 @@ void KhungChuyenBay()
 						}
 						else
 						{
-							if (j == 60)
+							if (j == 100)
 							{
 								cout << doctrai;
 							}
@@ -887,7 +887,7 @@ void KhungChuyenBay()
 					{
 						if (j == 1 || j % 20 == 0)
 						{
-							if (j == 1 || j == 60)
+							if (j == 1 || j == 100)
 							{
 								cout << docngoai;
 							}
@@ -903,12 +903,16 @@ void KhungChuyenBay()
 		}
 		cout << endl;
 	}
-	gotoxy(11,1);
-	cout << "So Hieu";
-	gotoxy(37,1);
+	gotoxy(6,1);
+	cout << "Ma Chuyen";
+	gotoxy(24,1);
 	cout << "Khoi hanh luc";
-	gotoxy(70,1);
-	cout << "Trang thai";
+	gotoxy(49,1);
+	cout << "Tu";
+	gotoxy(68,1);
+	cout << "Den";
+	gotoxy(85,1);
+	cout << "Trang Thai";
 }
 
 #endif
