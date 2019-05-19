@@ -85,7 +85,7 @@ int main()
 //	DangNhap();
 //	system("cls");
 //==================================MAIN MENU=====================================
-/*	int a;
+	int a;
 	a = MainMenu();
 	while (a != -1)
 	{
@@ -195,9 +195,9 @@ int main()
 		AnConTro();
 		gotoxy(105,1);
 		InThoiGian();
-	} */
+	}
 //	cout << chuyenbay.Head->chuyenbay.LayMaChuyen();
-	InDanhSachChuyenBay(chuyenbay,1);
+//	InDanhSachChuyenBay(chuyenbay,1);
 //	VeKhung();
 //	int a = LaySo();
 //	cout << endl << a;
