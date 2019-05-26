@@ -47,12 +47,13 @@ int main()
 		if (chuyenbay.Head == NULL)
 		{
 			chuyenbay.Head = p;
+			chuyenbay.Tail = p;
 		}
 		else
 		{
 		//	temp = p;
-			p->next = chuyenbay.Head;
-			chuyenbay.Head = p;
+			chuyenbay.Tail->next = p;
+			chuyenbay.Tail = p;
 		}
 		infile >> MaChuyen;
 		infile >> SoHieu;
@@ -71,8 +72,9 @@ int main()
 			{
 				p->chuyenbay.DatLoai(maybay.data[j]->LayLoai());
 				p->chuyenbay.DatSoCho(maybay.data[j]->LaySoCho());
+				p->chuyenbay.TaoDanhSachVe();
 			}
-		} 
+		}
 		p->chuyenbay.DatDiemDen(Den);
 		p->chuyenbay.DatGio(Gio);
 		p->chuyenbay.DatNgay(Ngay);
@@ -80,6 +82,63 @@ int main()
 		p = p->next;
 	}
 	infile.close();
+// ========================= DOC DU LIEU HANG KHACH =================================
+	CayKhachHang khachhang;
+	infile.open("dskhachhang.txt");
+	infile >> khachhang.SoLuong;
+	for (int i = 1; i <= khachhang.SoLuong; i++)
+	{
+		if (khachhang.root == NULL)
+		{
+			khachhang.root = new NodeKhachHang;
+			infile >> khachhang.root->HanhKhach.CMND;
+			infile >> khachhang.root->HanhKhach.Name;
+			infile >> khachhang.root->HanhKhach.GioiTinh;
+		}
+		else
+		{
+			string CMND;
+			infile >> CMND;
+		//	cout << CMND << endl;
+			NodeKhachHang *p = khachhang.root;
+		//	cout << SoSanhChuoiSo(CMND,p->HanhKhach.CMND);
+			while (1)
+			{
+				if (SoSanhChuoiSo(CMND, p->HanhKhach.CMND) == 1) // lon hon
+				{
+					if (p->right == NULL)
+					{
+						p->right = new NodeKhachHang;
+						infile >> p->right->HanhKhach.Name;
+						infile >> p->right->HanhKhach.GioiTinh;
+						p->right->HanhKhach.CMND = CMND;
+						break;
+					}
+					else
+					{
+						p = p->right;
+					}
+				}
+				else // Khong can truong hop trung CMND vi doc tu file
+				{
+					if (p->left == NULL)
+					{
+						p->left = new NodeKhachHang;
+						infile >> p->left->HanhKhach.Name;
+						infile >> p->left->HanhKhach.GioiTinh;
+						p->left->HanhKhach.CMND = CMND;
+						break;
+					}
+					else
+					{
+						p = p->left;
+					}
+				}
+			} 
+		}
+	} 
+	infile.close();
+	
 //==============================DANG NHAP======================================
 //	VeKhung();
 //	DangNhap();
@@ -87,9 +146,10 @@ int main()
 //==================================MAIN MENU=====================================
 	int a;
 	a = MainMenu();
-	while (a != -1)
+	while (a != 0) // Nguoi dung an Esc
 	{
-		if (a == 0)
+		ChangeColor(15);
+		if (a == 1)
 		{
 			system("cls");
 			if (!ThemMayBay(maybay))
@@ -123,12 +183,12 @@ int main()
 				system("pause");
 			}
 		}
-		if (a == 4)
+		if (a == 3)
 		{
 			ChinhSuaMayBay(maybay);
 			//system("pause");
 		}
-		if (a == 6)
+		if (a == 4)
 		{
 			system("cls");
 			int trang = 1;
@@ -188,17 +248,22 @@ int main()
 		}
 		system("cls");
 		a = MainMenu();
-	} */
+	} 
 /*	KhungChuyenBay();
 	while (1)
 	{
 		AnConTro();
 		gotoxy(105,1);
 		InThoiGian();
-	}
+	} */
+//	InKhungGhe(60);
+//	gotoxy(60,120);
 //	cout << chuyenbay.Head->chuyenbay.LayMaChuyen();
 //	InDanhSachChuyenBay(chuyenbay,1);
 //	VeKhung();
 //	int a = LaySo();
 //	cout << endl << a;
+//	NodeKhachHang *q = khachhang.root;
+//	cout << q->right->HanhKhach.CMND;
+	cout << MainMenu();
 }	
