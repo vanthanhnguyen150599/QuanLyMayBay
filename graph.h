@@ -87,155 +87,222 @@ void ChangeColor(int k)
     hConsoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsoleColor, k);
 }
+// ========================= CAC HAM XU LY CUA MENU =====================
+void XoayLen (string *Menu)
+{
+	for (int i = 0; i < 11; i++)
+	{
+		Menu[i] = Menu[i+1];
+	}
+/*	Menu[0] = Menu[1]; // Menu[0] vai tro la o nho tam
+	Menu[1] = Menu[2];
+	Menu[2] = Menu[3];
+	Menu[3] = Menu[4];
+	Menu[4] = Menu[5]; */
+	Menu[11] = Menu[0];
+}
+void XoayXuong(string *Menu)
+{
+	Menu[0] = Menu[11]; // Menu[0] vai tro la bien tam
+	for (int i = 11; i > 0; i--)
+	{
+		Menu[i] = Menu[i-1];
+	}
+	/*
+	Menu[5] = Menu[4];
+	Menu[4] = Menu[3];
+	Menu[3] = Menu[2];
+	Menu[2] = Menu[1];
+	Menu[1] = Menu[0];  */
+}
 //============================MENU CHINH==============================
 int MainMenu()
 {
-//	char b = 26;
-	int kytu;
-	char a; // Lay ky tu nhap tu ban phim
-	int i = 0;
-	gotoxy(0,0);
-	cout << "->";
-	gotoxy(3,0);
-	ChangeColor(240);
-	cout << "THEM MAY BAY";
-	ChangeColor(15);
-	gotoxy(3,2);
-	cout << "XOA MAY BAY";
-	gotoxy(3,4);
-	cout << "HIEU CHINH MAY BAY";
-	gotoxy(3,6);
-	cout << "IN DANH SACH MAY BAY";
+	string *Menu = new string[12];
+	Menu[0] = ""; // bien tam
+	Menu[1] = "THEM MAY BAY";
+	Menu[2] = "XOA MAY BAY";
+	Menu[3] = "HIEU CHINH MAY BAY";
+	Menu[4] = "LAP CHUYEN BAY MOI";
+	Menu[5] = "HIEU CHINH CHUYEN BAY";
+	Menu[6] = "HUY CHUYEN BAY";
+	Menu[7] = "DAT VE";
+	Menu[8] = "HUY VE";
+	Menu[9] = "IN DANH SACH HANH KHACH THUOC CHUYEN BAY";
+	Menu[10] = "IN DANH SACH GHE CON TRONG CUA CHUYEN BAY";
+	Menu[11] = "THONG KE LUOT THUC HIEN";
 	AnConTro();
-	a = getch();
-	if (a == -32 || a == 0)
+	for (int i = 1; i <= 11; i++)
 	{
+		if (i < 6)
+		{
+			ChangeColor(8);
+			for (int j = 1; j <= i-1; j++)
+			{
+				cout << "  ";
+			}
+			cout << Menu[i] << endl << endl;
+		}
+		if (i == 6)
+		{
+			ChangeColor(15);
+			cout << ">>";
+			for(int j = 3; j <= i -1; j++)
+			{
+				cout << "  ";
+			}
+			cout << Menu[6] << endl << endl;
+		}
+		if (i > 6)
+		{
+			ChangeColor(8);
+			for (int j = 1; j <= 10-2*(i-6); j++)
+			{
+				cout << " ";
+			}
+			cout << Menu[i] << endl << endl;
+		}
+	}
+	int i = 6;
+	char x = getch();
+	bool kytu;
+	if (x == -32 || x == 0)
+	{
+		x = getch();
 		kytu = 0;
-		a = getch();
 	}
 	else
 	{
 		kytu = 1;
 	}
-	while (a != 27 && a != 13)
+	while (x != 27 && x != 13) // Enter or Esc
 	{
-		if (a == 72 && !kytu)
+		if (x == 72 && !kytu) // Up
 		{
-			if (i >= 2)
+			if (i != 1)
 			{
-				i = i - 2;
+				i--;
 			}
 			else
 			{
-				i = 6;
+				i = 11;
 			}
-		}
-		if (a == 80 && !kytu)
-		{
-			if (i <= 4)
+			XoayXuong(Menu);
+			gotoxy(0,0);
+			for (int i = 1; i <= 11; i++) // Xu ly hinh anh
 			{
-				i = i + 2;
-			}
-			else
-			{
-				i = 0;
-			}
-		}
-		switch(i)
-		{
-			case 0 :
-			{
-				gotoxy(0,i);
-				cout << "->";
-				gotoxy(3,i);
-				ChangeColor(240);
-				cout << "THEM MAY BAY";
-				ChangeColor(15);
-				gotoxy(0,2);
-				cout << "   XOA MAY BAY";
-				gotoxy(0,4);
-				cout << "   HIEU CHINH MAY BAY";
-				gotoxy(0,6);
-				cout << "   IN DANH SACH MAY BAY";
-				ChangeColor(15); // Tra lai mau mac dinh
-			//	gotoxy(0,4); cout << i;
-				AnConTro();
-				break;
-			}
-			case 2:
-			{
-				gotoxy(0,0);
-				cout << "   THEM MAY BAY";
-				gotoxy(0,i);
-				cout << "->";
-				ChangeColor(240);
-				gotoxy(3,i);
-				cout << "XOA MAY BAY";
-				ChangeColor(15);
-				gotoxy(0,4);
-				cout << "   HIEU CHINH MAY BAY";
-				gotoxy(0,6);
-				cout << "   IN DANH SACH MAY BAY";
-				ChangeColor(15); // Tra lai mau mac dinh
-			//	gotoxy(0,4); cout << i;
-				AnConTro();
-				break;
-			}
-			case 4:
-			{
-				gotoxy(0,0);
-				cout << "   THEM MAY BAY";
-				gotoxy(0,2);
-				cout << "   XOA MAY BAY";
-				gotoxy(0,i);
-				cout << "->";
-				ChangeColor(240);
-				gotoxy(3,i);
-				cout << "HIEU CHINH MAY BAY";
-				ChangeColor(15);
-				gotoxy(0,6);
-				cout << "   IN DANH SACH MAY BAY";
-				ChangeColor(15); // Tra lai mau mac dinh
-			//	gotoxy(0,4); cout << i;
-				AnConTro();
-				break;
-			}
-			case 6:
+				if (i < 6)
 				{
-					gotoxy(0,0);
-					cout << "   THEM MAY BAY";
-					gotoxy(0,2);
-					cout << "   XOA MAY BAY";
-					gotoxy(0,4);
-					cout << "   HIEU CHINH MAY BAY";
-					gotoxy(0,i);
-					cout << "->";
-					ChangeColor(240);
-					gotoxy(3,i);
-					cout << "IN DANH SACH MAY BAY";
-					ChangeColor(15); // Tra lai mau mac dinh
-				//	gotoxy(0,4); cout << i;
-					AnConTro();
-					break;
+					ChangeColor(8);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					for (int j = 1; j <= i-1; j++)
+					{
+						cout << "  ";
+					}
+					cout << Menu[i] << endl << endl;
 				}
+				if (i == 6)
+				{
+					ChangeColor(15);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					cout << ">>";
+					for(int j = 3; j <= i -1; j++)
+					{
+						cout << "  ";
+					}
+					cout << Menu[6] << endl << endl;
+				}
+				if (i > 6)
+				{
+					ChangeColor(8);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					for (int j = 1; j <= 10-2*(i-6); j++)
+					{
+						cout << " ";
+					}
+					cout << Menu[i] << endl << endl;
+				}
+			}
+		//	gotoxy(0,60);
+		//	cout << "Phim Up voi char la " << int(x);
 		}
-		a = getch();
-		if (a == -32 || a == 0)
+		if (x == 80 && !kytu) // Down
 		{
+			if (i != 11)
+			{
+				i++;
+			}
+			else
+			{
+				i = 1;
+			}
+			XoayLen(Menu);
+			gotoxy(0,0);
+			for (int i = 1; i <= 11; i++) // Xu ly hinh anh
+			{
+				if (i < 6)
+				{
+					ChangeColor(8);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					for (int j = 1; j <= i-1; j++)
+					{
+						cout << "  ";
+					}
+					cout << Menu[i] << endl << endl;
+				}
+				if (i == 6)
+				{
+					ChangeColor(15);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					cout << ">>";
+					for(int j = 3; j <= i -1; j++)
+					{
+						cout << "  ";
+					}
+					cout << Menu[6] << endl << endl;
+				}
+				if (i > 6)
+				{
+					ChangeColor(8);
+					cout << "                                                         ";
+					gotoxy(0,wherey());
+					for (int j = 1; j <= 10-2*(i-6); j++)
+					{
+						cout << " ";
+					}
+					cout << Menu[i] << endl << endl;
+				}
+			}
+		//	gotoxy(0,0);
+		//	cout << "Phim Down voi char la " << int(x);
+		}
+		x = getch();
+		int kytu;
+		if (x == -32 || x == 0)
+		{
+			x = getch();
 			kytu = 0;
-			a = getch();
 		}
 		else
 		{
 			kytu = 1;
 		}
-	//	gotoxy(0,4); cout << int(a);
 	}
-	if (a == 27)
+	if (x == 13)
 	{
-		return -1;
+		gotoxy(0,30);
+		return i;
 	}
-	return i;
+	if (x == 27)
+	{
+		gotoxy(0,30);
+		return 0;
+	}
 }
 //==============================DANG NHAP=============================
 void DangNhap ()
@@ -801,7 +868,7 @@ void KhungChuyenBay()
 	char ngatu = 197;
 	for (int i = 1; i <= 23; i++)
 	{
-		for (int j = 1; j <= 100; j++)
+		for (int j = 1; j <= 120; j++)
 		{
 			if (i == 1 || i == 23)
 			{
@@ -813,7 +880,7 @@ void KhungChuyenBay()
 					}
 					else
 					{
-						if (j == 100)
+						if (j == 120)
 						{
 							cout << phaitren;
 						}
@@ -838,7 +905,7 @@ void KhungChuyenBay()
 					}
 					else
 					{
-						if (j == 100)
+						if (j == 120)
 						{
 							cout << phaiduoi;
 						}
@@ -866,7 +933,7 @@ void KhungChuyenBay()
 						}
 						else
 						{
-							if (j == 100)
+							if (j == 120)
 							{
 								cout << doctrai;
 							}
@@ -887,7 +954,7 @@ void KhungChuyenBay()
 					{
 						if (j == 1 || j % 20 == 0)
 						{
-							if (j == 1 || j == 100)
+							if (j == 1 || j == 120)
 							{
 								cout << docngoai;
 							}
@@ -913,6 +980,79 @@ void KhungChuyenBay()
 	cout << "Den";
 	gotoxy(85,1);
 	cout << "Trang Thai";
+	gotoxy(105,1);
+	cout << "Ma May bay";
 }
-
+// ======================= HANG GHE =========================================
+void InKhungGhe (int SoLuong)
+{
+	char traitren = 218;
+	char phaitren = 191;
+	char phaiduoi = 217;
+	char traiduoi = 192;
+	char ngang = 196;
+	char doc = 179;
+	AnConTro();
+	gotoxy(0,0);
+	if (SoLuong%6 == 0)
+	{
+		for (int i = 1; i <= 32; i++)
+		{
+			for (int j = 1; j <= 2*(SoLuong/6 - 1) + SoLuong + 4; j++)
+			{
+				if (i == 1 ||  i == 32)
+				{
+					if (i == 1)
+					{
+						if (j == 1)
+						{
+							cout << traitren;
+						}
+						else
+						{
+							if (j == 2*(SoLuong/6 - 1) + SoLuong + 4)
+							{
+								cout << phaitren;
+							}
+							else
+							{
+								cout << ngang;
+							}
+						}
+					}
+					else
+					{
+						if (j == 1)
+						{
+							cout << traiduoi;
+						}
+						else
+						{
+							if (j == 2*(SoLuong/6 - 1) + SoLuong + 4)
+							{
+								cout << phaiduoi;
+							}
+							else
+							{
+								cout << ngang;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (j == 1 || j == 2*(SoLuong/6 - 1) + SoLuong + 4)
+					{
+						cout << doc;
+					}
+					else
+					{
+						cout << " ";
+					}
+				}
+			}
+			cout << endl;
+		}
+	}
+}
 #endif
