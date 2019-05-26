@@ -448,4 +448,20 @@ void InThoiGian()
 		cout << thoigian->tm_min;
 	}
 }
+// ====================== SO SANH CHUOI SO =======================
+int SoSanhChuoiSo(string &a, string &b)
+{
+	for (int i = 0; i < a.length(); i++)
+	{
+		if (a[i] > b[i])
+		{
+			return 1;
+		}
+		if (a[i] < b[i])
+		{
+			return -1;
+		}
+	}
+	return 0;
+}
 #endif
