@@ -765,12 +765,12 @@ int XoaMayBay(ListMayBay &a)
 							}
 						}
 					}
-					CanhGiua(10,a.data[0]->LaySoHieu().length());
-					cout << a.data[0]->LaySoHieu();
-					CanhGiua(30,a.data[0]->LayLoai().length());
-					cout << a.data[0]->LayLoai();
-					CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
-					cout << a.data[0]->LaySoCho();
+					CanhGiua(10,a.data[line-1]->LaySoHieu().length());
+					cout << a.data[line-1]->LaySoHieu();
+					CanhGiua(30,a.data[line-1]->LayLoai().length());
+					cout << a.data[line-1]->LayLoai();
+					CanhGiua(50,DoDaiSoDuong(a.data[line-1]->LaySoCho()));
+					cout << a.data[line-1]->LaySoCho();
 					line--;
 					//======================== CAP NHAT TRANG ===================
 					if (line%10 == 0)
@@ -802,12 +802,12 @@ int XoaMayBay(ListMayBay &a)
 								}
 							}
 						}
-						CanhGiua(10,a.data[0]->LaySoHieu().length());
-						cout << a.data[0]->LaySoHieu();
-						CanhGiua(30,a.data[0]->LayLoai().length());
-						cout << a.data[0]->LayLoai();
-						CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
-						cout << a.data[0]->LaySoCho();
+						CanhGiua(10,a.data[line-1]->LaySoHieu().length());
+						cout << a.data[line-1]->LaySoHieu();
+						CanhGiua(30,a.data[line-1]->LayLoai().length());
+						cout << a.data[line-1]->LayLoai();
+						CanhGiua(50,DoDaiSoDuong(a.data[line-1]->LaySoCho()));
+						cout << a.data[line-1]->LaySoCho();
 				}
 			}
 			if (x == 80 && !kytu) // Down
@@ -834,12 +834,12 @@ int XoaMayBay(ListMayBay &a)
 							}
 						}
 					}
-					CanhGiua(10,a.data[0]->LaySoHieu().length());
-					cout << a.data[0]->LaySoHieu();
-					CanhGiua(30,a.data[0]->LayLoai().length());
-					cout << a.data[0]->LayLoai();
-					CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
-					cout << a.data[0]->LaySoCho();
+					CanhGiua(10,a.data[line-1]->LaySoHieu().length());
+					cout << a.data[line-1]->LaySoHieu();
+					CanhGiua(30,a.data[line-1]->LayLoai().length());
+					cout << a.data[line-1]->LayLoai();
+					CanhGiua(50,DoDaiSoDuong(a.data[line-1]->LaySoCho()));
+					cout << a.data[line-1]->LaySoCho();
 					line++;
 					//======================== CAP NHAT TRANG ===================
 					if (line%10 == 0)
@@ -871,12 +871,12 @@ int XoaMayBay(ListMayBay &a)
 								}
 							}
 						}
-						CanhGiua(10,a.data[0]->LaySoHieu().length());
-						cout << a.data[0]->LaySoHieu();
-						CanhGiua(30,a.data[0]->LayLoai().length());
-						cout << a.data[0]->LayLoai();
-						CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
-						cout << a.data[0]->LaySoCho();
+						CanhGiua(10,a.data[line-1]->LaySoHieu().length());
+						cout << a.data[line-1]->LaySoHieu();
+						CanhGiua(30,a.data[line-1]->LayLoai().length());
+						cout << a.data[line-1]->LayLoai();
+						CanhGiua(50,DoDaiSoDuong(a.data[line-1]->LaySoCho()));
+						cout << a.data[line-1]->LaySoCho();
 				}
 			}
 			x = getch();
@@ -1125,8 +1125,10 @@ int ChinhSuaMayBay(ListMayBay &a)
 								gotoxy(7,wherey());
 								cout << "       ";
 								gotoxy(10,wherey());
-								dodaichuoi = 0;
-								MangPhu[line/3].DatSoHieu("");
+								CanhGiua(10,MangPhu[line/3].LaySoHieu().length());
+								cout << MangPhu[line/3].LaySoHieu();
+							//	dodaichuoi = 0;
+							//	MangPhu[line/3].DatSoHieu("");
 								HienConTro();
 							}
 							else
