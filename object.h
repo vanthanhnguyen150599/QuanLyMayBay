@@ -635,11 +635,26 @@ int ThemMayBay(ListMayBay &a)
 	}
 	cout << endl << endl; */
 	{
+		if ((a.n) % 10 == 0)
+		{
+			KhungMayBay();
+		}
+		else
+		{
+			InDanhSachMayBay(a,(a.n)/30+1);
+		}
 		a.n++;
 		a.data[a.n - 1] = CreateData(); // Tao vung nho moi cho con tro vua them vao
-		InDanhSachMayBay(a,(a.n+1)/30+1);
 	//	KhungMayBay();
-		int x = a.n%10;
+		int x;
+		if (a.n%10 == 0)
+		{
+			x = 10;
+		}
+		else
+		{
+			x = a.n%10;
+		}
 	/*	for (int i = 1; i < x; i++) // Tru data vua them vao
 		{
 			gotoxy(10,2*i+1);
@@ -668,38 +683,251 @@ int ThemMayBay(ListMayBay &a)
 //====================================XOA MAY MAY KHOI DANH SACH============================
 int XoaMayBay(ListMayBay &a)
 {
-	ChangeColor(8);
+	ChangeColor(15);
+	char docngoai = 186;
+	char doctrong = 179;
 	char kytu; // Dung de lay so thoi =))
 	if (DanhSachRong(a)) return 0;
-	int x;
-	cout << "Chon vi tri muon xoa: ";
-	x = LaySo(0,0,kytu);
-	while  (x < 1 || x > a.n)
+	InDanhSachMayBay(a,1);
+	int line = 1;
+	int trang;
+	if (line%10 == 0)
 	{
-		system("cls");
-		cout << "Vi tri khong hop le, xin vui long thu lai " << endl;
-		cout << "Chon vi tri muon xoa: ";
-		x = LaySo(0,0,kytu);
-	} 
-	if (x == a.n) // xoa cuoi
-	{
-		delete a.data[a.n - 1];
-		a.n--;
-		return 1;
+		trang = line/10;
 	}
-	if (x == 1 && a.n == 1) // Xoa phan tu cuoi cung
+	else
 	{
-		delete a.data[x-1];
-		a.n--;
-		return 1;
-	} 
-	for (int i = x - 1 ; i < a.n - 1; i++) // xoa giua
+		trang = line/10 + 1;
+	}
+	//================ HIGHLIGHT DONG XOA ================
+	ChangeColor(240);
+	gotoxy(0,2*(line%10) + 1);
+	for (int i = 1; i <= 60; i++)
 	{
-		a.data[i] = a.data[i+1];
-		delete a.data[a.n - 1];
-		a.n--;
-		return 1;
-	} 
+		if (i == 1 || i == 60)
+		{
+			cout << docngoai;
+		}
+		else
+		{
+			if (i%20 == 0)
+			{
+				cout << doctrong;
+			}
+			else
+			{
+				cout << " ";
+			}
+		}
+	}
+	CanhGiua(10,a.data[0]->LaySoHieu().length());
+	cout << a.data[0]->LaySoHieu();
+	CanhGiua(30,a.data[0]->LayLoai().length());
+	cout << a.data[0]->LayLoai();
+	CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
+	cout << a.data[0]->LaySoCho();
+	char x = getch();
+	bool kytu1;
+	if (x == -32 || x == 0)
+	{
+		kytu1 = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu1 = 1;
+	}
+	while (1)
+	{
+		while (x != 27 && x != 13)
+		{
+			if (x == 72 && !kytu) // Up
+			{
+				if (line != 1)
+				{
+					ChangeColor(15);
+					gotoxy(0,2*(line%10) + 1);
+					for (int i = 1; i <= 60; i++)
+					{
+						if (i == 1 || i == 60)
+						{
+							cout << docngoai;
+						}
+						else
+						{
+							if (i%20 == 0)
+							{
+								cout << doctrong;
+							}
+							else
+							{
+								cout << " ";
+							}
+						}
+					}
+					CanhGiua(10,a.data[0]->LaySoHieu().length());
+					cout << a.data[0]->LaySoHieu();
+					CanhGiua(30,a.data[0]->LayLoai().length());
+					cout << a.data[0]->LayLoai();
+					CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
+					cout << a.data[0]->LaySoCho();
+					line--;
+					//======================== CAP NHAT TRANG ===================
+					if (line%10 == 0)
+					{
+						trang = line/10;
+					}
+					else
+					{
+						trang = line/10 + 1;
+					}
+					// ================= HIGH LIGHT ==========================
+						ChangeColor(240);
+						gotoxy(0,2*(line%10) + 1);
+						for (int i = 1; i <= 60; i++)
+						{
+							if (i == 1 || i == 60)
+							{
+								cout << docngoai;
+							}
+							else
+							{
+								if (i%20 == 0)
+								{
+									cout << doctrong;
+								}
+								else
+								{
+									cout << " ";
+								}
+							}
+						}
+						CanhGiua(10,a.data[0]->LaySoHieu().length());
+						cout << a.data[0]->LaySoHieu();
+						CanhGiua(30,a.data[0]->LayLoai().length());
+						cout << a.data[0]->LayLoai();
+						CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
+						cout << a.data[0]->LaySoCho();
+				}
+			}
+			if (x == 80 && !kytu) // Down
+			{
+				if (line != a.n)
+				{
+					ChangeColor(15);
+					gotoxy(0,2*(line%10) + 1);
+					for (int i = 1; i <= 60; i++)
+					{
+						if (i == 1 || i == 60)
+						{
+							cout << docngoai;
+						}
+						else
+						{
+							if (i%20 == 0)
+							{
+								cout << doctrong;
+							}
+							else
+							{
+								cout << " ";
+							}
+						}
+					}
+					CanhGiua(10,a.data[0]->LaySoHieu().length());
+					cout << a.data[0]->LaySoHieu();
+					CanhGiua(30,a.data[0]->LayLoai().length());
+					cout << a.data[0]->LayLoai();
+					CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
+					cout << a.data[0]->LaySoCho();
+					line++;
+					//======================== CAP NHAT TRANG ===================
+					if (line%10 == 0)
+					{
+						trang = line/10;
+					}
+					else
+					{
+						trang = line/10 + 1;
+					}
+					// ================= HIGH LIGHT ==========================
+						ChangeColor(240);
+						gotoxy(0,2*(line%10) + 1);
+						for (int i = 1; i <= 60; i++)
+						{
+							if (i == 1 || i == 60)
+							{
+								cout << docngoai;
+							}
+							else
+							{
+								if (i%20 == 0)
+								{
+									cout << doctrong;
+								}
+								else
+								{
+									cout << " ";
+								}
+							}
+						}
+						CanhGiua(10,a.data[0]->LaySoHieu().length());
+						cout << a.data[0]->LaySoHieu();
+						CanhGiua(30,a.data[0]->LayLoai().length());
+						cout << a.data[0]->LayLoai();
+						CanhGiua(50,DoDaiSoDuong(a.data[0]->LaySoCho()));
+						cout << a.data[0]->LaySoCho();
+				}
+			}
+			x = getch();
+			if (x == -32 || x == 0)
+			{
+				kytu1 = 0;
+				x = getch();
+			}
+			else
+			{
+				kytu1 = 1;
+			}
+		}
+		if (x == 27) // Esc
+		{
+			return 0;
+		}
+		if (x == 13) // Enter
+		{
+			AnConTro();
+			gotoxy(0,25);
+			ChangeColor(15);
+			cout << "Ban co chac muon xoa dong da chon? Nhan phim 'Y' de xoa, hoac nhan bat ky phim nao de huy";
+			x = getch();
+			if (x == -32 || x == 0)
+			{
+				kytu1 = 0;
+				x = getch();
+			}
+			else
+			{
+				kytu1 = 1;
+			}
+			if (kytu1 && InHoa(x) == 89)
+			{
+				delete a.data[line-1]; // Thu hoi vung nho
+				for (int i = line - 1; i < a.n - 1; i++)
+				{
+					a.data[i] = a.data[i+1];
+				}
+				a.n--;
+				return 1;
+			}
+			else
+			{
+				gotoxy(0,25);
+				cout << "                                                                                         ";
+			}
+		}
+	}
+//	return 1;
 }
 //=================================== CHINH SUA MAY BAY =======================================
 int ChinhSuaMayBay(ListMayBay &a)
