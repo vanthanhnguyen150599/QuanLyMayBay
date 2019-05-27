@@ -261,12 +261,24 @@ bool DanhSachDay(ListMayBay &a)
 	return 1;
 	return 0;
 }
-//============================= KIEM TRA TRUNG SO HIEU MAY BAY ==============================
+// ============================ KIEM TRA TRUNG SO HIEU KHI NHAP ===============================
 bool KiemTraSoHieu(ListMayBay a, string SoHieu)
 {
 	for (int i = 0; i < a.n; i++)
 	{
 		if (a.data[i]->LaySoHieu() == SoHieu)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+//============================= KIEM TRA TRUNG SO HIEU MAY BAY KHI SUA ==============================
+bool KiemTraSoHieuKhiSua(MayBay Mang[], string SoHieu, int soluong, int vitri)
+{
+	for (int i = 0; i < soluong; i++)
+	{
+		if (Mang[i].LaySoHieu() == SoHieu && i != vitri)
 		{
 			return 1;
 		}
@@ -871,7 +883,7 @@ int ChinhSuaMayBay(ListMayBay &a)
 					{
 						if (MangPhu[line/3].LaySoHieu() != "")
 						{
-							if (KiemTraSoHieu(a,MangPhu[line/3].LaySoHieu())) // Trung So Hieu
+							if (KiemTraSoHieuKhiSua(MangPhu,MangPhu[line/3].LaySoHieu(),a.n,line/3)) // Trung So Hieu
 							{
 								AnConTro();
 								gotoxy(4,wherey());
