@@ -180,8 +180,13 @@ int main()
 				system("cls");
 				cout << "Xoa thanh cong!!!" << endl;
 				//	cout << maybay.n;
+				gotoxy(0,30);
 				system("pause");
-			}
+//				system("pause");
+			} 
+			//XoaMayBay(maybay);
+			
+//			ChangeColor(15);
 		}
 		if (a == 3)
 		{
@@ -216,7 +221,7 @@ int main()
 				}
 				if (x == 77 && !kytu) // Right
 				{
-					if (maybay.n % 30 != 0)
+					if (maybay.n % 10 != 0)
 					{
 						if (trang < maybay.n/30 + 1)
 						{
@@ -225,7 +230,7 @@ int main()
 					}
 					else
 					{
-						if (trang < maybay.n/30)
+						if (trang < maybay.n/10)
 						{
 							trang++;
 						}
