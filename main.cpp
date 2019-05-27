@@ -265,5 +265,5 @@ int main()
 //	cout << endl << a;
 //	NodeKhachHang *q = khachhang.root;
 //	cout << q->right->HanhKhach.CMND;
-	cout << MainMenu();
+//	cout << MainMenu();
 }	
