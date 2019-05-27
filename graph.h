@@ -120,17 +120,17 @@ int MainMenu()
 {
 	string *Menu = new string[12];
 	Menu[0] = ""; // bien tam
-	Menu[1] = "THEM MAY BAY";
-	Menu[2] = "XOA MAY BAY";
-	Menu[3] = "HIEU CHINH MAY BAY";
-	Menu[4] = "LAP CHUYEN BAY MOI";
-	Menu[5] = "HIEU CHINH CHUYEN BAY";
-	Menu[6] = "HUY CHUYEN BAY";
-	Menu[7] = "DAT VE";
-	Menu[8] = "HUY VE";
-	Menu[9] = "IN DANH SACH HANH KHACH THUOC CHUYEN BAY";
-	Menu[10] = "IN DANH SACH GHE CON TRONG CUA CHUYEN BAY";
-	Menu[11] = "THONG KE LUOT THUC HIEN";
+	Menu[1] = "1.THEM MAY BAY";
+	Menu[2] = "2.XOA MAY BAY";
+	Menu[3] = "3.HIEU CHINH MAY BAY";
+	Menu[4] = "4.LAP CHUYEN BAY MOI";
+	Menu[5] = "5.HIEU CHINH CHUYEN BAY";
+	Menu[6] = "6.HUY CHUYEN BAY";
+	Menu[7] = "7.DAT VE";
+	Menu[8] = "8.HUY VE";
+	Menu[9] = "9.IN DANH SACH HANH KHACH THUOC CHUYEN BAY";
+	Menu[10] = "10.IN DANH SACH GHE CON TRONG CUA CHUYEN BAY";
+	Menu[11] = "11.THONG KE LUOT THUC HIEN";
 	AnConTro();
 	for (int i = 1; i <= 11; i++)
 	{
@@ -146,7 +146,7 @@ int MainMenu()
 		if (i == 6)
 		{
 			ChangeColor(15);
-			cout << ">>";
+			cout << ">> ";
 			for(int j = 3; j <= i -1; j++)
 			{
 				cout << "  ";
@@ -207,7 +207,7 @@ int MainMenu()
 					ChangeColor(15);
 					cout << "                                                         ";
 					gotoxy(0,wherey());
-					cout << ">>";
+					cout << ">> ";
 					for(int j = 3; j <= i -1; j++)
 					{
 						cout << "  ";
@@ -259,7 +259,7 @@ int MainMenu()
 					ChangeColor(15);
 					cout << "                                                         ";
 					gotoxy(0,wherey());
-					cout << ">>";
+					cout << ">> ";
 					for(int j = 3; j <= i -1; j++)
 					{
 						cout << "  ";
