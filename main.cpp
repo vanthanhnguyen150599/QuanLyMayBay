@@ -149,107 +149,143 @@ int main()
 	while (a != 0) // Nguoi dung an Esc
 	{
 		ChangeColor(15);
-		if (a == 1)
+		switch(a)
 		{
-			system("cls");
-			if (!ThemMayBay(maybay))
-			{
-				system("cls");
-				cout << "Danh sach day khong the them" << endl;
-				system("pause");
-			}
-			else
-			{
-				system("cls");
-				cout << "Them thanh cong!!!" << endl;
-				system("pause");
-				
-			}
-		}
-		if (a == 2)
-		{
-			system("cls");
-			if (!XoaMayBay(maybay))
-			{
-				system("cls");
-				cout << "Danh sach day khong the xoa" << endl;
-				system("pause");
-			}
-			else
-			{
-				system("cls");
-				cout << "Xoa thanh cong!!!" << endl;
-				//	cout << maybay.n;
-				gotoxy(0,30);
-				system("pause");
-//				system("pause");
-			} 
-			//XoaMayBay(maybay);
-			
-//			ChangeColor(15);
-		}
-		if (a == 3)
-		{
-			ChinhSuaMayBay(maybay);
-			//system("pause");
-		}
-		if (a == 4)
-		{
-			system("cls");
-			int trang = 1;
-			InDanhSachMayBay(maybay,trang);
-			bool kytu;
-			char x;
-			x = getch();
-			if (x == -32 || x == 0)
-			{
-				kytu = 0;
-				x = getch();
-			}
-			else
-			{
-				kytu = 1;
-			}
-			while (x != 27) // Chua nhan Esc
-			{
-				if (x == 75 && !kytu) // Left
+			case 1: // Them may bay
 				{
-					if (trang > 1)
+					system("cls");
+					if (!ThemMayBay(maybay))
 					{
-						trang--;
-					}
-				}
-				if (x == 77 && !kytu) // Right
-				{
-					if (maybay.n % 10 != 0)
-					{
-						if (trang < maybay.n/30 + 1)
-						{
-							trang++;
-						}
+						system("cls");
+						cout << "Danh sach day khong the them" << endl;
+						system("pause");
 					}
 					else
 					{
-						if (trang < maybay.n/10)
+						system("cls");
+						cout << "Them thanh cong!!!" << endl;
+						system("pause");
+						
+					}
+					break;
+				}
+			case 2: // Xoa may bay
+				{
+					system("cls");
+					if (!XoaMayBay(maybay))
+					{
+						system("cls");
+						cout << "Danh sach day khong the xoa" << endl;
+						system("pause");
+					}
+					else
+					{
+						system("cls");
+						cout << "Xoa thanh cong!!!" << endl;
+						//	cout << maybay.n;
+						gotoxy(0,30);
+						ChangeColor(15);
+						system("pause");
+		//				system("pause");
+					}	
+					break;
+				}
+			case 3: // Chinh sua may bay
+				{
+					ChinhSuaMayBay(maybay);
+					break;
+				}
+			case 4:
+				{
+					ThemChuyenBay(chuyenbay,maybay);
+					break;
+				}
+			case 5:
+				{
+					break;
+				}
+			case 6:
+				{
+					break;
+				}
+			case 7:
+				{
+					break;
+				}
+			case 8:
+				{
+					break;
+				}
+			case 9:
+				{
+					break;
+				}
+			case 10: // In danh sach chuyen bay
+				{
+					InDanhSachChuyenBay(chuyenbay,1);
+					cout << endl;
+					system("pause");
+					break;
+				}
+			case 11:  // In danh sach may bay
+				{
+					system("cls");
+					int trang = 1;
+					InDanhSachMayBay(maybay,trang);
+					bool kytu;
+					char x;
+					x = getch();
+					if (x == -32 || x == 0)
+					{
+						kytu = 0;
+						x = getch();
+					}
+					else
+					{
+						kytu = 1;
+					}
+					while (x != 27) // Chua nhan Esc
+					{
+						if (x == 75 && !kytu) // Left
 						{
-							trang++;
+							if (trang > 1)
+							{
+								trang--;
+							}
+						}
+						if (x == 77 && !kytu) // Right
+						{
+							if (maybay.n % 10 != 0)
+							{
+								if (trang < maybay.n/30 + 1)
+								{
+									trang++;
+								}
+							}
+							else
+							{
+								if (trang < maybay.n/10)
+								{
+									trang++;
+								}
+							}
+						}
+						gotoxy(0,0);
+						InDanhSachMayBay(maybay,trang);
+						x = getch();
+						AnConTro();
+						if (x == -32 || x == 0)
+						{
+							kytu = 0;
+							x = getch();
+						}
+						else
+						{
+							kytu = 1;
 						}
 					}
+					break;
 				}
-				gotoxy(0,0);
-				InDanhSachMayBay(maybay,trang);
-				x = getch();
-				AnConTro();
-				if (x == -32 || x == 0)
-				{
-					kytu = 0;
-					x = getch();
-				}
-				else
-				{
-					kytu = 1;
-				}
-			}
 		}
 		system("cls");
 		a = MainMenu();
@@ -261,14 +297,7 @@ int main()
 		gotoxy(105,1);
 		InThoiGian();
 	} */
-//	InKhungGhe(60);
-//	gotoxy(60,120);
-//	cout << chuyenbay.Head->chuyenbay.LayMaChuyen();
-//	InDanhSachChuyenBay(chuyenbay,1);
-//	VeKhung();
-//	int a = LaySo();
-//	cout << endl << a;
-//	NodeKhachHang *q = khachhang.root;
-//	cout << q->right->HanhKhach.CMND;
-//	cout << MainMenu();
+//	CuaSoChuyenBay();
+//	ThemChuyenBay(chuyenbay,maybay);
+	gotoxy(0,30);
 }	
