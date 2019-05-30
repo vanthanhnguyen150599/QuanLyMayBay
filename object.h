@@ -1567,10 +1567,14 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 		CanhGiua(158,dodaichuoi);
 		cout << MaChuyenBay;
 	}
+	bool kt = 0; // Kiem tra ngat
+	bool luu = 0;
 	while (1)
 	{
-		while (x != 27) // Khong phai la Esc
+		luu = 0;
+		while (x != 27 && !luu ) // Khong phai la Esc
 		{
+			kt = 0;
 			if (x == 75 && !kytu) // left
 			{
 				if (line > 1)
@@ -1580,7 +1584,7 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 			}
 			if (x == 77 && !kytu) // right
 			{
-				if (line < 9)
+				if (line < 10)
 				{
 					line++;
 				}
@@ -1598,8 +1602,6 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 					}
 				case 2: // dd
 					{
-						gotoxy(175,30);
-					//	cout << DaysOfMounth(mm,yy);
 						AnConTro();
 						gotoxy(140,8);
 						cout << "  ";
@@ -1616,6 +1618,23 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						for (int i = 0; i < max; i++) // Khoi tao
 						{
 							Ngay[i] = i+1;
+						}
+						// Lay du lieu cu
+						if (dd != 0)
+						{
+							if (dd > DaysOfMounth(mm,yy))
+							{
+								dd = DaysOfMounth(mm,yy);
+							}
+							while (Ngay[0] != dd)
+							{
+								int temp = Ngay[max-1];
+								for (int i = max-1; i >= 1; i--)
+								{
+									Ngay[i] = Ngay[i-1];
+								}
+								Ngay[0] = temp;
+							}
 						}
 						// HIGH LIGHT
 						gotoxy(175,10);
@@ -1667,11 +1686,17 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						{
 							if(s == 75 && !kytu1)// Left
 							{
+								x = 75;
+								kytu = 0;
+								kt = 1;
 								dd = Ngay[0];
 								break;
 							}
 							if(s == 77 && !kytu1)// Right
 							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
 								dd = Ngay[0];
 								break;
 							}
@@ -1738,6 +1763,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 							}
 							HienConTro();
 						}
+						AnConTro();
+						gotoxy(171,8);
+						cout << "   ";
+						gotoxy(wherex(), wherey()-1);
+						ClearKhungPopUp();
 						break;
 					}
 				case 3: // mm
@@ -1756,17 +1786,30 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						for (int i = 0; i < 12; i++)
 						{
 							Thang[i] = i+1;
-							if (i <= 9)
+						}
+						// Lay du lieu cu
+						if (mm != 0)
+						{
+							while (Thang[0] != mm)
 							{
-								gotoxy(175,10+i);
-								if (Thang[i] <= 9)
+								int temp = Thang[11];
+								for (int i = 11; i >= 1; i-- )
 								{
-									cout << "  0" << Thang[i] << "  ";
+									Thang[i] = Thang[i - 1];
 								}
-								else
-								{
-									cout << "  " << Thang[i] << "  ";
-								}
+								Thang[0] = temp;
+							}
+						}
+						for (int i = 0; i < 10; i++)
+						{
+							gotoxy(175,10+i);
+							if (Thang[i] <= 9)
+							{
+								cout << "  0" << Thang[i] << "  ";
+							}
+							else
+							{
+								cout << "  " << Thang[i] << "  ";
 							}
 						}
 						// Highlight
@@ -1803,17 +1846,37 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						{
 							kytu1 = 1;
 						}
-						while (s != 27 && s != 13) // Khong phai Enter or Esc
+						while (s != 27) // Khong phai Esc
 						{
 							AnConTro();
 							if (s == 75 && !kytu1) // Left
 							{
 								mm = Thang[0];
+								if (dd > DaysOfMounth(mm,yy))
+								{
+									dd = DaysOfMounth(mm,yy);
+									gotoxy(140,8);
+									cout << dd;
+								//	HienConTro();
+								}
+								x = 75; 
+								kytu = 0;
+								kt = 1;
 								break;
 							}
 							if (s == 77 && !kytu1) // Right
 							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
 								mm = Thang[0];
+								if (dd > DaysOfMounth(mm,yy))
+								{
+									dd = DaysOfMounth(mm,yy);
+									gotoxy(140,8);
+									cout << dd;
+								//	HienConTro();
+								}
 								break;
 							}
 							if (s == 72 && !kytu1) // Up
@@ -1880,11 +1943,17 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 							}
 						}
 						// Ket thuc
+						AnConTro();
+						gotoxy(171,8);
+						cout << "   ";
+						gotoxy(wherex(), wherey()-1);
+						ClearKhungPopUp();
 						break;
 					}
 				case 4: // yy
 					{
 						AnConTro();
+						int so;
 						gotoxy(158,8);
 						cout << "    ";
 						gotoxy(171,wherey());
@@ -1902,13 +1971,28 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 							cout << " " << Nam[i] << " ";
 						}
 						// HIGH LIGHT
-						gotoxy(175,10);
-						ChangeColor(240);
-						cout << " " << Nam[0] << " ";
-						ChangeColor(15);
-						gotoxy(158,8);
-						cout << Nam[0];
-						HienConTro();
+						if (yy != 0)
+						{
+							gotoxy(175,10 + (yy-2018));
+							ChangeColor(240);
+							cout << " " << yy << " ";
+							ChangeColor(15);
+							gotoxy(158,8);
+							cout << yy;
+							so = yy - 2018;
+							HienConTro();
+						}
+						else
+						{
+							gotoxy(175,10);
+							ChangeColor(240);
+							cout << " " << Nam[0] << " ";
+							ChangeColor(15);
+							gotoxy(158,8);
+							cout << Nam[0];
+							so = 0;
+							HienConTro();
+						}
 						char s = getch();
 						bool kytu1;
 						if (s == -32 || s == 0)
@@ -1920,20 +2004,39 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						{
 							kytu1 = 1;
 						}
-						int so = 0;
 						while (s != 27 && s != 13) // Khac Esc or Enter
 						{
 							AnConTro();
 							if (s == 75 && !kytu1) // Left
 							{
 								// Khong o thao tac nay
+								x = 75;
+								kytu = 0;
+								kt = 1;
 								yy = Nam[so];
+								if (dd > DaysOfMounth(mm,yy))
+								{
+									dd = DaysOfMounth(mm,yy);
+									gotoxy(140,8);
+									cout << dd;
+								//	HienConTro();
+								}
 								break;
 							}
 							if (s == 77 && !kytu1) // Right
 							{
 								// Khong con o thao tac nay
+								x = 77; 
+								kytu = 0;
+								kt = 1;
 								yy = Nam[so];
+								if (dd > DaysOfMounth(mm,yy))
+								{
+									dd = DaysOfMounth(mm,yy);
+									gotoxy(140,8);
+									cout << dd;
+								//	HienConTro();
+								}
 								break;
 							} 
 							if (s == 72 && !kytu1) // Up
@@ -1985,6 +2088,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 							yy = Nam[so];
 						}
 						// Ket thuc 
+						AnConTro();
+						gotoxy(171,8);
+						cout << "   ";
+						gotoxy(wherex(), wherey()-1);
+						ClearKhungPopUp();
 						break;
 					}
 				case 5: //gio
@@ -1992,8 +2100,161 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						AnConTro();
 						gotoxy(145,12);
 						cout << "  ";
+						gotoxy(171,12);
+						cout << "-> ";
+						gotoxy(wherex(), wherey()-1);
+						KhungPopUp();
+						gotoxy(0,12);
+						CanhGiua(178,4);
+						cout << "HOUR";
+						int Gio[24];
+						for (int i = 0; i < 24; i++)
+						{
+							Gio[i] = i;
+						}
+						// Lay gio cu
+						while (Gio[0] != gio)
+						{
+							int temp = Gio[0];
+							for (int i = 0; i <= 22; i++)
+							{
+								Gio[i] = Gio[i+1];
+							}
+							Gio[23] = temp;
+						}
+						for (int i = 0; i < 10; i++)
+						{
+							AnConTro();
+							gotoxy(175,14+i);
+							if (Gio[i] <= 9)
+							{
+								cout << "  0" << Gio[i] << "  ";
+							}
+							else
+							{
+								cout << "  " << Gio[i] << "  ";
+							}
+						}
+						// Highlight
+						gotoxy(175,14);
+						ChangeColor(240);
+						if (Gio[0] <= 9)
+						{
+							cout << "  0" << Gio[0] << "  ";
+						}
+						else
+						{
+							cout << "  " << Gio[0] << "  ";
+						}
+						ChangeColor(15);
 						gotoxy(145,12);
+						if (Gio[0] <= 9)
+						{
+							cout << "0" << Gio[0];
+						}
+						else
+						{
+							cout << Gio[0];
+						}
 						HienConTro();
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						while (s != 27)
+						{
+							if (s == 75 && !kytu) // Left
+							{
+								x = 75;
+								kytu = 0;
+								kt = 1;
+								gio = Gio[0];
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
+								gio = Gio[0];
+								break;
+							} 
+							if (s == 72 && !kytu1) // Up
+							{
+								int temp = Gio[23];
+								for (int i = 23; i >= 1; i--)
+								{
+									Gio[i] = Gio[i-1];
+								}
+								Gio[0] = temp;
+							}
+							if (s == 80 && !kytu1) // Down
+							{
+								int temp = Gio[0];
+								for (int i = 0; i <= 22; i++)
+								{
+									Gio[i] = Gio[i+1];
+								}
+								Gio[23] = temp;
+							}
+							for (int i = 0; i < 10; i++)
+							{
+								AnConTro();
+								gotoxy(175,14+i);
+								if (Gio[i] <= 9)
+								{
+									cout << "  0" << Gio[i] << "  ";
+								}
+								else
+								{
+									cout << "  " << Gio[i] << "  ";
+								}
+							}
+							// Highlight
+							gotoxy(175,14);
+							ChangeColor(240);
+							if (Gio[0] <= 9)
+							{
+								cout << "  0" << Gio[0] << "  ";
+							}
+							else
+							{
+								cout << "  " << Gio[0] << "  ";
+							}
+							ChangeColor(15);
+							gotoxy(145,12);
+							if(Gio[0] <= 9)
+							{
+								cout << "0" << Gio[0];
+							}
+							else
+							{
+								cout << Gio[0];
+							}
+							HienConTro();
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
+						// Ket thuc
+						gotoxy(171,12);
+						cout << "   ";
+						gotoxy(wherex(),wherey()-1);
+						ClearKhungPopUp();
 						break;
 					}
 				case 6: // min
@@ -2001,8 +2262,163 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						AnConTro();
 						gotoxy(154,12);
 						cout << "  ";
+						gotoxy(171,12);
+						cout << "-> ";
+						gotoxy(wherex(), wherey()-1);
+						KhungPopUp();
+						gotoxy(0,12);
+						CanhGiua(178,3);
+						cout << "MIN";
 						gotoxy(154,12);
+						int Phut[24];
+						for (int i = 0; i < 60; i++)
+						{
+							Phut[i] = i;
+						}
+						// Lay phut cu
+						while (Phut[0] != phut)
+						{
+							int temp = Phut[0];
+							for (int i = 0; i <= 58; i++)
+							{
+								Phut[i] = Phut[i+1];
+							}
+							Phut[59] = temp;
+						}
+						for (int i = 0; i < 10; i++)
+						{
+							AnConTro();
+							gotoxy(175,14+i);
+							if (Phut[i] <= 9)
+							{
+								cout << "  0" << Phut[i] << "  ";
+							}
+							else
+							{
+								cout << "  " << Phut[i] << "  ";
+							}
+						}
+						// Highlight
+						gotoxy(175,14);
+						ChangeColor(240);
+						if (Phut[0] <= 9)
+						{
+							cout << "  0" << Phut[0] << "  ";
+						}
+						else
+						{
+							cout << "  " << Phut[0] << "  ";
+						}
+						ChangeColor(15);
+						gotoxy(154,12);
+						if (Phut[0] <= 9)
+						{
+							cout << "0" << Phut[0];
+						}
+						else
+						{
+							cout << Phut[0];
+						}
 						HienConTro();
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						while (s != 27)
+						{
+							if (s == 75 && !kytu) // Left
+							{
+								x = 75;
+								kytu = 0;
+								kt = 1;
+								phut = Phut[0];
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
+								phut = Phut[0];
+								break;
+							} 
+							if (s == 72 && !kytu1) // Up
+							{
+								int temp = Phut[59];
+								for (int i = 59; i >= 1; i--)
+								{
+									Phut[i] = Phut[i-1];
+								}
+								Phut[0] = temp;
+							}
+							if (s == 80 && !kytu1) // Down
+							{
+								int temp = Phut[0];
+								for (int i = 0; i <= 58; i++)
+								{
+									Phut[i] = Phut[i+1];
+								}
+								Phut[59] = temp;
+							}
+							for (int i = 0; i < 10; i++)
+							{
+								AnConTro();
+								gotoxy(175,14+i);
+								if (Phut[i] <= 9)
+								{
+									cout << "  0" << Phut[i] << "  ";
+								}
+								else
+								{
+									cout << "  " << Phut[i] << "  ";
+								}
+							}
+							// Highlight
+							gotoxy(175,14);
+							ChangeColor(240);
+							if (Phut[0] <= 9)
+							{
+								cout << "  0" << Phut[0] << "  ";
+							}
+							else
+							{
+								cout << "  " << Phut[0] << "  ";
+							}
+							ChangeColor(15);
+							gotoxy(154,12);
+							if(Phut[0] <= 9)
+							{
+								cout << "0" << Phut[0];
+							}
+							else
+							{
+								cout << Phut[0];
+							}
+							HienConTro();
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
+						// Ket thuc
+						gotoxy(171,12);
+						cout << "   ";
+						gotoxy(wherex(),wherey()-1);
+						ClearKhungPopUp();
+						
 						break;
 					}
 				case 7: // Den
@@ -2033,17 +2449,63 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						HienConTro();
 						break;
 					}
+				case 10: // LUU
+					{
+						AnConTro();
+						gotoxy(147,30);
+						ChangeColor(240);
+						cout << "  LUU  ";
+						ChangeColor(15);
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu = 1;
+						}
+						if (s == 13) // Enter
+						{
+							luu = 1; // Xac nhan luu
+						}
+						else
+						{
+							if (s == 75 && !kytu1) // Left
+							{
+								gotoxy(147,30);
+								ChangeColor(15);
+								cout << "  LUU  ";
+								x = 75;
+								kytu = 0;
+								kt = 1;
+								
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
+							}
+						}
+						break;
+					}
 			}
 		//	HienConTro();
-			x = getch();
-			if (x == -32 || x == 0)
+			if (!kt)
 			{
-				kytu = 0;
 				x = getch();
-			}
-			else
-			{
-				kytu = 1;
+				if (x == -32 || x == 0)
+				{
+					kytu = 0;
+					x = getch();
+				}
+				else
+				{
+					kytu = 1;
+				}
 			}
 		}
 	}
