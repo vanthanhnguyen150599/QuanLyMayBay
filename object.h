@@ -20,7 +20,6 @@ struct KhachHang
 	string Name = "";
 	int GioiTinh; // 1 la nam, 0 la nu	
 };
-//=================================
 //=================================== NHAP THONG TIN KHACH HANG ==================================
 void NhapThongTinKhachHang(KhachHang &HanhKhach)
 {
@@ -892,7 +891,7 @@ int XoaMayBay(ListMayBay &a)
 		}
 		if (x == 27) // Esc
 		{
-			return 0;
+			return -1;
 		}
 		if (x == 13) // Enter
 		{
@@ -1516,48 +1515,535 @@ CacChuyenBay *NewChuyenBay()
 	return p;
 }
 //===================================NHAP DU LIEU CHUYEN BAY===================================
-int NhapDuLieuChuyenBay(ChuyenBay &a, MayBay b)
+int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 {
-	char x; // Nhan phim
-	int kytu; // Kiem tra ky tu
-	string MaChuyen;
-	Ticket *Ve;
-	Day Ngay;
-	Time Gio; 
-	int TrangThai;
-	cout << "Nhap Ma chuyen bay ";
-	cin >> MaChuyen;
+//	CacChuyenBay *p = new CacChuyenBay;
+	string MaChuyenBay = "";
+	int dd = 0;
+	int mm = 0;
+	int yy = 0;
+	int gio = 0;
+	int phut = 0;
+	string den = "";
+	int trangthai;
+	string MaMayBay = "";
+	int dodaichuoi = MaChuyenBay.length();
+	gotoxy (130,0);
+	CuaSoChuyenBay();
+	int line = 1;
+	gotoxy(158,2); // Ma chuyen bay
+	HienConTro();
+	char x = getch();
+	bool kytu;
+	if (x == -32 || x == 0)
 	{
-		cout << "Nhap Ma may bay thuc hien chuyen bay ";
+		kytu = 0;
 		x = getch();
-		if (x == -32 || x == 0)
+	}
+	else
+	{
+		kytu = 1;
+	}
+	// ================= NHAN PHIM TU VONG NGOAI ================
+	if (x == 8 && kytu) // backspace
+	{
+		if (dodaichuoi == 0) // Chuoi rong
 		{
-			kytu = 0;
-			x = getch();
-		}
-		else
-		{
-			kytu = 1;
-		}
-		if (x == 8) // Backspace
-		{
-			int hoanhdo = wherex();
-			int tungdo = wherey();
+			AnConTro();
+			gotoxy(158-6,wherey());
 			cout << "Khong the xoa";
 			Sleep(500);
-			gotoxy(hoanhdo,tungdo);
-			cout << "                  ";
-			gotoxy(hoanhdo,tungdo);
+			gotoxy(158-6,wherey());
+			cout << "             ";
+			gotoxy(158,2);
+			HienConTro();
 		}
-		while (x != 27 && x != 13)
+	}
+	if (((x >= 65 && x <= 90) || (x >= 97 && x <= 122)) && kytu) // la chu nha
+	{
+		x = InHoa(x);
+		MaChuyenBay = MaChuyenBay + x;
+		dodaichuoi++;
+		CanhGiua(158,dodaichuoi);
+		cout << MaChuyenBay;
+	}
+	while (1)
+	{
+		while (x != 27) // Khong phai la Esc
 		{
-			if ((x >= 97 && x <= 122)  &&  kytu) // tu a den z
+			if (x == 75 && !kytu) // left
 			{
-				x = InHoa(x);
+				if (line > 1)
+				{
+					line--;
+				}
 			}
-			if  (((x >= 48 && x <= 57)||(x >= 65 && x >= 90)) && kytu) // Chu cai
+			if (x == 77 && !kytu) // right
 			{
-				// Chon ma neu co hoac them moi
+				if (line < 9)
+				{
+					line++;
+				}
+			}
+			switch (line)
+			{
+				case 1: // Ma Chuyen bay
+					{
+						AnConTro();
+						gotoxy(0,2);
+						CanhGiua(158, MaChuyenBay.length());
+						cout << MaChuyenBay;
+						HienConTro();
+						break;
+					}
+				case 2: // dd
+					{
+						gotoxy(175,30);
+					//	cout << DaysOfMounth(mm,yy);
+						AnConTro();
+						gotoxy(140,8);
+						cout << "  ";
+						gotoxy(171, wherey());
+						cout << "->";
+						gotoxy(wherex() +1, wherey()-1);
+						KhungPopUp();
+						gotoxy(0,8);
+						CanhGiua(178,2);
+						cout << "DD";
+						//===== MENU NGAY ==========
+						int max = DaysOfMounth(mm,yy);
+						int *Ngay = new int[max];
+						for (int i = 0; i < max; i++) // Khoi tao
+						{
+							Ngay[i] = i+1;
+						}
+						// HIGH LIGHT
+						gotoxy(175,10);
+						ChangeColor(240);
+						if (Ngay[0] <= 9)
+						{
+							cout << "  0" << Ngay[0] << "  ";
+						}
+						else
+						{
+							cout << "  " << Ngay[0] << "  ";
+						}
+						ChangeColor(15);
+						for (int i = 1; i <= 9; i++) // In ngay
+						{
+							gotoxy(177,10+i);
+							if (Ngay[i] <= 9)
+							{
+								cout << "0" << Ngay[i];
+							}
+							else
+							{
+								cout << Ngay[i];
+							}
+						}
+						gotoxy(140,8);
+						if (Ngay[0] <= 9)
+						{
+							cout << "0" << Ngay[0];
+						}
+						else
+						{
+							cout << Ngay[0];
+						}
+						HienConTro();
+						// ============== CHON NGAY ============
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						while (s != 27)
+						{
+							if(s == 75 && !kytu1)// Left
+							{
+								dd = Ngay[0];
+								break;
+							}
+							if(s == 77 && !kytu1)// Right
+							{
+								dd = Ngay[0];
+								break;
+							}
+							if (s == 72 && !kytu1) // Up
+							{
+								int temp = Ngay[max-1];
+								for (int i = max-1; i >= 1; i--)
+								{
+									Ngay[i] = Ngay[i-1];
+								}
+								Ngay[0] = temp;
+							}
+							if (s == 80 && !kytu1) // Down
+							{
+								int temp = Ngay[0];
+								for (int i = 0; i <= max-2; i++)
+								{
+									Ngay[i] =  Ngay[i+1];
+								}
+								Ngay[max-1] = temp;
+							}
+							for (int i = 0; i <= 9; i++) // In Ngay
+							{
+								gotoxy(175,10+i);
+								if (Ngay[i] <= 9)
+								{
+									cout << "  0" << Ngay[i] << "  "; 
+								}
+								else
+								{
+									cout << "  " << Ngay[i] << "  ";
+								}
+							}
+							// Highlight
+							ChangeColor(240);
+							gotoxy(175,10);
+							if (Ngay[0] <= 9 )
+							{
+								cout << "  0" << Ngay[0] << "  ";
+							}
+							else
+							{
+								cout << "  " << Ngay[0] << "  ";
+							}
+							ChangeColor(15);
+							gotoxy(140,8);
+							if (Ngay[0] <= 9)
+							{
+								cout << "0" << Ngay[0];
+							}
+							else
+							{
+								cout << Ngay[0];
+							}
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+							HienConTro();
+						}
+						break;
+					}
+				case 3: // mm
+					{
+						AnConTro();
+						gotoxy(149,8);
+						cout << "  ";
+						gotoxy(171,wherey());
+						cout << "-> ";
+						gotoxy(wherex(), wherey()-1);
+						KhungPopUp();
+						gotoxy(0,8);
+						CanhGiua(178,2);
+						cout << "MM";
+						int Thang[12];
+						for (int i = 0; i < 12; i++)
+						{
+							Thang[i] = i+1;
+							if (i <= 9)
+							{
+								gotoxy(175,10+i);
+								if (Thang[i] <= 9)
+								{
+									cout << "  0" << Thang[i] << "  ";
+								}
+								else
+								{
+									cout << "  " << Thang[i] << "  ";
+								}
+							}
+						}
+						// Highlight
+						gotoxy(175,10);
+						ChangeColor(240);
+						gotoxy(175,10);
+						if (Thang[0] <= 9)
+						{
+							cout << "  0" << Thang[0] << "  ";
+						}
+						else
+						{
+							cout << "  " << Thang[0] << "  ";
+						}
+						ChangeColor(15);
+						gotoxy(149,8);
+						if (Thang[0] <= 9)
+						{
+							cout << "0" << Thang[0];
+						}
+						else
+						{
+							cout << Thang[0];
+						}
+						HienConTro();
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						while (s != 27 && s != 13) // Khong phai Enter or Esc
+						{
+							AnConTro();
+							if (s == 75 && !kytu1) // Left
+							{
+								mm = Thang[0];
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								mm = Thang[0];
+								break;
+							}
+							if (s == 72 && !kytu1) // Up
+							{
+								int temp = Thang[11];
+								for (int i = 11; i >= 1; i-- )
+								{
+									Thang[i] = Thang[i - 1];
+								}
+								Thang[0] = temp;
+							}
+							if (s == 80 && !kytu1) // Down
+							{
+								int temp = Thang[0];
+								for (int i = 0; i < 11; i++)
+								{
+									Thang[i] = Thang[i + 1];
+								}
+								Thang[11] = temp;
+							}
+							for (int i = 0; i <= 9; i++) // In thang
+							{
+								gotoxy(175,10+i);
+								if (Thang[i] <= 9)
+								{
+									cout << "  0" << Thang[i] << "  ";
+								}
+								else
+								{
+									cout << "  " << Thang[i] << "  ";
+								}
+							}
+							// Highlight
+							gotoxy(175,10);
+							ChangeColor(240);
+							if  (Thang[0] <= 9)
+							{
+								cout << "  0" << Thang[0] << "  ";
+							}
+							else
+							{
+								cout << "  " << Thang[0] << "  ";
+							}
+							ChangeColor(15);
+							gotoxy(148,8);
+							if (Thang[0] <= 9)
+							{
+								cout << " 0" << Thang[0];
+							}
+							else
+							{
+								cout << " " << Thang[0];
+							}
+							HienConTro();
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
+						// Ket thuc
+						break;
+					}
+				case 4: // yy
+					{
+						AnConTro();
+						gotoxy(158,8);
+						cout << "    ";
+						gotoxy(171,wherey());
+						cout << "-> ";
+						gotoxy(wherex(),wherey()-1);
+						KhungPopUp();
+						gotoxy(0,8);
+						CanhGiua(178,4);
+						cout << "YYYY";
+						int Nam[4];
+						for (int i = 0; i < 4; i++)
+						{
+							Nam[i] = i + 2018;
+							gotoxy(175,i+10);
+							cout << " " << Nam[i] << " ";
+						}
+						// HIGH LIGHT
+						gotoxy(175,10);
+						ChangeColor(240);
+						cout << " " << Nam[0] << " ";
+						ChangeColor(15);
+						gotoxy(158,8);
+						cout << Nam[0];
+						HienConTro();
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						int so = 0;
+						while (s != 27 && s != 13) // Khac Esc or Enter
+						{
+							AnConTro();
+							if (s == 75 && !kytu1) // Left
+							{
+								// Khong o thao tac nay
+								yy = Nam[so];
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								// Khong con o thao tac nay
+								yy = Nam[so];
+								break;
+							} 
+							if (s == 72 && !kytu1) // Up
+							{
+								if (so > 0)
+								{
+									so--;
+								}
+							}
+							if (s == 80 && !kytu1)
+							{
+								if (so < 3)
+								{
+									so++;
+								}
+							}
+							// In ds nam
+							for (int i = 0; i < 4; i++)
+							{
+								gotoxy(175,i+10);
+								cout << " " << Nam[i] << " ";
+							}
+							// high light
+							gotoxy(175,so+10);
+							ChangeColor(240);
+							cout << " " << Nam[so] << " ";
+							ChangeColor(15);
+							gotoxy(158,8);
+							cout << Nam[so];
+							HienConTro();
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
+						if (s == 27)
+						{
+							x = 27;
+							break;
+						}
+						if (s == 13)
+						{
+							yy = Nam[so];
+						}
+						// Ket thuc 
+						break;
+					}
+				case 5: //gio
+					{
+						AnConTro();
+						gotoxy(145,12);
+						cout << "  ";
+						gotoxy(145,12);
+						HienConTro();
+						break;
+					}
+				case 6: // min
+					{
+						AnConTro();
+						gotoxy(154,12);
+						cout << "  ";
+						gotoxy(154,12);
+						HienConTro();
+						break;
+					}
+				case 7: // Den
+					{
+						AnConTro();
+						gotoxy(142,16);
+						cout << "                  ";
+						gotoxy(151,16);
+						HienConTro();
+						break;
+					}
+				case 8: // Trang thai
+					{
+						AnConTro();
+						gotoxy(149,20);
+						cout << "           ";
+					//	Sleep(1000);
+						CanhGiua(154,9);
+						cout << "Huy Chuyen";
+					//	gotoxy(154,20);
+						HienConTro();
+						break;
+					}
+				case 9: // Ma May Bay
+					{
+						AnConTro();
+						gotoxy(156,24);
+						HienConTro();
+						break;
+					}
+			}
+		//	HienConTro();
+			x = getch();
+			if (x == -32 || x == 0)
+			{
+				kytu = 0;
+				x = getch();
+			}
+			else
+			{
+				kytu = 1;
 			}
 		}
 	}
@@ -1580,7 +2066,8 @@ void CapNhatTrangThaiChuyenBay(ListChuyenBay a)
 void InDanhSachChuyenBay (ListChuyenBay a, int trang)
 {
 	AnConTro();
-	ChangeColor(8);
+	gotoxy(0,0);
+	ChangeColor(15);
 	int i = 0;
 	KhungChuyenBay();
 	int maxtrang;
@@ -1724,5 +2211,23 @@ void InDanhSachChuyenBay (ListChuyenBay a, int trang)
 	}
 	gotoxy(56,25);
 	cout << "---" << trang << "/" << maxtrang << "---";
+}
+// ========================= THEM VAO DANH SACH CHUYEN BAY ==========================
+int ThemChuyenBay (ListChuyenBay &a, ListMayBay &b)
+{
+	// ======== IN CAC CHUYEN BAY TRUOC DO
+	if (a.SoLuong%10 == 0) 
+	{
+		KhungChuyenBay();
+		AnConTro();
+		gotoxy(0,3); // Di chuyen den dung line
+	}
+	else
+	{
+		InDanhSachChuyenBay(a,a.SoLuong/10 + 1);
+		AnConTro();
+		gotoxy(0,2*(a.SoLuong%10 + 1) + 1); // Di chuyen den dung line
+	}
+	NhapDuLieuChuyenBay(a,b);
 }
 #endif
