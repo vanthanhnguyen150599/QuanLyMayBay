@@ -3390,11 +3390,23 @@ CacChuyenBay *NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de 
 	Time Gio1;
 	Gio1.hour = gio;
 	Gio1.min = phut;
+	string temp = "";
+	for (int i = 0; i < den.length(); i++)
+	{
+		if (den[i] != 32)
+		{
+			temp = temp + den[i];
+		}
+		else
+		{
+			temp = temp + '0';
+		}
+	}
 	CacChuyenBay *p = new CacChuyenBay;
 	p->chuyenbay.DatMaChuyen(MaChuyenBay);
 	p->chuyenbay.DatNgay(Ngay);
 	p->chuyenbay.DatGio(Gio1);
-	p->chuyenbay.DatDiemDen(den);
+	p->chuyenbay.DatDiemDen(temp);
 	p->chuyenbay.DatTrangThai(trangthai);
 	p->chuyenbay.DatSoHieu(MaMayBay1);
 	for (int j = 0; j < b.n; j++) // Tim chuyen bay co SoHieu trung de copy du lieu
