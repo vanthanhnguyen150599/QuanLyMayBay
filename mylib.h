@@ -464,7 +464,7 @@ int SoSanhChuoiSo(string &a, string &b)
 	}
 	return 0;
 }
-// =========================== KIEM TRA THOI GIAN TRUOC HON 3 TIENG SO VOI HE THONG ==================================
+// =========================== KIEM TRA THOI GIAN SO VOI HE THONG ==================================
 bool KiemTraThoiGian(int hh, int min, int dd, int mm, int yy)
 {
 	time_t hientai = time(0);
@@ -493,7 +493,44 @@ bool KiemTraThoiGian(int hh, int min, int dd, int mm, int yy)
 	{
 		return 0;
 	}
-	if (hh * 60 + min >= 180 + thoigian->tm_hour*60 + thoigian->tm_min)
+	if (hh * 60 + min >= thoigian->tm_hour*60 + thoigian->tm_min)
+	{
+		return 1;
+	}
+	return 0;
+}
+// ==================== KIEM TRA THOI GIAN GIUA 2 KHOANG THOI GIAN CACH NHAU 3H ==============================
+bool KiemTraHaiKhoangThoiGian(int hh1, int min1, int dd1, int mm1, int yy1, int hh2, int min2, int dd2, int mm2, int yy2)
+{
+	if (yy1 > yy2)
+	{
+		return 1;
+	}
+	if (yy1 < yy2)
+	{
+		return 1;
+	}
+	if (mm1 > mm2)
+	{
+		return 1;
+	}
+	if (mm1 < mm2)
+	{
+		return 1;
+	}
+	if (dd1 > dd2)
+	{
+		return 1;
+	}
+	if (dd1 < dd2)
+	{
+		return 1;
+	}
+	if (hh1*60+min1 > hh2*60+min2 + 180)
+	{
+		return 1;
+	}
+	if (hh2*60+min2 > 180 + hh1*60+min1)
 	{
 		return 1;
 	}
