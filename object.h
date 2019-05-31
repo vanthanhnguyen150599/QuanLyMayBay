@@ -3329,6 +3329,11 @@ CacChuyenBay *NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de 
 								kt = 1;
 								
 							}
+							if (s == 27)
+							{
+								x = 27;
+								kt = 1;
+							}
 						}
 						break;
 					}
@@ -3390,6 +3395,7 @@ CacChuyenBay *NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de 
 	p->chuyenbay.DatNgay(Ngay);
 	p->chuyenbay.DatGio(Gio1);
 	p->chuyenbay.DatDiemDen(den);
+	p->chuyenbay.DatTrangThai(trangthai);
 	p->chuyenbay.DatSoHieu(MaMayBay1);
 	for (int j = 0; j < b.n; j++) // Tim chuyen bay co SoHieu trung de copy du lieu
 	{
@@ -3571,18 +3577,17 @@ void InDanhSachChuyenBay (ListChuyenBay a, int trang)
 // ========================= THEM VAO DANH SACH CHUYEN BAY ==========================
 int ThemChuyenBay (ListChuyenBay &a, ListMayBay &b)
 {
-	// ======== IN CAC CHUYEN BAY TRUOC DO
-	if (a.SoLuong%10 == 0) 
-	{
-		KhungChuyenBay();
-		AnConTro();
-		gotoxy(0,3); // Di chuyen den dung line
-	}
-	else
+	// ======== IN CAC CHUYEN BAY TRUOC DO========
+	if (a.SoLuong%10 != 0)
 	{
 		InDanhSachChuyenBay(a,a.SoLuong/10 + 1);
 		AnConTro();
-		gotoxy(0,2*(a.SoLuong%10 + 1) + 1); // Di chuyen den dung line
+//		gotoxy(0,2*(a.SoLuong%10 + 1) + 1); // Di chuyen den dung line
+	}
+	else
+	{
+		InDanhSachChuyenBay(a,a.SoLuong/10);
+		AnConTro();
 	}
 	CacChuyenBay *p = NhapDuLieuChuyenBay(a,b);
 	if (p == NULL)
@@ -3593,5 +3598,6 @@ int ThemChuyenBay (ListChuyenBay &a, ListMayBay &b)
 	p->next = NULL;
 	a.Tail = p;
 	a.SoLuong++;
+	return 1;
 }
 #endif
