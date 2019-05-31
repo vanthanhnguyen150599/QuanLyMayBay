@@ -1528,10 +1528,73 @@ bool KiemTraTrungMaChuyenBay(ListChuyenBay a, string MaChuyenBay)
 	}
 	return 0;
 }
+// ===================== SO LUONG MAY BAY KHA DUNG ====================================
+int SoLuongMayBayKhaDung(ListChuyenBay a, ListMayBay b, int  hh, int min, int dd , int mm , int yy)
+{
+	int SoLuong = 0;
+	for (int i = 0; i < b.n; i++)
+	{
+		CacChuyenBay *p = a.Head;
+		while (p != NULL)
+		{
+			if (p->chuyenbay.LaySoHieu() == b.data[i]->LaySoHieu())
+			{
+				int gio = p->chuyenbay.LayGio().hour;
+				int phut = p->chuyenbay.LayGio().min;
+				int ngay = p->chuyenbay.LayNgay().dd;
+				int thang = p->chuyenbay.LayNgay().mm;
+				int nam = p->chuyenbay.LayNgay().yy;
+				if(!KiemTraHaiKhoangThoiGian(hh,min,dd,mm,yy,gio,phut,ngay,thang,nam))
+				{
+					break;
+				}
+			}
+			p = p->next;
+		}
+		if (p == NULL)
+		{
+			SoLuong++;
+		}
+	}
+	return SoLuong;
+}
+// ================== LAY DANH SACH MA MAY BAY KHA DUNG ================================
+void DanhSachMaMayBayKhaDung(ListChuyenBay a, ListMayBay b, int hh, int min, int dd, int mm , int yy, string *p, int SoLuong)
+{
+//	p = new string[SoLuong];
+	int dem = 0;
+	for (int i = 0; i < b.n; i++)	
+	{
+		CacChuyenBay *q = a.Head;
+		while (q != NULL)
+		{
+			if (q->chuyenbay.LaySoHieu() == b.data[i]->LaySoHieu())
+			{
+				int gio = q->chuyenbay.LayGio().hour;
+				int phut = q->chuyenbay.LayGio().min;
+				int ngay = q->chuyenbay.LayNgay().dd;
+				int thang = q->chuyenbay.LayNgay().mm;
+				int nam = q->chuyenbay.LayNgay().yy;
+				if(!KiemTraHaiKhoangThoiGian(hh,min,dd,mm,yy,gio,phut,ngay,thang,nam))
+				{
+					break;
+				}
+			}
+			q = q->next;
+		}
+		if (q == NULL)
+		{
+			p[dem] = b.data[i]->LaySoHieu();
+			dem++;
+		}
+	}
+	
+}
 //===================================NHAP DU LIEU CHUYEN BAY===================================
-int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
+CacChuyenBay *NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 {
 //	CacChuyenBay *p = new CacChuyenBay;
+	int mamaybay = -1;
 	string MaChuyenBay = "";
 	int dd = 0;
 	int mm = 0;
@@ -1539,8 +1602,9 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 	int gio = 0;
 	int phut = 0;
 	string den = "";
-	int trangthai;
-	string MaMayBay = "";
+	int trangthai = -1;
+	string MaMayBay1 = "";
+	int SoLuongMayBay = -1;
 	int dodaichuoi = MaChuyenBay.length();
 	gotoxy (130,0);
 	CuaSoChuyenBay();
@@ -1560,7 +1624,8 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 	}
 	bool kt = 0; // Kiem tra ngat
 	bool luu = 0;
-	while (1)
+	int maxtrangthai = 4;
+	while (1 && !luu)
 	{
 		luu = 0;
 		while (x != 27 && !luu ) // Khong phai la Esc
@@ -1657,7 +1722,7 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 								HienConTro();
 							}
 						}
-						if (((x >= 90 && x <= 122) || (x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // a -> z, A -> Z, 0 -> 9
+						if (((x >= 95 && x <= 122) || (x >= 65 && x <= 90) || (x >= 48 && x <= 57)) && kytu) // a -> z, A -> Z, 0 -> 9
 						{
 							if (dodaichuoi < 15)
 							{
@@ -1683,6 +1748,7 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 								HienConTro();
 							}
 						}
+
 						break;
 					}
 				case 2: // dd
@@ -1853,6 +1919,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						cout << "   ";
 						gotoxy(wherex(), wherey()-1);
 						ClearKhungPopUp();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 3: // mm
@@ -2033,6 +2104,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						cout << "   ";
 						gotoxy(wherex(), wherey()-1);
 						ClearKhungPopUp();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 4: // yy
@@ -2163,21 +2239,17 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 								kytu1 = 1;
 							}
 						}
-						if (s == 27)
-						{
-							x = 27;
-							break;
-						}
-						if (s == 13)
-						{
-							yy = Nam[so];
-						}
 						// Ket thuc 
 						AnConTro();
 						gotoxy(171,8);
 						cout << "   ";
 						gotoxy(wherex(), wherey()-1);
 						ClearKhungPopUp();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 5: //gio
@@ -2340,6 +2412,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						cout << "   ";
 						gotoxy(wherex(),wherey()-1);
 						ClearKhungPopUp();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 6: // min
@@ -2504,6 +2581,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						gotoxy(wherex(),wherey()-1);
 						ClearKhungPopUp();
 						
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 7: // Den
@@ -2572,6 +2654,7 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						gotoxy(0,16);
 						CanhGiua(151,Den[0].length());
 						cout << Den[0];
+						HienConTro();
 						char s = getch();
 						bool kytu1;
 						if (s == -32 || s == 0)
@@ -2656,6 +2739,11 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						cout << "   ";
 						gotoxy(wherex(),wherey()-1);
 						ClearKhungPopUp2();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 8: // Trang thai
@@ -2663,18 +2751,547 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						AnConTro();
 						gotoxy(149,20);
 						cout << "           ";
-					//	Sleep(1000);
-						CanhGiua(154,9);
-						cout << "Huy Chuyen";
+						gotoxy(171,20);
+						cout << "-> ";
+						gotoxy(wherex(), wherey()-1);
+						KhungPopUp2();
+						gotoxy(0,20);
+						CanhGiua(185,10);
+						cout << "TRANG THAI";
+						string *TrangThai;
+						if (KiemTraThoiGian(gio,phut,dd,mm,yy)) // Check thoi gian
+						{
+							maxtrangthai = 4;
+							TrangThai = new string[4];
+							TrangThai[0] = "Huy Chuyen";
+							TrangThai[1] = "Con ve";
+							TrangThai[2] = "Het ve";
+							TrangThai[3] = "Hoan Tat";
+						}
+						else
+						{
+							maxtrangthai = 2;
+							TrangThai = new string[2];
+							TrangThai[0] = "Huy Chuyen";
+							TrangThai[1] = "Hoan Tat";
+						}
+						if (trangthai != -1)
+						{
+							if (maxtrangthai == 2)
+							{
+								if (trangthai == 1 || trangthai == 2) // Khong hop le trong truong hop nay
+								{
+									trangthai = 0; // Dua ve Huy chuyen
+								}
+							}
+						}
+						if (trangthai == -1)
+						{
+							trangthai = 0;
+						}
+						if (maxtrangthai == 4)
+						{
+							for (int i = 0; i < 4; i++)
+							{
+								gotoxy(175,22+i);
+								cout << "                    ";
+								CanhGiua(185,TrangThai[i].length());
+								cout << TrangThai[i];
+							}
+							// highlight
+							gotoxy(175,22+trangthai);
+							ChangeColor(240);
+							cout << "                    ";
+							CanhGiua(185,TrangThai[trangthai].length());
+							cout << TrangThai[trangthai];
+							ChangeColor(15);
+							gotoxy(149,20);
+							cout << "           ";
+							CanhGiua(155,TrangThai[trangthai].length());
+							cout << TrangThai[trangthai];
+							HienConTro();
+						}
+						else
+						{
+							for (int i = 0; i < 4; i++)
+							{
+								gotoxy(175,22+i);
+								cout << "                    ";
+								if (i == 0 || i == 1)
+								{
+									CanhGiua(185,TrangThai[i].length());
+									cout << TrangThai[i];
+								}
+							}
+							// highlight
+							if (trangthai == 0)
+							{
+								gotoxy(175,22);
+								ChangeColor(240);
+								cout << "                    ";
+								CanhGiua(185,9);
+								cout << "Huy Chuyen";
+								ChangeColor(15);
+								gotoxy(149,20);
+								cout << "           ";
+								CanhGiua(155,10);
+								cout << "Huy Chuyen";
+								HienConTro();
+							}
+							else
+							{
+								gotoxy(175,23);
+								ChangeColor(240);
+								cout << "                    ";
+								CanhGiua(185,8);
+								cout << "Hoan Tat";
+								ChangeColor(15);
+								gotoxy(149,20);
+								cout << "           ";
+								CanhGiua(155,8);
+								cout << " Hoan Tat";
+								HienConTro();
+							}
+						}
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu = 1;
+						}
+						int dong;
+						if (maxtrangthai == 4)
+						{
+							dong = trangthai;
+						}
+						else
+						{
+							if (trangthai == 0)
+							{
+								dong = 0;
+							}
+							else
+							{
+								dong = 1;
+							}
+						}
+						while (s != 27)
+						{
+							if (s == 75 && !kytu1) // Left
+							{
+								x = 75;
+								kytu = 0;
+								kt = 1;
+								if (maxtrangthai == 4)
+								{
+									trangthai = dong;
+								}
+								else
+								{
+									if (dong == 0)
+									{
+										trangthai = dong;
+									}
+									else
+									{
+										trangthai = 3;
+									}
+								}
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								x = 77;
+								kytu = 0;
+								kt = 1;
+								if (maxtrangthai == 4)
+								{
+									trangthai = dong;
+								}
+								else
+								{
+									if (dong == 0)
+									{
+										trangthai = dong;
+									}
+									else
+									{
+										trangthai = 3;
+									}
+								}
+								break;
+							}
+							if (s == 72 && !kytu1) // Up
+							{
+								if (dong > 0)
+								{
+									dong--;
+								}
+							}
+							if (s == 80 && !kytu1)
+							{
+								if (maxtrangthai == 4)
+								{
+									if (dong < 3)
+									{
+										dong++;
+									}
+								}
+								else
+								{
+									if (dong < 1)
+									{
+										dong++;
+									}
+								}
+							}
+							if(maxtrangthai == 4)
+							{
+								for (int i = 0; i < 4; i++)
+								{
+									AnConTro();
+									gotoxy(175,22+i);
+									cout << "                    ";
+									CanhGiua(185,TrangThai[i].length());
+									cout << TrangThai[i];
+									// highlight
+									gotoxy(175,22+dong);
+									ChangeColor(240);
+									cout << "                    ";  
+									CanhGiua(185,TrangThai[dong].length());
+									cout << TrangThai[dong];
+									// In Noi dung
+									ChangeColor(15);
+									gotoxy(149,20);
+									cout << "           ";
+									CanhGiua(155,TrangThai[dong].length());
+									cout << TrangThai[dong];
+									HienConTro();
+								}
+							}
+							else
+							{
+								for (int i = 0; i < 2; i++)
+								{
+									AnConTro();
+									gotoxy(175,22+i);
+									cout << "                    ";
+									if (i == 0)
+									{
+										CanhGiua(185,10);
+										cout << "Huy Chuyen";
+									}
+									else
+									{
+										CanhGiua(185,8);
+										cout << "Hoan Tat";
+									}
+								}
+								// highlight
+								gotoxy(175,22+dong);
+								ChangeColor(240);
+								cout << "                    ";
+								if (dong == 0)
+								{
+									CanhGiua(185,10);
+									cout << "Huy Chuyen";
+								}
+								else
+								{
+									CanhGiua(185,8);
+									cout << "Hoan Tat";
+								}
+								// In Noi dung
+								ChangeColor(15);
+								gotoxy(149,20);
+								cout << "           ";
+								if (dong == 0)
+								{
+									CanhGiua(155,10);
+									cout << "Huy Chuyen";
+									HienConTro();
+								}
+								else
+								{
+									CanhGiua(155,8);
+									cout << "Hoan Tat";
+									HienConTro();
+								}
+							}
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
 					//	gotoxy(154,20);
-						HienConTro();
+					//	gotoxy(154,20);
+						gotoxy(171,20);
+						cout << "   ";
+						gotoxy(wherex(),wherey()-1);
+						ClearKhungPopUp2();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 9: // Ma May Bay
 					{
 						AnConTro();
-						gotoxy(156,24);
-						HienConTro();
+						gotoxy(171,24);
+						cout << "-> ";
+						gotoxy(wherex(),wherey()-1);
+						KhungPopUp2();
+						gotoxy(0,24);
+						CanhGiua(185,10);
+						cout << "MA MAY BAY";
+						SoLuongMayBay = SoLuongMayBayKhaDung(a,b,gio,phut,dd,mm,yy);
+					//	gotoxy(175,30);
+					//	cout << SoLuongMayBay;
+						string *MaMayBay;
+						if (SoLuongMayBay == 0)
+						{
+							AnConTro();
+							gotoxy(147,24);
+							cout << "                  ";
+							gotoxy(147,24);
+							cout << "Khong co may bay";
+							Sleep(500);
+							gotoxy(147,24);
+							cout << "                ";
+							gotoxy(152,24);
+							cout << "kha dung";
+							Sleep(500);
+							gotoxy(152,24);
+							cout << "        ";
+							gotoxy(156,24);
+							HienConTro();
+							char s = getch();
+							bool kytu1;
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+							while (s != 75 && !kytu1) // Left
+							{
+								s = getch();
+								if (s == -32 || s == 0)
+								{
+									kytu1 = 0;
+									s = getch();
+								}
+								else
+								{
+									kytu1 = 1;
+								}
+							}
+							x = 75;
+							kytu = 0;
+							kt = 1;
+							gotoxy(171,24);
+							cout << "   ";
+							gotoxy(wherex(),wherey()-1);
+							ClearKhungPopUp2();
+							break;
+						}
+						MaMayBay = new string[SoLuongMayBay];
+						DanhSachMaMayBayKhaDung(a,b,gio,phut,dd,mm,yy,MaMayBay,SoLuongMayBay);
+					//	gotoxy(175,40);
+					//	cout << "Loi";
+						if (MaMayBay1.length() == 0)
+						{
+							MaMayBay1 = MaMayBay[0];
+						}
+						else
+						{
+							for ( int i = 0; i < SoLuongMayBay; i++)
+							{
+								string temp = MaMayBay[0];
+								for (int j = 0; j < SoLuongMayBay-1; j++)
+								{
+									MaMayBay[j] = MaMayBay[j+1];
+								}
+								MaMayBay[SoLuongMayBay-1] = temp;
+								if(MaMayBay[0] == MaMayBay1)
+								{
+									break;
+								}
+							}
+							MaMayBay1 = MaMayBay[0];
+						}
+						if (SoLuongMayBay < 10)
+						{
+							for (int i = 0; i < SoLuongMayBay; i++)
+							{
+								gotoxy(175,26+i);
+								cout << "                    ";
+								CanhGiua(185,MaMayBay[i].length());
+								cout << MaMayBay[i];
+							}
+							// Highlight
+							gotoxy(175,26);
+							ChangeColor(240);
+							cout << "                    ";
+							CanhGiua(185,MaMayBay[0].length());
+							cout << MaMayBay[0];
+							gotoxy(147,24);
+							ChangeColor(15);
+							cout << "                  ";
+							CanhGiua(156,MaMayBay[0].length());
+							cout << MaMayBay[0];
+							HienConTro();
+						}
+						else
+						{
+							for (int i = 0; i < 10; i++)
+							{
+								gotoxy(175,26+i);
+								cout << "                    ";
+								CanhGiua(185,MaMayBay[i].length());
+								cout << MaMayBay[i];
+							}
+							// Highlight
+							gotoxy(175,26);
+							ChangeColor(240);
+							cout << "                    ";
+							CanhGiua(185,MaMayBay[0].length());
+							cout << MaMayBay[0];
+							gotoxy(147,24);
+							ChangeColor(15);
+							cout << "                  ";
+							CanhGiua(156,MaMayBay[0].length());
+							cout << MaMayBay[0];
+							HienConTro();
+						}
+						char s = getch();
+						bool kytu1;
+						if (s == -32 || s == 0)
+						{
+							kytu1 = 0;
+							s = getch();
+						}
+						else
+						{
+							kytu1 = 1;
+						}
+						while (s != 27)
+						{
+							AnConTro();
+							if (s == 75 && !kytu1) // Left
+							{
+								MaMayBay1 = MaMayBay[0];
+								kytu = 0;
+								x = 75;
+								kt = 1;
+								break;
+							}
+							if (s == 77 && !kytu1) // Right
+							{
+								MaMayBay1 = MaMayBay[0];
+								kytu = 0;
+								x = 77;
+								kt = 1;
+								break;
+							}
+							if (s == 72 && !kytu1) // Up
+							{
+								string temp = MaMayBay[SoLuongMayBay - 1];
+								for (int i = SoLuongMayBay - 1; i >= 1; i--)
+								{
+									MaMayBay[i] = MaMayBay[i-1];
+								}
+								MaMayBay[0] = temp;
+							}
+								if (s == 80 && !kytu1) // Down
+							{
+								string temp = MaMayBay[0];
+								for (int i = 0; i < SoLuongMayBay - 1; i++)
+								{
+									MaMayBay[i] = MaMayBay[i+1];
+								}
+								MaMayBay[SoLuongMayBay-1] = temp;
+							}
+							if (SoLuongMayBay < 10)
+							{
+								for (int i = 0; i < SoLuongMayBay; i++)
+								{
+									gotoxy(175,26+i);
+									cout << "                    ";
+									CanhGiua(185,MaMayBay[i].length());
+									cout << MaMayBay[i];
+								}
+								// Highlight
+								gotoxy(175,26);
+								ChangeColor(240);
+								cout << "                    ";
+								CanhGiua(185,MaMayBay[0].length());
+								cout << MaMayBay[0];
+								gotoxy(147,24);
+								ChangeColor(15);
+								cout << "                  ";
+								CanhGiua(156,MaMayBay[0].length());
+								cout << MaMayBay[0];
+								HienConTro();
+							}
+							else
+							{
+								for (int i = 0; i < 10; i++)
+								{
+									gotoxy(175,26+i);
+									cout << "                    ";
+									CanhGiua(185,MaMayBay[i].length());
+									cout << MaMayBay[i];
+								}
+								// Highlight
+								gotoxy(175,26);
+								ChangeColor(240);
+								cout << "                    ";
+								CanhGiua(185,MaMayBay[0].length());
+								cout << MaMayBay[0];
+								gotoxy(147,24);
+								ChangeColor(15);
+								cout << "                  ";
+								CanhGiua(156,MaMayBay[0].length());
+								cout << MaMayBay[0];
+								HienConTro();
+							}
+							s = getch();
+							if (s == -32 || s == 0)
+							{
+								kytu1 = 0;
+								s = getch();
+							}
+							else
+							{
+								kytu1 = 1;
+							}
+						}
+						gotoxy(171,24);
+						cout << "   ";
+						gotoxy(wherex(),wherey()-1);
+						ClearKhungPopUp2();
+						if (s == 27)
+						{
+							x = 27;
+							kt = 1;
+						}
 						break;
 					}
 				case 10: // LUU
@@ -2698,6 +3315,7 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 						if (s == 13) // Enter
 						{
 							luu = 1; // Xac nhan luu
+							kt = 1;
 						}
 						else
 						{
@@ -2710,12 +3328,6 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 								kytu = 0;
 								kt = 1;
 								
-							}
-							if (s == 77 && !kytu1) // Right
-							{
-								x = 77;
-								kytu = 0;
-								kt = 1;
 							}
 						}
 						break;
@@ -2736,7 +3348,61 @@ int NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de tra
 				}
 			}
 		}
+		if (x == 27)
+		{
+			gotoxy(0,30);
+			cout << "Ban co muon thoat?" << endl;
+			cout << "Nhan Y de THOAT, hoac nhan bat ky phim nao de HUY";
+//			HienConTro();
+			char t = getch();
+			bool kytu1;
+			if (t == -32 || t == 0)
+			{
+				kytu1 = 0;
+				t = getch();
+			}
+			else
+			{
+				kytu1 = 1;
+			}
+			if (kytu1 == 1)
+			{
+				if (InHoa(t) == 89)
+				{
+					return NULL;
+				}
+			}
+			gotoxy(0,30);
+			cout << "                                             " << endl << "                                                     ";
+			x = 65;
+			kytu = 0;
+		}
 	}
+	Day Ngay;
+	Ngay.dd = dd;
+	Ngay.mm = mm;
+	Ngay.yy = yy;
+	Time Gio1;
+	Gio1.hour = gio;
+	Gio1.min = phut;
+	CacChuyenBay *p = new CacChuyenBay;
+	p->chuyenbay.DatMaChuyen(MaChuyenBay);
+	p->chuyenbay.DatNgay(Ngay);
+	p->chuyenbay.DatGio(Gio1);
+	p->chuyenbay.DatDiemDen(den);
+	p->chuyenbay.DatSoHieu(MaMayBay1);
+	for (int j = 0; j < b.n; j++) // Tim chuyen bay co SoHieu trung de copy du lieu
+	{
+		{
+			if (p->chuyenbay.LaySoHieu() == b.data[j]->LaySoHieu())
+			{
+				p->chuyenbay.DatLoai(b.data[j]->LayLoai());
+				p->chuyenbay.DatSoCho(b.data[j]->LaySoCho());
+				p->chuyenbay.TaoDanhSachVe();
+			}
+		}
+	}
+	return p;
 }
 // ============================== CAP NHAT TRANG THAI ===============================
 void CapNhatTrangThaiChuyenBay(ListChuyenBay a)
@@ -2918,6 +3584,14 @@ int ThemChuyenBay (ListChuyenBay &a, ListMayBay &b)
 		AnConTro();
 		gotoxy(0,2*(a.SoLuong%10 + 1) + 1); // Di chuyen den dung line
 	}
-	NhapDuLieuChuyenBay(a,b);
+	CacChuyenBay *p = NhapDuLieuChuyenBay(a,b);
+	if (p == NULL)
+	{
+		return 0;
+	}
+	a.Tail->next = p;
+	p->next = NULL;
+	a.Tail = p;
+	a.SoLuong++;
 }
 #endif
