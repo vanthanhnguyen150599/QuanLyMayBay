@@ -197,7 +197,11 @@ int main()
 				}
 			case 4:
 				{
-					ThemChuyenBay(chuyenbay,maybay);
+					int x = ThemChuyenBay(chuyenbay,maybay);
+					while (x != 0)
+					{
+						x = ThemChuyenBay(chuyenbay,maybay);
+					}
 					break;
 				}
 			case 5:
@@ -291,7 +295,7 @@ int main()
 		a = MainMenu();
 	} 
 /*	KhungChuyenBay();
-	while (1)
+	while (1)v
 	{
 		AnConTro();
 		gotoxy(105,1);
