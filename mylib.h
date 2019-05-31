@@ -464,4 +464,39 @@ int SoSanhChuoiSo(string &a, string &b)
 	}
 	return 0;
 }
+// =========================== KIEM TRA THOI GIAN TRUOC HON 3 TIENG SO VOI HE THONG ==================================
+bool KiemTraThoiGian(int hh, int min, int dd, int mm, int yy)
+{
+	time_t hientai = time(0);
+	tm *thoigian = localtime(&hientai);
+	if (yy > 1900 + thoigian->tm_year)
+	{
+		return 1;
+	}
+	if (yy < 1900 + thoigian->tm_year)
+	{
+		return 0;
+	}
+	if (mm > 1 + thoigian->tm_mon)
+	{
+		return 1;
+	}
+	if (mm < 1 + thoigian->tm_mon)
+	{
+		return 0;
+	}
+	if (dd > thoigian->tm_mday)
+	{
+		return 1;
+	}
+	if (dd < thoigian->tm_mday)
+	{
+		return 0;
+	}
+	if (hh * 60 + min >= 180 + thoigian->tm_hour*60 + thoigian->tm_min)
+	{
+		return 1;
+	}
+	return 0;
+}
 #endif
