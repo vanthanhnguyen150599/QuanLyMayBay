@@ -153,19 +153,23 @@ int main()
 		{
 			case 1: // Them may bay
 				{
-					system("cls");
-					if (!ThemMayBay(maybay))
+					int x = ThemMayBay(maybay);
+					while (x == 1 )
 					{
 						system("cls");
-						cout << "Danh sach day khong the them" << endl;
-						system("pause");
-					}
-					else
-					{
-						system("cls");
-						cout << "Them thanh cong!!!" << endl;
-						system("pause");
-						
+						if (!ThemMayBay(maybay))
+						{
+							system("cls");
+							cout << "Danh sach day khong the them" << endl;
+							system("pause");
+						}
+						else
+						{
+							system("cls");
+							cout << "Them thanh cong!!!" << endl;
+							system("pause");
+							
+						}
 					}
 					break;
 				}
@@ -192,7 +196,7 @@ int main()
 				}
 			case 3: // Chinh sua may bay
 				{
-					ChinhSuaMayBay(maybay);
+					ChinhSuaMayBay(maybay,chuyenbay);
 					break;
 				}
 			case 4:
@@ -206,7 +210,9 @@ int main()
 				}
 			case 5:
 				{
-					break;
+//					ChinhSuaChuyenBay(chuyenbay,maybay);
+//					system("pause");
+//					break;
 				}
 			case 6:
 				{
