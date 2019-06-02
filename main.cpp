@@ -182,16 +182,6 @@ int main()
 						cout << "Danh sach day khong the xoa" << endl;
 						system("pause");
 					}
-					else
-					{
-						system("cls");
-						cout << "Xoa thanh cong!!!" << endl;
-						//	cout << maybay.n;
-						gotoxy(0,30);
-						ChangeColor(15);
-						system("pause");
-		//				system("pause");
-					}	
 					break;
 				}
 			case 3: // Chinh sua may bay
@@ -210,9 +200,10 @@ int main()
 				}
 			case 5:
 				{
-//					ChinhSuaChuyenBay(chuyenbay,maybay);
-//					system("pause");
-//					break;
+					ChinhSuaChuyenBay(chuyenbay,maybay);
+				//	system("pause");
+					ChangeColor(15);
+					break;
 				}
 			case 6:
 				{
