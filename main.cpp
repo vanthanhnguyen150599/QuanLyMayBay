@@ -112,6 +112,8 @@ int main()
 						infile >> p->right->HanhKhach.Name;
 						infile >> p->right->HanhKhach.GioiTinh;
 						p->right->HanhKhach.CMND = CMND;
+						p->right->left = NULL;
+						p->right->right = NULL;
 						break;
 					}
 					else
@@ -127,6 +129,8 @@ int main()
 						infile >> p->left->HanhKhach.Name;
 						infile >> p->left->HanhKhach.GioiTinh;
 						p->left->HanhKhach.CMND = CMND;
+						p->left->left = NULL;
+						p->left->right = NULL;
 						break;
 					}
 					else
@@ -182,6 +186,7 @@ int main()
 						cout << "Danh sach day khong the xoa" << endl;
 						system("pause");
 					}
+					ChangeColor(15);
 					break;
 				}
 			case 3: // Chinh sua may bay
@@ -211,10 +216,31 @@ int main()
 				}
 			case 7:
 				{
+					system("cls");
+				//	gotoxy(3,20);
+				//	InKhungGhe(80);
+				//	InGheKhaDung(chuyenbay,chuyenbay.Head);
+				//	int b =ChonGhe(chuyenbay,chuyenbay.Head);
+				//	gotoxy(0,0);
+				//	cout << b;
+				//	gotoxy(0,0);
+				//	KhungDatVe();
+					DatVe(chuyenbay,khachhang);
+					ChangeColor(15);
+					gotoxy(0,30);
+					system("pause");
+				
+					
 					break;
 				}
 			case 8:
 				{
+					string name = "";
+					bool kytu;
+					char x;
+					NhapHoTen(name,x,kytu);
+					gotoxy(0,30);
+					cout << name;
 					break;
 				}
 			case 9:
