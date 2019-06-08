@@ -8,6 +8,14 @@
 #include<windows.h>
 #include<ctime>
 using namespace std;
+// ==================== FULL SCREEN ==========================
+void fullscreen()
+{
+	keybd_event(VK_MENU,0x38,0,0);
+	keybd_event(VK_RETURN,0x1c,0,0);
+	keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
+	keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
+}
 //=============================HAM GOTOXY==========================
 void gotoxy(int x, int y) // Di chuyen toa do con tro trong he toa do De-cat
 {
@@ -168,11 +176,17 @@ int LaySo(int giatri, bool DiChuyenDeThoat, char &a) // Kiem tra Di chuyen co th
 	}
 	return so;
 }
+// ===================== CANH GIUA ============================== // Tra ve vi tri giua de canh
+void CanhGiua(int vitrigiua, int dodai)
+{
+	int tungdo = wherey();
+	gotoxy(vitrigiua - dodai/2, tungdo);
+}
 //==================== LAY SO THEO STRING =======================================
-string LaySoCMND(string &x)
+int LaySoCMND(string &x,char &a, bool &kytu)
 {
 	int dodaichuoi = x.length();
-	char a = getch();
+/*	char a = getch();
 	bool kytu;
 	if (a == -32 || a == 0)
 	{
@@ -182,21 +196,29 @@ string LaySoCMND(string &x)
 	else
 	{
 		kytu = 1;
-	}
+	} */
+	cout << x;
+	HienConTro();
+//	a = 65;
+//	kytu = 1;
 	while (1)
 	{
-		while (a != 13) //Chua nhan Enter
+		while (!(a == 77 && !kytu) && a != 27) //Chua nhan Enter
 		{
 			if (a == 8) // Backspace 
 			{
 				if (dodaichuoi <= 0)
 				{
+					AnConTro();
+					char doc = 179;
 					int hoanhdo = wherex();
 					int tungdo = wherey();
 					cout << "Khong the xoa";
+					Sleep(500);
 					gotoxy(hoanhdo,tungdo);
-					cout << "            ";
+					cout << "          " << doc << "      ";
 					gotoxy(hoanhdo,tungdo);
+					HienConTro();
 				}
 				else
 				{
@@ -210,18 +232,19 @@ string LaySoCMND(string &x)
 					dodaichuoi--;
 				}
 			}
-			if ((a >= 48 && a <= 57) && kytu)
+			if ((a >= 48 && a <= 57) && kytu) // 0->9
 			{
-				if (dodaichuoi == 10)
+				if (dodaichuoi == 9)
 				{
 					int hoanhdo = wherex();
 					int tungdo = wherey();
-					gotoxy(hoanhdo - 10,tungdo);
-					cout << "Khong the co CMND 11 so";
+					gotoxy(hoanhdo - 9,tungdo);
+					cout << "Qua 9 ky tu";
 					Sleep(300);
-					gotoxy(hoanhdo - 10,tungdo);
-					cout << "                       ";
-					gotoxy(hoanhdo - 10,tungdo);
+					gotoxy(hoanhdo - 9,tungdo);
+					char doc = 179;
+					cout << "          " << doc;
+					gotoxy(hoanhdo - 9,tungdo);
 					cout << x;
 				}
 				else
@@ -231,6 +254,7 @@ string LaySoCMND(string &x)
 					dodaichuoi++;
 				}
 			}
+		//	cout << "trong";
 			a = getch();
 			if (a == -32 || a == 0)
 			{
@@ -241,21 +265,44 @@ string LaySoCMND(string &x)
 			{
 				kytu = 1;
 			}
+			
 		}
-		if (dodaichuoi < 10)
+		if (a == 27)
 		{
+			return 0;
+		}
+		if (dodaichuoi < 9)
+		{
+			AnConTro();
 			int hoanhdo = wherex();
 			int tungdo = wherey();
 			gotoxy(hoanhdo - dodaichuoi,tungdo);
-			cout << "So CMND chua du 10 so! Vui long nhap lai";
+			cout << "Du 9 ky tu";
 			Sleep(300);
 			gotoxy(hoanhdo - dodaichuoi, tungdo);
-			cout << "                                        ";
+			cout << "          ";
 			gotoxy(hoanhdo,tungdo);
+			HienConTro();
 		}
 		else
 		{
-			break;
+			return 1;
+		}
+	//		cout << "ngoai";
+		a = getch();
+	
+		if (a == -32 || a == 0)
+		{
+			kytu = 0;
+			a = getch();
+		}
+		else
+		{
+			kytu = 1;
+		}
+		if (a == 27)
+		{
+			return 0;
 		}
 	}
 }
@@ -269,10 +316,11 @@ char InHoa(char a)
 	return a;
 }
 //============================= NHAP HO VA TEN ============================
-void NhapHoTen(string &name)
+int NhapHoTen(string &name, char &x, bool &kytu)
 {
-	char x = getch();
-	bool kytu;
+	cout << name;
+	x = getch();
+//	bool kytu;
 	int dodaichuoi = name.length();
 	if (x == -32 || x == 0)
 	{
@@ -283,7 +331,9 @@ void NhapHoTen(string &name)
 	{
 		kytu = 1;
 	}
-	while (x != 13) // Chua nhan ENTER 
+	while (1)
+	{
+	while (!((x == 75 || x == 77) && !kytu) && x != 27) // Chua nhan ENTER 
 	{
 		if (x == 8) // Backspace
 		{
@@ -299,71 +349,41 @@ void NhapHoTen(string &name)
 			}
 			else
 			{
-				int hoanhdo = wherex();
-				int tungdo = wherey();
+				CanhGiua(35,33);
 				cout << "Khong the xoa";
 				Sleep(300);
-				gotoxy(hoanhdo, tungdo);
+				CanhGiua(35,13);
 				cout << "             ";
-				gotoxy(hoanhdo,tungdo);
+				gotoxy(35,wherey());
 			}
 		}
 		if (((x >= 97 && x <= 122) || (x >= 65 && x <= 90) || x == 32) && kytu)
 		{
-			if (dodaichuoi == 0 || name[dodaichuoi - 1] == 32)
+			if (x != 32)
 			{
-				if (dodaichuoi == 0) // Chua co ky tu nao
-				{
-					if (x != 32) // Khong phai la phim space
-					{
-						x = InHoa(x);
-						cout << x;
-						name = name + x;
-						dodaichuoi++;
-					}
-					else
-					{
-						// Khong can lam gi ca
-					}
-				}
-				else // Phia truoc la khoang trang
-				{
-					if (x != 32)
-					{
-						x = InHoa(x);
-						cout << x;
-						name = name + x;
-						dodaichuoi++;
-					}
-					else
-					{
-						// Khong can lam gi ca
-					}
-				}
+				AnConTro();
+				x = InHoa(x);
+				dodaichuoi++;
+				name = name + x;
+				gotoxy(19,32);
+				cout << "                                 ";
+				CanhGiua(35,name.length());
+				cout << name;
+				HienConTro();
 			}
-			if (name[dodaichuoi - 1] != 32) // Phia truoc khong phai la khoang trang
+			else
 			{
-				if (x == 32) // Phim space
+				if (name[name.length()-1] != 32)
 				{
+					AnConTro();
 					cout << x;
-					name = name + x;
 					dodaichuoi++;
-				}
-				else
-				{
-					if (x >= 97 && x <= 122) // chu thuong
-					{
-						cout << x;
-						name = name + x;
-						dodaichuoi++;
-					}
-					else // Chu in
-					{
-						x = x + 32;
-						cout << x;
-						name = name + x;
-						dodaichuoi++;
-					}
+					name = name + x;
+					gotoxy(19,32);
+					cout << "                                 ";
+					CanhGiua(35,name.length());
+					cout << name;
+					HienConTro();
 				}
 			}
 		}
@@ -378,12 +398,40 @@ void NhapHoTen(string &name)
 			kytu = 1;
 		}
 	}
-}
-// ===================== CANH GIUA ============================== // Tra ve vi tri giua de canh
-void CanhGiua(int vitrigiua, int dodai)
-{
-	int tungdo = wherey();
-	gotoxy(vitrigiua - dodai/2, tungdo);
+	if (name[name.length()-1] == 32 && name.length() > 0)
+	{
+		name.erase(name.length()-1,name.length());
+	}
+	if (dodaichuoi == 0 && x != 27)
+	{
+		AnConTro();
+		CanhGiua(35,34);
+		cout << "Khong bo trong";
+		Sleep(500);
+		CanhGiua(35,34);
+		cout << "              ";
+		gotoxy(35,wherey());
+		HienConTro();
+	}
+	else
+	{
+		if (x == 27)
+		{ 
+			return 0;
+		}
+		return 1;
+	}
+	x = getch();
+	if (x == -32 || x == 0)
+	{
+		kytu = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	}
 }
 // ========================= IN THOI GIAN HIEN TAI ===================
 void InThoiGian()
@@ -493,7 +541,7 @@ bool KiemTraThoiGian(int hh, int min, int dd, int mm, int yy)
 	{
 		return 0;
 	}
-	if (hh * 60 + min >= thoigian->tm_hour*60 + thoigian->tm_min)
+	if (hh * 60 + min >= (thoigian->tm_hour)*60 + thoigian->tm_min)
 	{
 		return 1;
 	}
