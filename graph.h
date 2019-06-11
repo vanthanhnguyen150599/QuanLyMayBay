@@ -125,7 +125,7 @@ int MainMenu()
 	Menu[3] = "3.HIEU CHINH MAY BAY";
 	Menu[4] = "4.LAP CHUYEN BAY MOI";
 	Menu[5] = "5.HIEU CHINH CHUYEN BAY";
-	Menu[6] = "6.HUY CHUYEN BAY";
+	Menu[6] = "6.THONG TIN DO AN";
 	Menu[7] = "7.DAT VE";
 	Menu[8] = "8.HUY VE";
 	Menu[9] = "9.IN DANH SACH HANH KHACH THUOC CHUYEN BAY";
@@ -2411,7 +2411,7 @@ void KhungDatVe()
 		}
 		gotoxy(wherex()-7,wherey()+1);
 	}
-	gotoxy(wherex()-24+21,wherey()+4); // NUT DAT VE
+	gotoxy(wherex()-24+21,wherey()+2); // NUT DAT VE
 	for (int i = 1; i <= 3; i++ )
 	{
 		for (int j = 1; j <= 10; j++)
@@ -2466,5 +2466,142 @@ void KhungDatVe()
 		gotoxy(wherex()-10,wherey()+1);
 	}
 }
-
+// =================== KHUNG HANH KHACH THUOC CHUYEN BAY ==================================
+void KhungHanhKhachThuocChuyenBay()
+{
+	int x = wherex();
+	int y = wherey();
+	char ngangngoai = 205;
+	char docngoai = 186;
+	char traitren = 201;
+	char phaitren = 187;
+	char traiduoi = 200;
+	char phaiduoi = 188;
+	char ngangtrong = 196;
+	char doctrong = 179;
+	char ngangxuong = 209;
+	char nganglen = 207;
+	char docphai = 199;
+	char doctrai = 182;
+	char ngatu = 197;
+	for (int i = 1; i <= 23; i++)
+	{
+		for (int j = 1; j <= 100; j++)
+		{
+			if (i == 1 || i == 23)
+			{
+				if (i == 1)
+				{
+					if (j == 1)
+					{
+						cout << traitren;
+					}
+					else
+					{
+						if (j == 100)
+						{
+							cout << phaitren;
+						}
+						else
+						{
+							if (j%20 == 0)
+							{
+								cout << ngangxuong;
+							}
+							else
+							{
+								cout << ngangngoai;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (j == 1)
+					{
+						cout << traiduoi;
+					}
+					else
+					{
+						if (j == 100)
+						{
+							cout << phaiduoi;
+						}
+						else
+						{
+							if (j%20 == 0)
+							{
+								cout << nganglen;
+							}
+							else
+							{
+								cout << ngangngoai;
+							}
+						}
+					}
+				}
+			}
+			else // khac dong dau va cuoi
+			{
+					if (i%2 == 1)
+					{
+						if (j == 1)
+						{
+							cout << docphai;
+						}
+						else
+						{
+							if (j == 100)
+							{
+								cout << doctrai;
+							}
+							else
+							{
+								if (j%20 == 0)
+								{
+									cout << ngatu;
+								}
+								else
+								{
+									cout << ngangtrong;
+								}
+							}
+						}
+					}
+					else // i%2 == 0
+					{
+						if (j == 1 || j % 20 == 0)
+						{
+							if (j == 1 || j == 100)
+							{
+								cout << docngoai;
+							}
+							else
+							{
+								cout << doctrong;
+							}
+						}
+						else
+						cout << " ";
+					}
+			}
+		}
+		gotoxy(wherex()-100,wherey()+1);
+	}
+	gotoxy(6,1+y);
+	CanhGiua(10+x,3);
+	cout << "STT";
+	gotoxy(24,1+y);
+	CanhGiua(30+x,5);
+	cout << "SO VE";
+	gotoxy(49,1+y);
+	CanhGiua(50+x,7);
+	cout << "SO CMND";
+	gotoxy(68,1+y);
+	CanhGiua(70+x, 6);
+	cout << "HO TEN";
+	gotoxy(85,1+y);
+	CanhGiua(90+x,4);
+	cout << "PHAI";
+}
 #endif
