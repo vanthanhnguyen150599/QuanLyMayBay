@@ -7,6 +7,7 @@
 using namespace std;
 int main()
 {
+	fullscreen();
 //=======================DOC DU LIEU CAC MAY BAY TU FILE=======================
 	ListMayBay maybay;
 	ifstream infile;
@@ -85,14 +86,15 @@ int main()
 // ========================= DOC DU LIEU HANG KHACH =================================
 	CayKhachHang khachhang;
 	infile.open("dskhachhang.txt");
-	infile >> khachhang.SoLuong;
-	for (int i = 1; i <= khachhang.SoLuong; i++)
+//	infile >> khachhang.SoLuong;
+	while (infile.eof() == 0)
 	{
 		if (khachhang.root == NULL)
 		{
 			khachhang.root = new NodeKhachHang;
 			infile >> khachhang.root->HanhKhach.CMND;
 			infile >> khachhang.root->HanhKhach.Name;
+		//	cout << khachhang.root->HanhKhach.Name << " ";
 			infile >> khachhang.root->HanhKhach.GioiTinh;
 		}
 		else
@@ -127,6 +129,7 @@ int main()
 					{
 						p->left = new NodeKhachHang;
 						infile >> p->left->HanhKhach.Name;
+					//	cout << p->left->HanhKhach.Name << " ";
 						infile >> p->left->HanhKhach.GioiTinh;
 						p->left->HanhKhach.CMND = CMND;
 						p->left->left = NULL;
@@ -142,6 +145,45 @@ int main()
 		}
 	} 
 	infile.close();
+// ==================== DOC DANH SACH VE ============================
+	infile.open("ve.txt");
+	CacChuyenBay *t = chuyenbay.Head;
+	while (t != NULL)
+	{
+		string thu;
+		infile >> thu;
+		if (thu == "-")
+		{
+			int soghe;
+			string duongdan;
+			infile >> soghe;
+			infile >> duongdan;
+			NodeKhachHang *kh = khachhang.root;
+			for (int i = 0; i < duongdan.length(); i++)
+			{
+				if (duongdan[i] == '0')
+				{
+					kh = kh->left;
+				}
+				else
+				{
+					if (duongdan[i] == '1')
+					{
+						kh = kh->right;
+					}
+					else
+					{
+						t->chuyenbay.LayDanhSachVe()[soghe-1].HanhKhach = kh;
+						break;
+					}
+				}
+			}
+		}
+		else
+		{
+			t = t->next;
+		}
+	}
 	
 //==============================DANG NHAP======================================
 //	VeKhung();
@@ -150,18 +192,20 @@ int main()
 //==================================MAIN MENU=====================================
 	int a;
 	a = MainMenu();
+	CapNhatTrangThaiChuyenBay(chuyenbay);
 	while (a != 0) // Nguoi dung an Esc
 	{
+		CapNhatTrangThaiChuyenBay(chuyenbay);
 		ChangeColor(15);
 		switch(a)
 		{
 			case 1: // Them may bay
 				{
 					int x = ThemMayBay(maybay);
-					while (x == 1 )
+					while (x != -1 )
 					{
 						system("cls");
-						if (!ThemMayBay(maybay))
+						if (x == 0 )
 						{
 							system("cls");
 							cout << "Danh sach day khong the them" << endl;
@@ -174,6 +218,7 @@ int main()
 							system("pause");
 							
 						}
+						x = ThemMayBay(maybay);
 					}
 					break;
 				}
@@ -227,36 +272,38 @@ int main()
 				//	KhungDatVe();
 					DatVe(chuyenbay,khachhang);
 					ChangeColor(15);
-					gotoxy(0,30);
-					system("pause");
+				//	gotoxy(0,30);
+				//	system("pause");
 				
 					
 					break;
 				}
 			case 8:
 				{
-					string name = "";
-					bool kytu;
-					char x;
-					NhapHoTen(name,x,kytu);
-					gotoxy(0,30);
-					cout << name;
+					HuyVe(chuyenbay,khachhang);
+				//	system("pause");
 					break;
 				}
 			case 9:
 				{
+					system("cls");
+					string MaChuyenBay = "";
+					while(InDanhSachHanhKhachThuocChuyenBay(chuyenbay,MaChuyenBay));
+				//	system("pause");
 					break;
 				}
 			case 10: // In danh sach chuyen bay
 				{
-					InDanhSachChuyenBay(chuyenbay,1);
-					cout << endl;
-					system("pause");
+					// Coming soon
+					system("cls");
+					string MaChuyenBay = "";
+					while (InGheConTrongChuyenBay(chuyenbay,MaChuyenBay) != 0);
+				//	system("pause");
 					break;
 				}
 			case 11:  // In danh sach may bay
 				{
-					system("cls");
+				/*	system("cls");
 					int trang = 1;
 					InDanhSachMayBay(maybay,trang);
 					bool kytu;
@@ -310,7 +357,9 @@ int main()
 						{
 							kytu = 1;
 						}
-					}
+					} */
+					system("cls");
+					SoLuotThucHien(chuyenbay,maybay);
 					break;
 				}
 		}
@@ -326,5 +375,67 @@ int main()
 	} */
 //	CuaSoChuyenBay();
 //	ThemChuyenBay(chuyenbay,maybay);
-	gotoxy(0,30);
+	
+	// ================== GHI FILE CHUYEN BAY ==========================
+	ofstream outfile;
+	outfile.open("dschuyenbay.txt");
+	CacChuyenBay *q;
+	outfile << chuyenbay.SoLuong << endl;
+	for (q = chuyenbay.Head; q->next != NULL; q = q->next)
+	{
+		outfile << q->chuyenbay.LayMaChuyen() << endl << q->chuyenbay.LaySoHieu() << endl <<  q->chuyenbay.LayDiemDen() << endl << q->chuyenbay.LayGio().hour << " " << q->chuyenbay.LayGio().min << " " << q->chuyenbay.LayNgay().dd << " " << q->chuyenbay.LayNgay().mm << " " << q->chuyenbay.LayNgay().yy << endl << q->chuyenbay.LayTrangThai() << endl;
+	}
+	outfile << q->chuyenbay.LayMaChuyen() << endl << q->chuyenbay.LaySoHieu() << endl <<  q->chuyenbay.LayDiemDen() << endl << q->chuyenbay.LayGio().hour << " " << q->chuyenbay.LayGio().min << " " << q->chuyenbay.LayNgay().dd << " " << q->chuyenbay.LayNgay().mm << " " << q->chuyenbay.LayNgay().yy << endl << q->chuyenbay.LayTrangThai();
+	outfile.close();
+	// ================= GHI FILE MAY BAY ====================
+	outfile.open("dsmaybay.txt");
+	outfile << maybay.n << endl;
+	for (int i = 0; i < maybay.n-1; i++)
+	{
+		outfile << maybay.data[i]->LaySoHieu() << endl << maybay.data[i]->LayLoai() << endl << maybay.data[i]->LaySoCho() << endl;
+	}
+	outfile << maybay.data[maybay.n-1]->LaySoHieu() << endl << maybay.data[maybay.n-1]->LayLoai() << endl << maybay.data[maybay.n-1]->LaySoCho();
+	outfile.close();
+	// ================ GHI DANH SACH VE ===================
+	outfile.open("ve.txt");
+	for (CacChuyenBay *h = chuyenbay.Head; h != NULL; h = h->next)
+	{
+		if (h != chuyenbay.Head)
+		{
+			outfile << "@" << endl;
+		}
+	//	outfile << h->chuyenbay.LayMaChuyen();
+		for (int i = 0; i < h->chuyenbay.LaySoCho(); i++)
+		{
+			if (h->chuyenbay.LayDanhSachVe()[i].HanhKhach != NULL)
+			{
+				string CMND = h->chuyenbay.LayDanhSachVe()[i].HanhKhach->HanhKhach.CMND;
+				string duongdan = "";
+				NodeKhachHang *k = khachhang.root;
+				while (k != NULL)
+				{
+					if (SoSanhCMND(k->HanhKhach.CMND,CMND) == 1)
+					{
+						k = k->left;
+						duongdan = duongdan + '0';
+					}
+					else
+					{
+						if (SoSanhCMND(k->HanhKhach.CMND,CMND) == -1)
+						{
+							k = k->right;
+							duongdan = duongdan + '1';
+						}
+						else
+						{
+							duongdan = duongdan + '2';
+							break;
+						}
+					}
+				}
+				outfile << "- " << i+1 << " " << duongdan << endl;
+			}
+		}
+	}
+	outfile << "@";
 }	
