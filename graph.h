@@ -116,8 +116,9 @@ void XoayXuong(string *Menu)
 	Menu[1] = Menu[0];  */
 }
 //============================MENU CHINH==============================
-int MainMenu()
+int MainMenu(int a)
 {
+	
 	string *Menu = new string[12];
 	Menu[0] = ""; // bien tam
 	Menu[1] = "1.THEM MAY BAY";
@@ -132,6 +133,15 @@ int MainMenu()
 	Menu[10] = "10.IN DANH SACH GHE CON TRONG CUA CHUYEN BAY";
 	Menu[11] = "11.THONG KE LUOT THUC HIEN";
 	AnConTro();
+	string tam = Menu[a];
+	for (int j = 0; j <= 11; j++)
+	{
+		if (Menu[6] == tam)
+		{
+			break;
+		}
+		XoayXuong(Menu);
+	}
 	for (int i = 1; i <= 11; i++)
 	{
 		if (i < 6)
@@ -163,7 +173,7 @@ int MainMenu()
 			cout << Menu[i] << endl << endl;
 		}
 	}
-	int i = 6;
+	int i = a;
 	char x = getch();
 	bool kytu;
 	if (x == -32 || x == 0)
