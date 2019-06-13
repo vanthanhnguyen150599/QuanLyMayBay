@@ -472,7 +472,15 @@ int NhapDuLieuMayBay(MayBay *a,ListMayBay list)
 				int tungdo = wherey();
 				gotoxy(0,30);
 				AnConTro();
-				cout << "Ban co muon THOAT?" << endl << "Nha Y de THOAT, hoac nhan BAT KY phim nao de HUY";
+				cout << "Ban co muon THOAT?";
+				cout  << endl << "Nhan Y de ";
+				ChangeColor(12);
+				cout << "THOAT";
+				ChangeColor(15);
+				cout << ", hoac nhan BAT KY phim nao de ";
+				ChangeColor(12);
+				cout << "HUY";
+				ChangeColor(15);
 				char s = getch();
 				bool kytu1;
 				if (s == -32 || s == 0)
@@ -629,7 +637,15 @@ int NhapDuLieuMayBay(MayBay *a,ListMayBay list)
 				int tungdo = wherey();
 				gotoxy(0,30);
 				AnConTro();
-				cout << "Ban co muon THOAT?" << endl << "Nha Y de THOAT, hoac nhan BAT KY phim nao de HUY";
+				cout << "Ban co muon THOAT?";
+				cout  << endl << "Nhan Y de ";
+				ChangeColor(12);
+				cout << "THOAT";
+				ChangeColor(15);
+				cout << ", hoac nhan BAT KY phim nao de ";
+				ChangeColor(12);
+				cout << "HUY";
+				ChangeColor(15);
 				char s = getch();
 				bool kytu1;
 				if (s == -32 || s == 0)
@@ -683,7 +699,15 @@ int NhapDuLieuMayBay(MayBay *a,ListMayBay list)
 			{
 				gotoxy(0,30);
 				AnConTro();
-				cout << "Ban co muon THOAT?" << endl << "Nha Y de THOAT, hoac nhan BAT KY phim nao de HUY";
+				cout << "Ban co muon THOAT?";
+				cout  << endl << "Nhan Y de ";
+				ChangeColor(12);
+				cout << "THOAT";
+				ChangeColor(15);
+				cout << ", hoac nhan BAT KY phim nao de ";
+				ChangeColor(12);
+				cout << "HUY";
+				ChangeColor(15);
 				char s = getch();
 				bool kytu1;
 				if (s == -32 || s == 0)
@@ -737,7 +761,15 @@ int NhapDuLieuMayBay(MayBay *a,ListMayBay list)
 			{
 				gotoxy(0,30);
 				AnConTro();
-				cout << "Ban co muon THOAT?" << endl << "Nha Y de THOAT, hoac nhan BAT KY phim nao de HUY";
+				cout << "Ban co muon THOAT?";
+				cout  << endl << "Nhan Y de ";
+				ChangeColor(12);
+				cout << "THOAT";
+				ChangeColor(15);
+				cout << ", hoac nhan BAT KY phim nao de ";
+				ChangeColor(12);
+				cout << "HUY";
+				ChangeColor(15);
 				char s = getch();
 				bool kytu1;
 				if (s == -32 || s == 0)
@@ -795,30 +827,30 @@ void InDanhSachMayBay(ListMayBay a, int trang)
 	}
 	if (trang < maxtrang)
 	{
-		for (int i = (trang - 1)*30; i < trang*30 - 1; i++)
+		for (int i = (trang - 1)*10; i < trang*10 - 1; i++)
 		{
-			gotoxy(8,2*(i+1)+1);
+			gotoxy(8,2*((i+1)%10)+1);
 			CanhGiua(10,a.data[i]->LaySoHieu().length());
 			cout << a.data[i]->LaySoHieu();
-			gotoxy(26,2*(i+1)+1);
+			gotoxy(26,2*((i+1)%10)+1);
 			CanhGiua(30,a.data[i]->LayLoai().length());
 			cout << a.data[i]->LayLoai();
-			gotoxy(48,2*(i+1)+1);
+			gotoxy(48,2*((i+1)%10)+1);
 			CanhGiua(50,DoDaiSoDuong(a.data[i]->LaySoCho()));
 			cout << a.data[i]->LaySoCho();
 		}
 	}
 	else
 	{
-		for (int i = (trang - 1)*30; i < a.n; i++)
+		for (int i = (trang - 1)*10; i < a.n; i++)
 		{
-			gotoxy(8,2*(i+1)+1);
+			gotoxy(8,2*((i+1)%10)+1);
 			CanhGiua(10,a.data[i]->LaySoHieu().length());
 			cout << a.data[i]->LaySoHieu();
-			gotoxy(26,2*(i+1)+1);
+			gotoxy(26,2*((i+1)%10)+1);
 			CanhGiua(30,a.data[i]->LayLoai().length());
 			cout << a.data[i]->LayLoai();
-			gotoxy(48,2*(i+1)+1);
+			gotoxy(48,2*((i+1)%10)+1);
 			CanhGiua(50,DoDaiSoDuong(a.data[i]->LaySoCho()));
 			cout << a.data[i]->LaySoCho();
 		}
@@ -873,7 +905,7 @@ int ThemMayBay(ListMayBay &a)
 		}
 		else
 		{
-			InDanhSachMayBay(a,(a.n)/30+1);
+			InDanhSachMayBay(a,(a.n)/10+1);
 		}
 		a.n++;
 		a.data[a.n - 1] = CreateData(); // Tao vung nho moi cho con tro vua them vao
@@ -1135,8 +1167,15 @@ int XoaMayBay(ListMayBay &a)
 		{
 			AnConTro();
 			gotoxy(0,25);
+			cout << "Ban co muon THOAT?";
+			cout  << endl << "Nhan Y de ";
+			ChangeColor(12);
+			cout << "THOAT";
 			ChangeColor(15);
-			cout << "Ban co chac muon xoa dong da chon? Nhan phim 'Y' de xoa, hoac nhan bat ky phim nao de huy";
+			cout << ", hoac nhan BAT KY phim nao de ";
+			ChangeColor(12);
+			cout << "HUY";
+			ChangeColor(15);
 			x = getch();
 			if (x == -32 || x == 0)
 			{
@@ -1339,7 +1378,7 @@ int ChinhSuaMayBay(ListMayBay &a, ListChuyenBay b)
 //	ChangeColor(8);
 	int currentpage;
 	if (a.n == 0) return 0;
-	system("cls");
+	XoaManHinh();
 	gotoxy(0,0);
 	InDanhSachMayBay(a,1);
 	HienConTro();
@@ -1770,7 +1809,7 @@ int ChinhSuaMayBay(ListMayBay &a, ListChuyenBay b)
 			}
 		}
 	}
-	system("cls");
+	XoaManHinh();
 	cout << "Luu thanh cong!"; // Lam mau choi thoi =))
 	Sleep(500);
 	return 1;
@@ -3679,8 +3718,15 @@ CacChuyenBay *NhapDuLieuChuyenBay(ListChuyenBay &a, ListMayBay &b) // Maybay de 
 		if (x == 27)
 		{
 			gotoxy(0,30);
-			cout << "Ban co muon thoat?" << endl;
-			cout << "Nhan Y de THOAT, hoac nhan bat ky phim nao de HUY";
+			cout << "Ban co muon THOAT?";
+			cout  << endl << "Nhan Y de ";
+			ChangeColor(12);
+			cout << "THOAT";
+			ChangeColor(15);
+			cout << ", hoac nhan BAT KY phim nao de ";
+			ChangeColor(12);
+			cout << "HUY";
+			ChangeColor(15);
 //			HienConTro();
 			char t = getch();
 			bool kytu1;
@@ -4891,8 +4937,15 @@ int ChinhSuaChuyenBay(ListChuyenBay &a, ListMayBay &b)
 		if (t == 27)
 		{
 			gotoxy(0,30);
-			cout << "Ban co muon thoat?" << endl;
-			cout << "Nhan Y de THOAT, hoac nhan bat ky phim nao de HUY";
+			cout << "Ban co muon THOAT?";
+			cout  << endl << "Nhan Y de ";
+			ChangeColor(12);
+			cout << "THOAT";
+			ChangeColor(15);
+			cout << ", hoac nhan BAT KY phim nao de ";
+			ChangeColor(12);
+			cout << "HUY";
+			ChangeColor(15);
 //			HienConTro();
 			char s = getch();
 			bool kytu1;
@@ -7569,28 +7622,27 @@ int DatVe(ListChuyenBay &a, CayKhachHang &b)
 	int SoGhe = 0;
 	string den = "";
 	string Den[21];
-						
-							Den[0] = "Vung Tau";
-							Den[1] = "Binh Dinh";
-							Den[2] = "Ca Mau";
-							Den[3] = "Can Tho";
-							Den[4] = "Dak Lak";
-							Den[5] = "Da Nang";
-							Den[6] = "Dien Bien";
-							Den[7] = "Gia Lai";
-							Den[8] = "Hai Phong";
-							Den[9] = "Ha Noi";
-							Den[10] = "Khanh Hoa";
-							Den[11] = "Rach Gia";
-							Den[12] = "Phu Quoc";
-							Den[13] = "Lam Dong";
-							Den[14] = "Nghe An";
-							Den[15] = "Phu Yen";
-							Den[16] = "Quang Binh";
-							Den[17] = "Quang Nam";
-							Den[18] = "Hue";
-							Den[19] = "Thanh Hoa";
-							Den[20] = "Quang Ninh";
+	Den[0] = "Vung Tau";
+	Den[1] = "Binh Dinh";
+	Den[2] = "Ca Mau";
+	Den[3] = "Can Tho";
+	Den[4] = "Dak Lak";
+	Den[5] = "Da Nang";
+	Den[6] = "Dien Bien";
+	Den[7] = "Gia Lai";
+	Den[8] = "Hai Phong";
+	Den[9] = "Ha Noi";
+	Den[10] = "Khanh Hoa";
+	Den[11] = "Rach Gia";
+	Den[12] = "Phu Quoc";
+	Den[13] = "Lam Dong";
+	Den[14] = "Nghe An";
+	Den[15] = "Phu Yen";
+	Den[16] = "Quang Binh";
+	Den[17] = "Quang Nam";
+	Den[18] = "Hue";
+	Den[19] = "Thanh Hoa";
+	Den[20] = "Quang Ninh";
 						
 //	int SoLuongChuyenBay; // So chuyen bay kha dung
 	ListChuyenBay chuyenbaykhadung;
@@ -8106,6 +8158,7 @@ int DatVe(ListChuyenBay &a, CayKhachHang &b)
 						kt = 1;
 						kytu = 0;
 						line = 4;
+						InDanhSachChuyenBay(a,1);
 						break;
 					}
 					else
