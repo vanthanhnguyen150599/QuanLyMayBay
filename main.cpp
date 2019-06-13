@@ -187,11 +187,11 @@ int main()
 	
 //==============================DANG NHAP======================================
 //	VeKhung();
-//	DangNhap();
-//	system("cls");
+	DangNhap();
+	system("cls");
 //==================================MAIN MENU=====================================
-	int a;
-	a = MainMenu();
+	int a = 1;
+	a = MainMenu(a);
 	CapNhatTrangThaiChuyenBay(chuyenbay);
 	while (a != 0) // Nguoi dung an Esc
 	{
@@ -364,7 +364,7 @@ int main()
 				}
 		}
 		system("cls");
-		a = MainMenu();
+		a = MainMenu(a);
 	} 
 /*	KhungChuyenBay();
 	while (1)v
