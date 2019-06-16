@@ -160,6 +160,12 @@ int ThemVaoCayKhachHang(CayKhachHang &a, KhachHang HanhKhach)
 		outfile.open("dskhachhang.txt",ios::app);
 		outfile << endl << HanhKhach.CMND << endl << name << endl << HanhKhach.GioiTinh;
 		outfile.close();
+		p->HanhKhach.CMND = HanhKhach.CMND;
+		p->HanhKhach.GioiTinh = HanhKhach.GioiTinh;
+		p->HanhKhach.Name = name;
+		p->left = NULL;
+		p->right = NULL;
+		return 1;
 	}
 	if (SoSanhCMND(p->HanhKhach.CMND, HanhKhach.CMND) == -1 && p->right == NULL)
 	{
@@ -170,6 +176,12 @@ int ThemVaoCayKhachHang(CayKhachHang &a, KhachHang HanhKhach)
 		outfile.open("dskhachhang.txt",ios::app);
 		outfile << endl << HanhKhach.CMND << endl << name << endl << HanhKhach.GioiTinh;
 		outfile.close();
+		p->HanhKhach.CMND = HanhKhach.CMND;
+		p->HanhKhach.GioiTinh = HanhKhach.GioiTinh;
+		p->HanhKhach.Name = name;
+		p->left = NULL;
+		p->right = NULL;
+		return 1;
 	}
 	p->HanhKhach.CMND = HanhKhach.CMND;
 	p->HanhKhach.GioiTinh = HanhKhach.GioiTinh;
@@ -959,8 +971,175 @@ int ThemMayBay(ListMayBay &a)
 	}
 	// luon them ve cuoi
 }
-//====================================XOA MAY MAY KHOI DANH SACH============================
-int XoaMayBay(ListMayBay &a)
+// ========================= TIM MAY BAY MAY BAY BANG SOHIEU============================
+int TimKiemMayBay(ListMayBay a) // Tra ve vi tri con tro dang tro ve may bay do
+{
+	// Chua co front_end
+	char x;
+	string SoHieu = "";
+	bool kytu;
+	x = getch();
+	if (x == -32 || x == 0)
+	{
+		kytu = 0;
+		x = getch();
+	}
+	else
+	{
+		kytu = 1;
+	}
+	while (x != 13 && x != 27) // Khong phai la Enter or Ecs
+	{
+		if (((x >= 97 && x <= 122) || (x >= 65 && x <= 90)) && kytu ) // a->z, A->Z
+		{
+			// front_end cho nay ne
+			SoHieu = SoHieu + InHoa(x);
+			// Thieu front _ end
+			cout << SoHieu;
+			for (int i = 0; i < a.n; i++)
+			{
+				int j = 0;
+				for ( j = 0; j < SoHieu.length(); j++)
+				{
+					if (SoHieu[j] != a.data[i]->LaySoHieu()[j])
+					{
+						break;
+					}
+				}
+				if (j == SoHieu.length()) // So sanh dung den phan tu cuoi cung
+				{
+					// front end?
+					cout << a.data[i]->LaySoHieu();
+				}
+			}
+		}
+		x = getch();
+		if (x == -32 || x == 0)
+		{
+			kytu = 0;
+			x = getch();
+		}
+		else
+		{
+			kytu = 1;
+		}
+	}
+}
+//====================================== CLASS CHUYEN BAY ============================================
+class ChuyenBay : public MayBay
+{
+	protected:
+		string DiemDen;
+		string MaChuyen; // Ma chuyen bay
+		Ticket *Ve;
+		Day Ngay; // Ngay thang nam
+		Time Gio; // Gio phut
+		int TrangThai; // 0: Huy chuyen, 1: Con ve, 2: Het ve, 3: Hoan tat
+	public:
+		void DatDiemDen(string a);
+		void DatMaChuyen(string a);
+		void DatNgay(Day a);
+		void DatGio(Time a);
+		void DatTrangThai(int a);
+		void TaoDanhSachVe();
+		string LayDiemDen();
+		string LayMaChuyen();
+		Day LayNgay();
+		Time LayGio();
+		int LayTrangThai();
+		Ticket *LayDanhSachVe();
+};
+//===============================FUNCTION CHUYEN BAY=====================================
+void ChuyenBay::DatDiemDen(string a)
+{
+	DiemDen = a;
+}
+void ChuyenBay::DatMaChuyen(string a)
+{
+	MaChuyen = a;
+}
+void ChuyenBay::TaoDanhSachVe()
+{
+	Ve = new Ticket [100]; // Ket thua tu MayBay
+	for (int i = 0; i < 100; i++)
+	{
+		Ve[i].HanhKhach = NULL; // con tro - tro ve hanh khach
+	}
+}
+void ChuyenBay::DatNgay(Day a)
+{
+	Ngay.dd = a.dd;
+	Ngay.mm = a.mm;
+	Ngay.yy = a.yy;
+}
+void ChuyenBay::DatGio(Time a)
+{
+	Gio.hour = a.hour;
+	Gio.min = a.min;
+}
+void ChuyenBay::DatTrangThai(int a)
+{
+	TrangThai = a;
+}
+string ChuyenBay::LayDiemDen()
+{
+	return DiemDen;
+}
+string ChuyenBay::LayMaChuyen()
+{
+	return MaChuyen;
+}
+Day ChuyenBay::LayNgay()
+{
+	return Ngay;
+}
+Time ChuyenBay::LayGio()
+{
+	return Gio;
+}
+int ChuyenBay::LayTrangThai()
+{
+	return TrangThai;
+}
+Ticket *ChuyenBay::LayDanhSachVe()
+{
+	return Ve;
+}
+// =============================== DANH SACH LIEN KET CHUYEN BAY ====================
+struct CacChuyenBay
+{
+	ChuyenBay chuyenbay;
+	CacChuyenBay *next = NULL;
+};
+// ========================= LIST CHUYEN BAY ========================================
+struct ListChuyenBay
+{
+	int SoLuong;
+	CacChuyenBay *Head = NULL;
+	CacChuyenBay *Tail = NULL;
+};
+// ========================== TAO CHUYEN BAY ==========================================
+CacChuyenBay *NewChuyenBay()
+{
+	CacChuyenBay *p = new CacChuyenBay;
+	return p;
+}
+// ================================== KIEM TRA TRUNG MA CHUYEN BAY =====================================
+bool KiemTraTrungMaChuyenBay(ListChuyenBay a, string MaChuyenBay)
+{
+	CacChuyenBay *p = a.Head;
+	while (p != NULL)
+	{
+		if (p->chuyenbay.LayMaChuyen() == MaChuyenBay)
+		{
+			return 1;
+		}
+		p = p->next;
+	}
+	return 0;
+}
+//====================================XOA MAY BAY KHOI DANH SACH============================
+int XoaMayBay(ListMayBay &a, ListChuyenBay &b)
 {
 	ChangeColor(15);
 	char docngoai = 186;
@@ -1178,10 +1357,10 @@ int XoaMayBay(ListMayBay &a)
 			AnConTro();
 			gotoxy(0,25);
 			ChangeColor(15);
-			cout << "Ban co muon THOAT?";
+			cout << "Ban co muon XOA?";
 			cout  << endl << "Nhan Y de ";
 			ChangeColor(12);
-			cout << "THOAT";
+			cout << "XOA";
 			ChangeColor(15);
 			cout << ", hoac nhan BAT KY phim nao de ";
 			ChangeColor(12);
@@ -1199,189 +1378,47 @@ int XoaMayBay(ListMayBay &a)
 			}
 			if (kytu1 && InHoa(x) == 89)
 			{
-				delete a.data[line-1]; // Thu hoi vung nho
-				for (int i = line - 1; i < a.n - 1; i++)
+				CacChuyenBay *p;
+				for (p = b.Head; p != NULL; p = p->next)
 				{
-					a.data[i] = a.data[i+1];
+					if (p->chuyenbay.LaySoHieu() == a.data[line-1]->LaySoHieu())
+					{
+						break;
+					}
 				}
-				a.n--;
-				return 1;
+				if (p != NULL)
+				{
+					gotoxy(0,30);
+					cout << "Khong the xoa";
+					Sleep(500);
+					gotoxy(0,30);
+					cout << "             ";
+					gotoxy(0,25);
+					cout << "                                                                                         ";
+					gotoxy(0,26);
+					cout << "                                                           ";
+				}
+				else
+				{
+					delete a.data[line-1]; // Thu hoi vung nho
+					for (int i = line - 1; i < a.n - 1; i++)
+					{
+						a.data[i] = a.data[i+1];
+					}
+					a.n--;
+					return 1;
+				}
 			}
 			else
 			{
 				gotoxy(0,25);
 				cout << "                                                                                         ";
+				gotoxy(0,26);
+				cout << "                                                ";
 			}
 		}
 	}
 //	return 1;
-}
-// ========================= TIM MAY BAY MAY BAY BANG SOHIEU============================
-int TimKiemMayBay(ListMayBay a) // Tra ve vi tri con tro dang tro ve may bay do
-{
-	// Chua co front_end
-	char x;
-	string SoHieu = "";
-	bool kytu;
-	x = getch();
-	if (x == -32 || x == 0)
-	{
-		kytu = 0;
-		x = getch();
-	}
-	else
-	{
-		kytu = 1;
-	}
-	while (x != 13 && x != 27) // Khong phai la Enter or Ecs
-	{
-		if (((x >= 97 && x <= 122) || (x >= 65 && x <= 90)) && kytu ) // a->z, A->Z
-		{
-			// front_end cho nay ne
-			SoHieu = SoHieu + InHoa(x);
-			// Thieu front _ end
-			cout << SoHieu;
-			for (int i = 0; i < a.n; i++)
-			{
-				int j = 0;
-				for ( j = 0; j < SoHieu.length(); j++)
-				{
-					if (SoHieu[j] != a.data[i]->LaySoHieu()[j])
-					{
-						break;
-					}
-				}
-				if (j == SoHieu.length()) // So sanh dung den phan tu cuoi cung
-				{
-					// front end?
-					cout << a.data[i]->LaySoHieu();
-				}
-			}
-		}
-		x = getch();
-		if (x == -32 || x == 0)
-		{
-			kytu = 0;
-			x = getch();
-		}
-		else
-		{
-			kytu = 1;
-		}
-	}
-}
-//====================================== CLASS CHUYEN BAY ============================================
-class ChuyenBay : public MayBay
-{
-	protected:
-		string DiemDen;
-		string MaChuyen; // Ma chuyen bay
-		Ticket *Ve;
-		Day Ngay; // Ngay thang nam
-		Time Gio; // Gio phut
-		int TrangThai; // 0: Huy chuyen, 1: Con ve, 2: Het ve, 3: Hoan tat
-	public:
-		void DatDiemDen(string a);
-		void DatMaChuyen(string a);
-		void DatNgay(Day a);
-		void DatGio(Time a);
-		void DatTrangThai(int a);
-		void TaoDanhSachVe();
-		string LayDiemDen();
-		string LayMaChuyen();
-		Day LayNgay();
-		Time LayGio();
-		int LayTrangThai();
-		Ticket *LayDanhSachVe();
-};
-//===============================FUNCTION CHUYEN BAY=====================================
-void ChuyenBay::DatDiemDen(string a)
-{
-	DiemDen = a;
-}
-void ChuyenBay::DatMaChuyen(string a)
-{
-	MaChuyen = a;
-}
-void ChuyenBay::TaoDanhSachVe()
-{
-	Ve = new Ticket [100]; // Ket thua tu MayBay
-	for (int i = 0; i < 100; i++)
-	{
-		Ve[i].HanhKhach = NULL; // con tro - tro ve hanh khach
-	}
-}
-void ChuyenBay::DatNgay(Day a)
-{
-	Ngay.dd = a.dd;
-	Ngay.mm = a.mm;
-	Ngay.yy = a.yy;
-}
-void ChuyenBay::DatGio(Time a)
-{
-	Gio.hour = a.hour;
-	Gio.min = a.min;
-}
-void ChuyenBay::DatTrangThai(int a)
-{
-	TrangThai = a;
-}
-string ChuyenBay::LayDiemDen()
-{
-	return DiemDen;
-}
-string ChuyenBay::LayMaChuyen()
-{
-	return MaChuyen;
-}
-Day ChuyenBay::LayNgay()
-{
-	return Ngay;
-}
-Time ChuyenBay::LayGio()
-{
-	return Gio;
-}
-int ChuyenBay::LayTrangThai()
-{
-	return TrangThai;
-}
-Ticket *ChuyenBay::LayDanhSachVe()
-{
-	return Ve;
-}
-// =============================== DANH SACH LIEN KET CHUYEN BAY ====================
-struct CacChuyenBay
-{
-	ChuyenBay chuyenbay;
-	CacChuyenBay *next = NULL;
-};
-// ========================= LIST CHUYEN BAY ========================================
-struct ListChuyenBay
-{
-	int SoLuong;
-	CacChuyenBay *Head = NULL;
-	CacChuyenBay *Tail = NULL;
-};
-// ========================== TAO CHUYEN BAY ==========================================
-CacChuyenBay *NewChuyenBay()
-{
-	CacChuyenBay *p = new CacChuyenBay;
-	return p;
-}
-// ================================== KIEM TRA TRUNG MA CHUYEN BAY =====================================
-bool KiemTraTrungMaChuyenBay(ListChuyenBay a, string MaChuyenBay)
-{
-	CacChuyenBay *p = a.Head;
-	while (p != NULL)
-	{
-		if (p->chuyenbay.LayMaChuyen() == MaChuyenBay)
-		{
-			return 1;
-		}
-		p = p->next;
-	}
-	return 0;
 }
 //=================================== CHINH SUA MAY BAY =======================================
 int ChinhSuaMayBay(ListMayBay &a, ListChuyenBay b)
