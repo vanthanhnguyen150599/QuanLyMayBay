@@ -80,13 +80,6 @@ void VeKhung() // 160:45 (Ti le 16:9)
 //		cout << endl;
 	}
 }
-//=================================HAM DOI MAU====================================
-void ChangeColor(int k)
-{
-	HANDLE hConsoleColor;
-    hConsoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsoleColor, k);
-}
 // ========================= CAC HAM XU LY CUA MENU =====================
 void XoayLen (string *Menu)
 {
@@ -174,6 +167,16 @@ int MainMenu(int a)
 		}
 	}
 	int i = a;
+	int hoanhdo = wherex();
+	int tungdo = wherey();
+	while (!kbhit())
+	{
+		ChangeColor(15);
+		gotoxy(175,0);
+		InThoiGian();
+	}
+	gotoxy(hoanhdo,tungdo);
+	ChangeColor(8);
 	char x = getch();
 	bool kytu;
 	if (x == -32 || x == 0)
@@ -291,8 +294,17 @@ int MainMenu(int a)
 		//	gotoxy(0,0);
 		//	cout << "Phim Down voi char la " << int(x);
 		}
+		int hoanhdo = wherex();
+		int tungdo = wherey();
+		while (!kbhit())
+		{
+			ChangeColor(15);
+			gotoxy(175,0);
+			InThoiGian();
+		}
+		gotoxy(hoanhdo,tungdo);
+		ChangeColor(8);
 		x = getch();
-		int kytu;
 		if (x == -32 || x == 0)
 		{
 			x = getch();
@@ -2613,5 +2625,136 @@ void KhungHanhKhachThuocChuyenBay()
 	gotoxy(85,1+y);
 	CanhGiua(90+x,4);
 	cout << "PHAI";
+}
+// ========================= KHUNG DANH SACH CHUYEN BAY DEN X ====================
+void KhungChuyenBayDenX()
+{
+	int x = wherex();
+	int y = wherey();
+	char ngangngoai = 205;
+	char docngoai = 186;
+	char traitren = 201;
+	char phaitren = 187;
+	char traiduoi = 200;
+	char phaiduoi = 188;
+	char ngangtrong = 196;
+	char doctrong = 179;
+	char ngangxuong = 209;
+	char nganglen = 207;
+	char docphai = 199;
+	char doctrai = 182;
+	char ngatu = 197;
+	for (int i = 1; i <= 23; i++)
+	{
+		for (int j = 1; j <= 60; j++)
+		{
+			if (i == 1 || i == 23)
+			{
+				if (i == 1)
+				{
+					if (j == 1)
+					{
+						cout << traitren;
+					}
+					else
+					{
+						if (j == 60)
+						{
+							cout << phaitren;
+						}
+						else
+						{
+							if (j%20 == 0)
+							{
+								cout << ngangxuong;
+							}
+							else
+							{
+								cout << ngangngoai;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (j == 1)
+					{
+						cout << traiduoi;
+					}
+					else
+					{
+						if (j == 60)
+						{
+							cout << phaiduoi;
+						}
+						else
+						{
+							if (j%20 == 0)
+							{
+								cout << nganglen;
+							}
+							else
+							{
+								cout << ngangngoai;
+							}
+						}
+					}
+				}
+			}
+			else // khac dong dau va cuoi
+			{
+					if (i%2 == 1)
+					{
+						if (j == 1)
+						{
+							cout << docphai;
+						}
+						else
+						{
+							if (j == 60)
+							{
+								cout << doctrai;
+							}
+							else
+							{
+								if (j%20 == 0)
+								{
+									cout << ngatu;
+								}
+								else
+								{
+									cout << ngangtrong;
+								}
+							}
+						}
+					}
+					else // i%2 == 0
+					{
+						if (j == 1 || j % 20 == 0)
+						{
+							if (j == 1 || j == 60)
+							{
+								cout << docngoai;
+							}
+							else
+							{
+								cout << doctrong;
+							}
+						}
+						else
+						cout << " ";
+					}
+			}
+		}
+		gotoxy(wherex()-60,wherey()+1);
+	}
+	gotoxy(0,y+1);
+	CanhGiua(x+10,9);
+	cout << "Ma Chuyen";
+	CanhGiua(x+30,14);
+	cout << "Ngay Xuat Phat";
+	CanhGiua(x+50,7);
+	cout << "Con Ghe";
+	
 }
 #endif
