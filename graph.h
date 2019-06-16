@@ -119,7 +119,7 @@ int MainMenu(int a)
 	Menu[3] = "3.HIEU CHINH MAY BAY";
 	Menu[4] = "4.LAP CHUYEN BAY MOI";
 	Menu[5] = "5.HIEU CHINH CHUYEN BAY";
-	Menu[6] = "6.THONG TIN DO AN";
+	Menu[6] = "6.CAC CHUYEN BAY DEN X TRONG NGAY";
 	Menu[7] = "7.DAT VE";
 	Menu[8] = "8.HUY VE";
 	Menu[9] = "9.IN DANH SACH HANH KHACH THUOC CHUYEN BAY";
