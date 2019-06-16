@@ -188,7 +188,7 @@ int main()
 //==============================DANG NHAP======================================
 //	VeKhung();
 	DangNhap();
-	system("cls");
+	XoaManHinh();
 //==================================MAIN MENU=====================================
 	int a = 1;
 	a = MainMenu(a);
@@ -197,23 +197,25 @@ int main()
 	{
 		CapNhatTrangThaiChuyenBay(chuyenbay);
 		ChangeColor(15);
+		XoaManHinh();
 		switch(a)
 		{
 			case 1: // Them may bay
 				{
+					XoaManHinh();
 					int x = ThemMayBay(maybay);
 					while (x != -1 )
 					{
-						system("cls");
+						XoaManHinh();
 						if (x == 0 )
 						{
-							system("cls");
+							XoaManHinh();
 							cout << "Danh sach day khong the them" << endl;
 							system("pause");
 						}
 						else
 						{
-							system("cls");
+							XoaManHinh();
 							cout << "Them thanh cong!!!" << endl;
 							system("pause");
 							
@@ -224,10 +226,10 @@ int main()
 				}
 			case 2: // Xoa may bay
 				{
-					system("cls");
+					XoaManHinh();
 					if (!XoaMayBay(maybay))
 					{
-						system("cls");
+						XoaManHinh();
 						cout << "Danh sach day khong the xoa" << endl;
 						system("pause");
 					}
@@ -244,6 +246,7 @@ int main()
 					int x = ThemChuyenBay(chuyenbay,maybay);
 					while (x != 0)
 					{
+						CapNhatTrangThaiChuyenBay(chuyenbay);
 						x = ThemChuyenBay(chuyenbay,maybay);
 					}
 					break;
@@ -257,11 +260,12 @@ int main()
 				}
 			case 6:
 				{
+					DanhSachChuyenBayDenX(chuyenbay);
 					break;
 				}
 			case 7:
 				{
-					system("cls");
+					XoaManHinh();
 				//	gotoxy(3,20);
 				//	InKhungGhe(80);
 				//	InGheKhaDung(chuyenbay,chuyenbay.Head);
@@ -286,7 +290,7 @@ int main()
 				}
 			case 9:
 				{
-					system("cls");
+					XoaManHinh();
 					string MaChuyenBay = "";
 					while(InDanhSachHanhKhachThuocChuyenBay(chuyenbay,MaChuyenBay));
 				//	system("pause");
@@ -295,7 +299,7 @@ int main()
 			case 10: // In danh sach chuyen bay
 				{
 					// Coming soon
-					system("cls");
+					XoaManHinh();
 					string MaChuyenBay = "";
 					while (InGheConTrongChuyenBay(chuyenbay,MaChuyenBay) != 0);
 				//	system("pause");
@@ -358,12 +362,12 @@ int main()
 							kytu = 1;
 						}
 					} */
-					system("cls");
+					XoaManHinh();
 					SoLuotThucHien(chuyenbay,maybay);
 					break;
 				}
 		}
-		system("cls");
+		XoaManHinh();
 		a = MainMenu(a);
 	} 
 /*	KhungChuyenBay();
