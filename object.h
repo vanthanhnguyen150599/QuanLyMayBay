@@ -13,7 +13,7 @@
 #include<string.h>
 #include<fstream>
 using namespace std;
-const int MAXLIST = 300;
+#define MAXLIST  300
 //================================== STRUCT KHACH HANG ================================
 struct KhachHang
 {
@@ -338,11 +338,11 @@ MayBay *CreateData()
 	return a;	
 }
 //===================================DANH SACH VE===========================================
-struct DsVe
+/*struct DsVe
 {
 	int n;
 	Ticket *Dau = NULL;
-};
+}; */
 //====================================TAO DU VE MOI==========================================
 Ticket *NewTicket()
 {
@@ -1060,8 +1060,8 @@ void ChuyenBay::DatMaChuyen(string a)
 }
 void ChuyenBay::TaoDanhSachVe()
 {
-	Ve = new Ticket [100]; // Ket thua tu MayBay
-	for (int i = 0; i < 100; i++)
+	Ve = new Ticket [SoCho]; // Ket thua tu MayBay
+	for (int i = 0; i < SoCho; i++)
 	{
 		Ve[i].HanhKhach = NULL; // con tro - tro ve hanh khach
 	}
@@ -1199,7 +1199,7 @@ int XoaMayBay(ListMayBay &a, ListChuyenBay &b)
 	{
 		while (x != 27 && x != 13)
 		{
-			if (x == 72 && !kytu) // Up
+			if (x == 72 && !kytu1) // Up
 			{
 				if (line != 1)
 				{
@@ -1268,7 +1268,7 @@ int XoaMayBay(ListMayBay &a, ListChuyenBay &b)
 						cout << a.data[line-1]->LaySoCho();
 				}
 			}
-			if (x == 80 && !kytu) // Down
+			if (x == 80 && !kytu1) // Down
 			{
 				if (line != a.n)
 				{
