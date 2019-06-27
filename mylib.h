@@ -59,6 +59,13 @@ void HienConTro()
 	Info.dwSize = 20;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &Info);
 }
+// ============= DOI MAU CHU ================
+void ChangeColor(int k)
+{
+	HANDLE hConsoleColor;
+	hConsoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsoleColor, k);
+}
 //=============================SO NGAY TRONG THANG===================
 int DaysOfMounth(int mm, int yy) // So ngay toi da cua thang
 {
@@ -90,7 +97,7 @@ bool CheckDay(int dd, int mm, int yy)
 	if (dd > 31) return 0; // Thang co 31 ngay
 	return 1;
 }
-//==========================DEM KHOANG CÁCH GIUA 2 NGAY====================
+//==========================DEM KHOANG CÃCH GIUA 2 NGAY====================
 int CountDays(int dd1,int mm1,int yy1,int dd2, int mm2, int yy2) // dd1,mm1,yy1 phai truoc dd2,mm2,yy2. Dem khoang cach ngay giua 2 ngay
 {
 	int count = 0;
@@ -583,5 +590,15 @@ bool KiemTraHaiKhoangThoiGian(int hh1, int min1, int dd1, int mm1, int yy1, int 
 		return 1;
 	}
 	return 0;
+}
+// ==================== XOA MAN HINH ========================
+void XoaManHinh()
+{
+	system("cls");
+	gotoxy(180,45);
+	ChangeColor(11);
+	cout << "NGUYEN VAN THANH - D17CQCN03";
+	ChangeColor(15);
+	gotoxy(0,0);
 }
 #endif
