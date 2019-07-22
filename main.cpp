@@ -227,7 +227,7 @@ int main()
 			case 2: // Xoa may bay
 				{
 					XoaManHinh();
-					if (!XoaMayBay(maybay))
+					if (!XoaMayBay(maybay,chuyenbay))
 					{
 						XoaManHinh();
 						cout << "Danh sach day khong the xoa" << endl;
